@@ -1,0 +1,21 @@
+KyTea wrapper for python
+
+README, v 1.0 2011/07/15 chezou
+
+Mykytea-python is a python wrapper module for KyTea, a general text analysis toolkit.
+
+KyTea is developed by KyTea Development Team
+
+Detailed information of KyTea can be found at
+http://www.phontron.com/kytea
+
+
+You need install KyTea and SWIG before build.
+
+To build Mykytea-python, run
+
+   % make
+
+How to use?
+  See 'mykytea_test.py' as a sample program.
+
