@@ -14,7 +14,11 @@ You need install KyTea and SWIG before build.
 
 To build Mykytea-python, run
 
-   % make
+   % swig -c++ -python mykytea.i
+   % g++ -c mykytea_wrap.cxx -I/usr/include/pythonX.X
+     (Modify "pythonX.X" to your python's version number.)
+   % g++ -c mykytea.cpp
+   % g++ -shared mykytea.o mykytea_wrap.o -o _Mykytea.so -lkytea
 
 How to use?
   See 'mykytea_test.py' as a sample program.
