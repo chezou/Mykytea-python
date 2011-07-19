@@ -23,7 +23,7 @@ namespace std {
 %newobject getTags;
 %newobject getAllTags;
 
-%include kytea.h
-%include kytea-struct.h
+%include kytea/kytea.h
+%include kytea/kytea-struct.h
 %include mykytea.hpp
 

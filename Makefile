@@ -1,5 +1,5 @@
 all:
-	swig -Wall -c++ -python -shadow -c++ mykytea.i
+	swig -Wall -c++ -python -shadow -c++ -I/usr/local/include mykytea.i
 	python setup.py build_ext --inplace
 
 .PHONY: clean

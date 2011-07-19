@@ -16,13 +16,12 @@ You need install KyTea and SWIG before build.
 To build Mykytea-python, run
 --------------------
 
-   % make
-
-or
-
-   % swig -Wall -c++ -python -shadow -c++ mykytea.i
    % python setup.py build
    % sudo python setup.py install
+
+
+  (If you fail to make, please try to install SWIG and run)
+   % swig -Wall -c++ -python -shadow -c++ -I/usr/local/include mykytea.i
 
 How to use?
 --------------------
