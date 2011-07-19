@@ -11,7 +11,7 @@ http://www.phontron.com/kytea
 
 Install Dependencies
 --------------------
-You need install KyTea and SWIG before build.
+You need install KyTea before build.
 
 To build Mykytea-python, run
 --------------------
