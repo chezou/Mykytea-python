@@ -2687,45 +2687,46 @@ SWIG_Python_MustGetPtr(PyObject *obj, swig_type_info *ty, int argnum, int flags)
 
 #define SWIGTYPE_p_Floats swig_types[0]
 #define SWIGTYPE_p_KyteaConfig swig_types[1]
-#define SWIGTYPE_p_KyteaString swig_types[2]
-#define SWIGTYPE_p_Mykytea swig_types[3]
-#define SWIGTYPE_p_StringUtil swig_types[4]
-#define SWIGTYPE_p_Tags swig_types[5]
-#define SWIGTYPE_p_Words swig_types[6]
-#define SWIGTYPE_p_allocator_type swig_types[7]
-#define SWIGTYPE_p_char swig_types[8]
-#define SWIGTYPE_p_difference_type swig_types[9]
-#define SWIGTYPE_p_first_type swig_types[10]
-#define SWIGTYPE_p_kytea__Kytea swig_types[11]
-#define SWIGTYPE_p_kytea__KyteaSentence swig_types[12]
-#define SWIGTYPE_p_kytea__KyteaWord swig_types[13]
-#define SWIGTYPE_p_p_PyObject swig_types[14]
-#define SWIGTYPE_p_second_type swig_types[15]
-#define SWIGTYPE_p_size_type swig_types[16]
-#define SWIGTYPE_p_std__invalid_argument swig_types[17]
-#define SWIGTYPE_p_std__mapT_kytea__KyteaString_double_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_double_t_t_t swig_types[18]
-#define SWIGTYPE_p_std__mapT_kytea__KyteaString_std__pairT_unsigned_int_unsigned_int_t_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_std__pairT_unsigned_int_unsigned_int_t_t_t_t swig_types[19]
-#define SWIGTYPE_p_std__mapT_kytea__KyteaString_unsigned_int_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_unsigned_int_t_t_t swig_types[20]
-#define SWIGTYPE_p_std__mapT_std__string_kytea__KyteaChar_std__lessT_std__string_t_std__allocatorT_std__pairT_std__string_const_kytea__KyteaChar_t_t_t swig_types[21]
-#define SWIGTYPE_p_std__pairT_KyteaString_double_t swig_types[22]
-#define SWIGTYPE_p_std__pairT_std__string_double_t swig_types[23]
-#define SWIGTYPE_p_std__vectorT_Tags_std__allocatorT_Tags_t_t swig_types[24]
-#define SWIGTYPE_p_std__vectorT_Tags_std__allocatorT_Tags_t_t__allocator_type swig_types[25]
-#define SWIGTYPE_p_std__vectorT_Tags_std__allocatorT_Tags_t_t__value_type swig_types[26]
-#define SWIGTYPE_p_std__vectorT_double_std__allocatorT_double_t_t swig_types[27]
-#define SWIGTYPE_p_std__vectorT_kytea__KyteaWord_std__allocatorT_kytea__KyteaWord_t_t swig_types[28]
-#define SWIGTYPE_p_std__vectorT_std__pairT_KyteaString_double_t_std__allocatorT_std__pairT_KyteaString_double_t_t_t swig_types[29]
-#define SWIGTYPE_p_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t swig_types[30]
-#define SWIGTYPE_p_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t__allocator_type swig_types[31]
-#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[32]
-#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t__allocator_type swig_types[33]
-#define SWIGTYPE_p_std__vectorT_std__vectorT_std__pairT_KyteaString_double_t_std__allocatorT_std__pairT_KyteaString_double_t_t_t_std__allocatorT_std__vectorT_std__pairT_KyteaString_double_t_std__allocatorT_std__pairT_KyteaString_double_t_t_t_t_t swig_types[34]
-#define SWIGTYPE_p_std__vectorT_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t_std__allocatorT_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t_t_t swig_types[35]
-#define SWIGTYPE_p_std__vectorT_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t_std__allocatorT_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t_t_t__allocator_type swig_types[36]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[37]
-#define SWIGTYPE_p_value_type swig_types[38]
-static swig_type_info *swig_types[40];
-static swig_module_info swig_module = {swig_types, 39, 0, 0, 0, 0};
+#define SWIGTYPE_p_KyteaModel swig_types[2]
+#define SWIGTYPE_p_KyteaString swig_types[3]
+#define SWIGTYPE_p_KyteaStringMapT_double_t swig_types[4]
+#define SWIGTYPE_p_KyteaStringMapT_std__pairT_unsigned_int_unsigned_int_t_t swig_types[5]
+#define SWIGTYPE_p_KyteaStringMapT_unsigned_int_t swig_types[6]
+#define SWIGTYPE_p_Mykytea swig_types[7]
+#define SWIGTYPE_p_StringMapT_kytea__KyteaChar_t swig_types[8]
+#define SWIGTYPE_p_StringUtil swig_types[9]
+#define SWIGTYPE_p_Tags swig_types[10]
+#define SWIGTYPE_p_Words swig_types[11]
+#define SWIGTYPE_p_allocator_type swig_types[12]
+#define SWIGTYPE_p_char swig_types[13]
+#define SWIGTYPE_p_difference_type swig_types[14]
+#define SWIGTYPE_p_first_type swig_types[15]
+#define SWIGTYPE_p_kytea__Kytea swig_types[16]
+#define SWIGTYPE_p_kytea__KyteaSentence swig_types[17]
+#define SWIGTYPE_p_kytea__KyteaWord swig_types[18]
+#define SWIGTYPE_p_p_PyObject swig_types[19]
+#define SWIGTYPE_p_second_type swig_types[20]
+#define SWIGTYPE_p_size_type swig_types[21]
+#define SWIGTYPE_p_std__invalid_argument swig_types[22]
+#define SWIGTYPE_p_std__pairT_KyteaString_double_t swig_types[23]
+#define SWIGTYPE_p_std__pairT_std__string_double_t swig_types[24]
+#define SWIGTYPE_p_std__vectorT_Tags_std__allocatorT_Tags_t_t swig_types[25]
+#define SWIGTYPE_p_std__vectorT_Tags_std__allocatorT_Tags_t_t__allocator_type swig_types[26]
+#define SWIGTYPE_p_std__vectorT_Tags_std__allocatorT_Tags_t_t__value_type swig_types[27]
+#define SWIGTYPE_p_std__vectorT_double_std__allocatorT_double_t_t swig_types[28]
+#define SWIGTYPE_p_std__vectorT_kytea__KyteaWord_std__allocatorT_kytea__KyteaWord_t_t swig_types[29]
+#define SWIGTYPE_p_std__vectorT_std__pairT_KyteaString_double_t_std__allocatorT_std__pairT_KyteaString_double_t_t_t swig_types[30]
+#define SWIGTYPE_p_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t swig_types[31]
+#define SWIGTYPE_p_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t__allocator_type swig_types[32]
+#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[33]
+#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t__allocator_type swig_types[34]
+#define SWIGTYPE_p_std__vectorT_std__vectorT_std__pairT_KyteaString_double_t_std__allocatorT_std__pairT_KyteaString_double_t_t_t_std__allocatorT_std__vectorT_std__pairT_KyteaString_double_t_std__allocatorT_std__pairT_KyteaString_double_t_t_t_t_t swig_types[35]
+#define SWIGTYPE_p_std__vectorT_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t_std__allocatorT_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t_t_t swig_types[36]
+#define SWIGTYPE_p_std__vectorT_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t_std__allocatorT_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t_t_t__allocator_type swig_types[37]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[38]
+#define SWIGTYPE_p_value_type swig_types[39]
+static swig_type_info *swig_types[41];
+static swig_module_info swig_module = {swig_types, 40, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -13406,22 +13407,19 @@ fail:
 
 SWIGINTERN PyObject *_wrap_new_Kytea__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  KyteaConfig *arg1 = 0 ;
+  KyteaConfig *arg1 = (KyteaConfig *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
   kytea::Kytea *result = 0 ;
   
   if (!PyArg_ParseTuple(args,(char *)"O:new_Kytea",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_KyteaConfig,  0 );
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_KyteaConfig, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_Kytea" "', argument " "1"" of type '" "KyteaConfig &""'"); 
-  }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_Kytea" "', argument " "1"" of type '" "KyteaConfig &""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_Kytea" "', argument " "1"" of type '" "KyteaConfig *""'"); 
   }
   arg1 = reinterpret_cast< KyteaConfig * >(argp1);
-  result = (kytea::Kytea *)new kytea::Kytea(*arg1);
+  result = (kytea::Kytea *)new kytea::Kytea(arg1);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_kytea__Kytea, SWIG_POINTER_NEW |  0 );
   return resultobj;
 fail:
@@ -13456,7 +13454,7 @@ fail:
   SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'new_Kytea'.\n"
     "  Possible C/C++ prototypes are:\n"
     "    kytea::Kytea()\n"
-    "    kytea::Kytea(KyteaConfig &)\n");
+    "    kytea::Kytea(KyteaConfig *)\n");
   return NULL;
 }
 
@@ -13475,6 +13473,91 @@ SWIGINTERN PyObject *_wrap_delete_Kytea(PyObject *SWIGUNUSEDPARM(self), PyObject
   }
   arg1 = reinterpret_cast< kytea::Kytea * >(argp1);
   delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Kytea_getWSModel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  kytea::Kytea *arg1 = (kytea::Kytea *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  KyteaModel *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Kytea_getWSModel",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_kytea__Kytea, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Kytea_getWSModel" "', argument " "1"" of type '" "kytea::Kytea *""'"); 
+  }
+  arg1 = reinterpret_cast< kytea::Kytea * >(argp1);
+  result = (KyteaModel *)(arg1)->getWSModel();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_KyteaModel, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Kytea_setWSModel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  kytea::Kytea *arg1 = (kytea::Kytea *) 0 ;
+  KyteaModel *arg2 = (KyteaModel *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Kytea_setWSModel",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_kytea__Kytea, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Kytea_setWSModel" "', argument " "1"" of type '" "kytea::Kytea *""'"); 
+  }
+  arg1 = reinterpret_cast< kytea::Kytea * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_KyteaModel, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Kytea_setWSModel" "', argument " "2"" of type '" "KyteaModel *""'"); 
+  }
+  arg2 = reinterpret_cast< KyteaModel * >(argp2);
+  (arg1)->setWSModel(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Kytea_checkEqual(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  kytea::Kytea *arg1 = (kytea::Kytea *) 0 ;
+  kytea::Kytea *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Kytea_checkEqual",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_kytea__Kytea, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Kytea_checkEqual" "', argument " "1"" of type '" "kytea::Kytea *""'"); 
+  }
+  arg1 = reinterpret_cast< kytea::Kytea * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_kytea__Kytea,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Kytea_checkEqual" "', argument " "2"" of type '" "kytea::Kytea const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Kytea_checkEqual" "', argument " "2"" of type '" "kytea::Kytea const &""'"); 
+  }
+  arg2 = reinterpret_cast< kytea::Kytea * >(argp2);
+  (arg1)->checkEqual((kytea::Kytea const &)*arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -14874,6 +14957,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Kytea_init", _wrap_Kytea_init, METH_VARARGS, NULL},
 	 { (char *)"new_Kytea", _wrap_new_Kytea, METH_VARARGS, NULL},
 	 { (char *)"delete_Kytea", _wrap_delete_Kytea, METH_VARARGS, NULL},
+	 { (char *)"Kytea_getWSModel", _wrap_Kytea_getWSModel, METH_VARARGS, NULL},
+	 { (char *)"Kytea_setWSModel", _wrap_Kytea_setWSModel, METH_VARARGS, NULL},
+	 { (char *)"Kytea_checkEqual", _wrap_Kytea_checkEqual, METH_VARARGS, NULL},
 	 { (char *)"Kytea_swigregister", Kytea_swigregister, METH_VARARGS, NULL},
 	 { (char *)"__lt__", _wrap___lt__, METH_VARARGS, NULL},
 	 { (char *)"new_KyteaWord", _wrap_new_KyteaWord, METH_VARARGS, NULL},
@@ -14925,8 +15011,13 @@ static PyMethodDef SwigMethods[] = {
 
 static swig_type_info _swigt__p_Floats = {"_p_Floats", "Floats *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_KyteaConfig = {"_p_KyteaConfig", "KyteaConfig *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_KyteaModel = {"_p_KyteaModel", "KyteaModel *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_KyteaString = {"_p_KyteaString", "KyteaString *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_KyteaStringMapT_double_t = {"_p_KyteaStringMapT_double_t", "KyteaDoubleMap *|KyteaStringMap< double > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_KyteaStringMapT_std__pairT_unsigned_int_unsigned_int_t_t = {"_p_KyteaStringMapT_std__pairT_unsigned_int_unsigned_int_t_t", "KyteaStringMap< std::pair< unsigned int,unsigned int > > *|TwoCountHash *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_KyteaStringMapT_unsigned_int_t = {"_p_KyteaStringMapT_unsigned_int_t", "KyteaUnsignedMap *|KyteaStringMap< unsigned int > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Mykytea = {"_p_Mykytea", "Mykytea *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_StringMapT_kytea__KyteaChar_t = {"_p_StringMapT_kytea__KyteaChar_t", "StringMap< kytea::KyteaChar > *|StringCharMap *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_StringUtil = {"_p_StringUtil", "StringUtil *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Tags = {"_p_Tags", "Tags *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Words = {"_p_Words", "Words *", 0, 0, (void*)0, 0};
@@ -14941,10 +15032,6 @@ static swig_type_info _swigt__p_p_PyObject = {"_p_p_PyObject", "PyObject **", 0,
 static swig_type_info _swigt__p_second_type = {"_p_second_type", "second_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_size_type = {"_p_size_type", "size_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__invalid_argument = {"_p_std__invalid_argument", "std::invalid_argument *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_std__mapT_kytea__KyteaString_double_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_double_t_t_t = {"_p_std__mapT_kytea__KyteaString_double_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_double_t_t_t", "std::map< kytea::KyteaString,double,std::less< kytea::KyteaString >,std::allocator< std::pair< kytea::KyteaString const,double > > > *|KyteaDoubleMap *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_std__mapT_kytea__KyteaString_std__pairT_unsigned_int_unsigned_int_t_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_std__pairT_unsigned_int_unsigned_int_t_t_t_t = {"_p_std__mapT_kytea__KyteaString_std__pairT_unsigned_int_unsigned_int_t_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_std__pairT_unsigned_int_unsigned_int_t_t_t_t", "std::map< kytea::KyteaString,std::pair< unsigned int,unsigned int >,std::less< kytea::KyteaString >,std::allocator< std::pair< kytea::KyteaString const,std::pair< unsigned int,unsigned int > > > > *|TwoCountHash *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_std__mapT_kytea__KyteaString_unsigned_int_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_unsigned_int_t_t_t = {"_p_std__mapT_kytea__KyteaString_unsigned_int_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_unsigned_int_t_t_t", "KyteaUnsignedMap *|std::map< kytea::KyteaString,unsigned int,std::less< kytea::KyteaString >,std::allocator< std::pair< kytea::KyteaString const,unsigned int > > > *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_std__mapT_std__string_kytea__KyteaChar_std__lessT_std__string_t_std__allocatorT_std__pairT_std__string_const_kytea__KyteaChar_t_t_t = {"_p_std__mapT_std__string_kytea__KyteaChar_std__lessT_std__string_t_std__allocatorT_std__pairT_std__string_const_kytea__KyteaChar_t_t_t", "StringCharMap *|std::map< std::string,kytea::KyteaChar,std::less< std::string >,std::allocator< std::pair< std::string const,kytea::KyteaChar > > > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__pairT_KyteaString_double_t = {"_p_std__pairT_KyteaString_double_t", "std::pair< KyteaString,double > *|kytea::KyteaTag *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__pairT_std__string_double_t = {"_p_std__pairT_std__string_double_t", "std::pair< std::string,double > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_Tags_std__allocatorT_Tags_t_t = {"_p_std__vectorT_Tags_std__allocatorT_Tags_t_t", "std::vector< Tags,std::allocator< Tags > > *|std::vector< Tags > *", 0, 0, (void*)0, 0};
@@ -14966,8 +15053,13 @@ static swig_type_info _swigt__p_value_type = {"_p_value_type", "value_type *", 0
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Floats,
   &_swigt__p_KyteaConfig,
+  &_swigt__p_KyteaModel,
   &_swigt__p_KyteaString,
+  &_swigt__p_KyteaStringMapT_double_t,
+  &_swigt__p_KyteaStringMapT_std__pairT_unsigned_int_unsigned_int_t_t,
+  &_swigt__p_KyteaStringMapT_unsigned_int_t,
   &_swigt__p_Mykytea,
+  &_swigt__p_StringMapT_kytea__KyteaChar_t,
   &_swigt__p_StringUtil,
   &_swigt__p_Tags,
   &_swigt__p_Words,
@@ -14982,10 +15074,6 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_second_type,
   &_swigt__p_size_type,
   &_swigt__p_std__invalid_argument,
-  &_swigt__p_std__mapT_kytea__KyteaString_double_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_double_t_t_t,
-  &_swigt__p_std__mapT_kytea__KyteaString_std__pairT_unsigned_int_unsigned_int_t_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_std__pairT_unsigned_int_unsigned_int_t_t_t_t,
-  &_swigt__p_std__mapT_kytea__KyteaString_unsigned_int_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_unsigned_int_t_t_t,
-  &_swigt__p_std__mapT_std__string_kytea__KyteaChar_std__lessT_std__string_t_std__allocatorT_std__pairT_std__string_const_kytea__KyteaChar_t_t_t,
   &_swigt__p_std__pairT_KyteaString_double_t,
   &_swigt__p_std__pairT_std__string_double_t,
   &_swigt__p_std__vectorT_Tags_std__allocatorT_Tags_t_t,
@@ -15007,8 +15095,13 @@ static swig_type_info *swig_type_initial[] = {
 
 static swig_cast_info _swigc__p_Floats[] = {  {&_swigt__p_Floats, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_KyteaConfig[] = {  {&_swigt__p_KyteaConfig, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_KyteaModel[] = {  {&_swigt__p_KyteaModel, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_KyteaString[] = {  {&_swigt__p_KyteaString, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_KyteaStringMapT_double_t[] = {  {&_swigt__p_KyteaStringMapT_double_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_KyteaStringMapT_std__pairT_unsigned_int_unsigned_int_t_t[] = {  {&_swigt__p_KyteaStringMapT_std__pairT_unsigned_int_unsigned_int_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_KyteaStringMapT_unsigned_int_t[] = {  {&_swigt__p_KyteaStringMapT_unsigned_int_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Mykytea[] = {  {&_swigt__p_Mykytea, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_StringMapT_kytea__KyteaChar_t[] = {  {&_swigt__p_StringMapT_kytea__KyteaChar_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_StringUtil[] = {  {&_swigt__p_StringUtil, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Tags[] = {  {&_swigt__p_std__vectorT_Tags_std__allocatorT_Tags_t_t__value_type, 0, 0, 0},  {&_swigt__p_Tags, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Words[] = {  {&_swigt__p_Words, 0, 0, 0},{0, 0, 0, 0}};
@@ -15023,10 +15116,6 @@ static swig_cast_info _swigc__p_p_PyObject[] = {  {&_swigt__p_p_PyObject, 0, 0, 
 static swig_cast_info _swigc__p_second_type[] = {  {&_swigt__p_second_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_size_type[] = {  {&_swigt__p_size_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__invalid_argument[] = {  {&_swigt__p_std__invalid_argument, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_std__mapT_kytea__KyteaString_double_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_double_t_t_t[] = {  {&_swigt__p_std__mapT_kytea__KyteaString_double_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_double_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_std__mapT_kytea__KyteaString_std__pairT_unsigned_int_unsigned_int_t_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_std__pairT_unsigned_int_unsigned_int_t_t_t_t[] = {  {&_swigt__p_std__mapT_kytea__KyteaString_std__pairT_unsigned_int_unsigned_int_t_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_std__pairT_unsigned_int_unsigned_int_t_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_std__mapT_kytea__KyteaString_unsigned_int_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_unsigned_int_t_t_t[] = {  {&_swigt__p_std__mapT_kytea__KyteaString_unsigned_int_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_unsigned_int_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_std__mapT_std__string_kytea__KyteaChar_std__lessT_std__string_t_std__allocatorT_std__pairT_std__string_const_kytea__KyteaChar_t_t_t[] = {  {&_swigt__p_std__mapT_std__string_kytea__KyteaChar_std__lessT_std__string_t_std__allocatorT_std__pairT_std__string_const_kytea__KyteaChar_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__pairT_KyteaString_double_t[] = {  {&_swigt__p_std__pairT_KyteaString_double_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__pairT_std__string_double_t[] = {  {&_swigt__p_std__pairT_std__string_double_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_Tags_std__allocatorT_Tags_t_t[] = {  {&_swigt__p_std__vectorT_Tags_std__allocatorT_Tags_t_t, 0, 0, 0},{0, 0, 0, 0}};
@@ -15048,8 +15137,13 @@ static swig_cast_info _swigc__p_value_type[] = {  {&_swigt__p_value_type, 0, 0, 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Floats,
   _swigc__p_KyteaConfig,
+  _swigc__p_KyteaModel,
   _swigc__p_KyteaString,
+  _swigc__p_KyteaStringMapT_double_t,
+  _swigc__p_KyteaStringMapT_std__pairT_unsigned_int_unsigned_int_t_t,
+  _swigc__p_KyteaStringMapT_unsigned_int_t,
   _swigc__p_Mykytea,
+  _swigc__p_StringMapT_kytea__KyteaChar_t,
   _swigc__p_StringUtil,
   _swigc__p_Tags,
   _swigc__p_Words,
@@ -15064,10 +15158,6 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_second_type,
   _swigc__p_size_type,
   _swigc__p_std__invalid_argument,
-  _swigc__p_std__mapT_kytea__KyteaString_double_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_double_t_t_t,
-  _swigc__p_std__mapT_kytea__KyteaString_std__pairT_unsigned_int_unsigned_int_t_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_std__pairT_unsigned_int_unsigned_int_t_t_t_t,
-  _swigc__p_std__mapT_kytea__KyteaString_unsigned_int_std__lessT_kytea__KyteaString_t_std__allocatorT_std__pairT_kytea__KyteaString_const_unsigned_int_t_t_t,
-  _swigc__p_std__mapT_std__string_kytea__KyteaChar_std__lessT_std__string_t_std__allocatorT_std__pairT_std__string_const_kytea__KyteaChar_t_t_t,
   _swigc__p_std__pairT_KyteaString_double_t,
   _swigc__p_std__pairT_std__string_double_t,
   _swigc__p_std__vectorT_Tags_std__allocatorT_Tags_t_t,
