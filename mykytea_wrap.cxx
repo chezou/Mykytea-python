@@ -3182,158 +3182,6 @@ SWIG_AsVal_ptrdiff_t (PyObject * obj, ptrdiff_t *val)
 #include "mykytea.hpp"
 
 
-SWIGINTERN swig_type_info*
-SWIG_pchar_descriptor(void)
-{
-  static int init = 0;
-  static swig_type_info* info = 0;
-  if (!init) {
-    info = SWIG_TypeQuery("_p_char");
-    init = 1;
-  }
-  return info;
-}
-
-
-SWIGINTERN int
-SWIG_AsCharPtrAndSize(PyObject *obj, char** cptr, size_t* psize, int *alloc)
-{
-#if PY_VERSION_HEX>=0x03000000
-  if (PyUnicode_Check(obj))
-#else  
-  if (PyString_Check(obj))
-#endif
-  {
-    char *cstr; Py_ssize_t len;
-#if PY_VERSION_HEX>=0x03000000
-    if (!alloc && cptr) {
-        /* We can't allow converting without allocation, since the internal
-           representation of string in Python 3 is UCS-2/UCS-4 but we require
-           a UTF-8 representation.
-           TODO(bhy) More detailed explanation */
-        return SWIG_RuntimeError;
-    }
-    obj = PyUnicode_AsUTF8String(obj);
-    PyBytes_AsStringAndSize(obj, &cstr, &len);
-    if(alloc) *alloc = SWIG_NEWOBJ;
-#else
-    PyString_AsStringAndSize(obj, &cstr, &len);
-#endif
-    if (cptr) {
-      if (alloc) {
-	/* 
-	   In python the user should not be able to modify the inner
-	   string representation. To warranty that, if you define
-	   SWIG_PYTHON_SAFE_CSTRINGS, a new/copy of the python string
-	   buffer is always returned.
-
-	   The default behavior is just to return the pointer value,
-	   so, be careful.
-	*/ 
-#if defined(SWIG_PYTHON_SAFE_CSTRINGS)
-	if (*alloc != SWIG_OLDOBJ) 
-#else
-	if (*alloc == SWIG_NEWOBJ) 
-#endif
-	  {
-	    *cptr = reinterpret_cast< char* >(memcpy((new char[len + 1]), cstr, sizeof(char)*(len + 1)));
-	    *alloc = SWIG_NEWOBJ;
-	  }
-	else {
-	  *cptr = cstr;
-	  *alloc = SWIG_OLDOBJ;
-	}
-      } else {
-        #if PY_VERSION_HEX>=0x03000000
-        assert(0); /* Should never reach here in Python 3 */
-        #endif
-	*cptr = SWIG_Python_str_AsChar(obj);
-      }
-    }
-    if (psize) *psize = len + 1;
-#if PY_VERSION_HEX>=0x03000000
-    Py_XDECREF(obj);
-#endif
-    return SWIG_OK;
-  } else {
-    swig_type_info* pchar_descriptor = SWIG_pchar_descriptor();
-    if (pchar_descriptor) {
-      void* vptr = 0;
-      if (SWIG_ConvertPtr(obj, &vptr, pchar_descriptor, 0) == SWIG_OK) {
-	if (cptr) *cptr = (char *) vptr;
-	if (psize) *psize = vptr ? (strlen((char *)vptr) + 1) : 0;
-	if (alloc) *alloc = SWIG_OLDOBJ;
-	return SWIG_OK;
-      }
-    }
-  }
-  return SWIG_TypeError;
-}
-
-
-SWIGINTERN int
-SWIG_AsPtr_std_string (PyObject * obj, std::string **val) 
-{
-  char* buf = 0 ; size_t size = 0; int alloc = SWIG_OLDOBJ;
-  if (SWIG_IsOK((SWIG_AsCharPtrAndSize(obj, &buf, &size, &alloc)))) {
-    if (buf) {
-      if (val) *val = new std::string(buf, size - 1);
-      if (alloc == SWIG_NEWOBJ) delete[] buf;
-      return SWIG_NEWOBJ;
-    } else {
-      if (val) *val = 0;
-      return SWIG_OLDOBJ;
-    }
-  } else {
-    static int init = 0;
-    static swig_type_info* descriptor = 0;
-    if (!init) {
-      descriptor = SWIG_TypeQuery("std::string" " *");
-      init = 1;
-    }
-    if (descriptor) {
-      std::string *vptr;
-      int res = SWIG_ConvertPtr(obj, (void**)&vptr, descriptor, 0);
-      if (SWIG_IsOK(res) && val) *val = vptr;
-      return res;
-    }
-  }
-  return SWIG_ERROR;
-}
-
-
-SWIGINTERNINLINE PyObject *
-SWIG_FromCharPtrAndSize(const char* carray, size_t size)
-{
-  if (carray) {
-    if (size > INT_MAX) {
-      swig_type_info* pchar_descriptor = SWIG_pchar_descriptor();
-      return pchar_descriptor ? 
-	SWIG_NewPointerObj(const_cast< char * >(carray), pchar_descriptor, 0) : SWIG_Py_Void();
-    } else {
-#if PY_VERSION_HEX >= 0x03000000
-      return PyUnicode_FromStringAndSize(carray, static_cast< int >(size));
-#else
-      return PyString_FromStringAndSize(carray, static_cast< int >(size));
-#endif
-    }
-  } else {
-    return SWIG_Py_Void();
-  }
-}
-
-
-SWIGINTERNINLINE PyObject *
-SWIG_From_std_string  (const std::string& s)
-{
-  if (s.size()) {
-    return SWIG_FromCharPtrAndSize(s.data(), s.size());
-  } else {
-    return SWIG_FromCharPtrAndSize(s.c_str(), 0);
-  }
-}
-
-
 namespace swig {  
   template <class Type>
   struct noconst_traits {
@@ -4225,6 +4073,126 @@ namespace swig
 }
 
 
+SWIGINTERN swig_type_info*
+SWIG_pchar_descriptor(void)
+{
+  static int init = 0;
+  static swig_type_info* info = 0;
+  if (!init) {
+    info = SWIG_TypeQuery("_p_char");
+    init = 1;
+  }
+  return info;
+}
+
+
+SWIGINTERN int
+SWIG_AsCharPtrAndSize(PyObject *obj, char** cptr, size_t* psize, int *alloc)
+{
+#if PY_VERSION_HEX>=0x03000000
+  if (PyUnicode_Check(obj))
+#else  
+  if (PyString_Check(obj))
+#endif
+  {
+    char *cstr; Py_ssize_t len;
+#if PY_VERSION_HEX>=0x03000000
+    if (!alloc && cptr) {
+        /* We can't allow converting without allocation, since the internal
+           representation of string in Python 3 is UCS-2/UCS-4 but we require
+           a UTF-8 representation.
+           TODO(bhy) More detailed explanation */
+        return SWIG_RuntimeError;
+    }
+    obj = PyUnicode_AsUTF8String(obj);
+    PyBytes_AsStringAndSize(obj, &cstr, &len);
+    if(alloc) *alloc = SWIG_NEWOBJ;
+#else
+    PyString_AsStringAndSize(obj, &cstr, &len);
+#endif
+    if (cptr) {
+      if (alloc) {
+	/* 
+	   In python the user should not be able to modify the inner
+	   string representation. To warranty that, if you define
+	   SWIG_PYTHON_SAFE_CSTRINGS, a new/copy of the python string
+	   buffer is always returned.
+
+	   The default behavior is just to return the pointer value,
+	   so, be careful.
+	*/ 
+#if defined(SWIG_PYTHON_SAFE_CSTRINGS)
+	if (*alloc != SWIG_OLDOBJ) 
+#else
+	if (*alloc == SWIG_NEWOBJ) 
+#endif
+	  {
+	    *cptr = reinterpret_cast< char* >(memcpy((new char[len + 1]), cstr, sizeof(char)*(len + 1)));
+	    *alloc = SWIG_NEWOBJ;
+	  }
+	else {
+	  *cptr = cstr;
+	  *alloc = SWIG_OLDOBJ;
+	}
+      } else {
+        #if PY_VERSION_HEX>=0x03000000
+        assert(0); /* Should never reach here in Python 3 */
+        #endif
+	*cptr = SWIG_Python_str_AsChar(obj);
+      }
+    }
+    if (psize) *psize = len + 1;
+#if PY_VERSION_HEX>=0x03000000
+    Py_XDECREF(obj);
+#endif
+    return SWIG_OK;
+  } else {
+    swig_type_info* pchar_descriptor = SWIG_pchar_descriptor();
+    if (pchar_descriptor) {
+      void* vptr = 0;
+      if (SWIG_ConvertPtr(obj, &vptr, pchar_descriptor, 0) == SWIG_OK) {
+	if (cptr) *cptr = (char *) vptr;
+	if (psize) *psize = vptr ? (strlen((char *)vptr) + 1) : 0;
+	if (alloc) *alloc = SWIG_OLDOBJ;
+	return SWIG_OK;
+      }
+    }
+  }
+  return SWIG_TypeError;
+}
+
+
+SWIGINTERN int
+SWIG_AsPtr_std_string (PyObject * obj, std::string **val) 
+{
+  char* buf = 0 ; size_t size = 0; int alloc = SWIG_OLDOBJ;
+  if (SWIG_IsOK((SWIG_AsCharPtrAndSize(obj, &buf, &size, &alloc)))) {
+    if (buf) {
+      if (val) *val = new std::string(buf, size - 1);
+      if (alloc == SWIG_NEWOBJ) delete[] buf;
+      return SWIG_NEWOBJ;
+    } else {
+      if (val) *val = 0;
+      return SWIG_OLDOBJ;
+    }
+  } else {
+    static int init = 0;
+    static swig_type_info* descriptor = 0;
+    if (!init) {
+      descriptor = SWIG_TypeQuery("std::string" " *");
+      init = 1;
+    }
+    if (descriptor) {
+      std::string *vptr;
+      int res = SWIG_ConvertPtr(obj, (void**)&vptr, descriptor, 0);
+      if (SWIG_IsOK(res) && val) *val = vptr;
+      return res;
+    }
+  }
+  return SWIG_ERROR;
+}
+
+
 SWIGINTERN int
 SWIG_AsVal_std_string (PyObject * obj, std::string *val)
 {
@@ -4240,6 +4208,38 @@ SWIG_AsVal_std_string (PyObject * obj, std::string *val)
     return res;
   }
   return SWIG_ERROR;
+}
+
+
+SWIGINTERNINLINE PyObject *
+SWIG_FromCharPtrAndSize(const char* carray, size_t size)
+{
+  if (carray) {
+    if (size > INT_MAX) {
+      swig_type_info* pchar_descriptor = SWIG_pchar_descriptor();
+      return pchar_descriptor ? 
+	SWIG_NewPointerObj(const_cast< char * >(carray), pchar_descriptor, 0) : SWIG_Py_Void();
+    } else {
+#if PY_VERSION_HEX >= 0x03000000
+      return PyUnicode_FromStringAndSize(carray, static_cast< int >(size));
+#else
+      return PyString_FromStringAndSize(carray, static_cast< int >(size));
+#endif
+    }
+  } else {
+    return SWIG_Py_Void();
+  }
+}
+
+
+SWIGINTERNINLINE PyObject *
+SWIG_From_std_string  (const std::string& s)
+{
+  if (s.size()) {
+    return SWIG_FromCharPtrAndSize(s.data(), s.size());
+  } else {
+    return SWIG_FromCharPtrAndSize(s.c_str(), 0);
+  }
 }
 
 
@@ -5743,158 +5743,6 @@ SWIGINTERN PyObject *SwigPyIterator_swigregister(PyObject *SWIGUNUSEDPARM(self),
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
   SWIG_TypeNewClientData(SWIGTYPE_p_swig__SwigPyIterator, SWIG_NewClientData(obj));
-  return SWIG_Py_Void();
-}
-
-SWIGINTERN PyObject *_wrap_Tags_surface_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Tags *arg1 = (Tags *) 0 ;
-  std::string *arg2 = 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  int res2 = SWIG_OLDOBJ ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Tags_surface_set",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Tags, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Tags_surface_set" "', argument " "1"" of type '" "Tags *""'"); 
-  }
-  arg1 = reinterpret_cast< Tags * >(argp1);
-  {
-    std::string *ptr = (std::string *)0;
-    res2 = SWIG_AsPtr_std_string(obj1, &ptr);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Tags_surface_set" "', argument " "2"" of type '" "std::string const &""'"); 
-    }
-    if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Tags_surface_set" "', argument " "2"" of type '" "std::string const &""'"); 
-    }
-    arg2 = ptr;
-  }
-  if (arg1) (arg1)->surface = *arg2;
-  resultobj = SWIG_Py_Void();
-  if (SWIG_IsNewObj(res2)) delete arg2;
-  return resultobj;
-fail:
-  if (SWIG_IsNewObj(res2)) delete arg2;
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Tags_surface_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Tags *arg1 = (Tags *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  std::string *result = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Tags_surface_get",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Tags, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Tags_surface_get" "', argument " "1"" of type '" "Tags *""'"); 
-  }
-  arg1 = reinterpret_cast< Tags * >(argp1);
-  result = (std::string *) & ((arg1)->surface);
-  resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Tags_tag_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Tags *arg1 = (Tags *) 0 ;
-  tags *arg2 = (tags *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Tags_tag_set",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Tags, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Tags_tag_set" "', argument " "1"" of type '" "Tags *""'"); 
-  }
-  arg1 = reinterpret_cast< Tags * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_std__vectorT_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t_std__allocatorT_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t_t_t, 0 |  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Tags_tag_set" "', argument " "2"" of type '" "tags *""'"); 
-  }
-  arg2 = reinterpret_cast< tags * >(argp2);
-  if (arg1) (arg1)->tag = *arg2;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Tags_tag_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Tags *arg1 = (Tags *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  tags *result = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Tags_tag_get",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Tags, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Tags_tag_get" "', argument " "1"" of type '" "Tags *""'"); 
-  }
-  arg1 = reinterpret_cast< Tags * >(argp1);
-  result = (tags *)& ((arg1)->tag);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t_std__allocatorT_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t_t_t, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_new_Tags(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Tags *result = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)":new_Tags")) SWIG_fail;
-  result = (Tags *)new Tags();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Tags, SWIG_POINTER_NEW |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_delete_Tags(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Tags *arg1 = (Tags *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:delete_Tags",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Tags, SWIG_POINTER_DISOWN |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Tags" "', argument " "1"" of type '" "Tags *""'"); 
-  }
-  arg1 = reinterpret_cast< Tags * >(argp1);
-  delete arg1;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *Tags_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *obj;
-  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
-  SWIG_TypeNewClientData(SWIGTYPE_p_Tags, SWIG_NewClientData(obj));
   return SWIG_Py_Void();
 }
 
@@ -7627,7 +7475,15 @@ SWIGINTERN PyObject *_wrap_delete_StringVector(PyObject *SWIGUNUSEDPARM(self), P
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_StringVector" "', argument " "1"" of type '" "std::vector< std::string > *""'"); 
   }
   arg1 = reinterpret_cast< std::vector< std::string > * >(argp1);
-  delete arg1;
+  {
+    try{
+      delete arg1;
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -7887,7 +7743,15 @@ SWIGINTERN PyObject *_wrap_delete_Pairsd(PyObject *SWIGUNUSEDPARM(self), PyObjec
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Pairsd" "', argument " "1"" of type '" "std::pair< std::string,double > *""'"); 
   }
   arg1 = reinterpret_cast< std::pair< std::string,double > * >(argp1);
-  delete arg1;
+  {
+    try{
+      delete arg1;
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -9631,7 +9495,15 @@ SWIGINTERN PyObject *_wrap_delete_PairVector(PyObject *SWIGUNUSEDPARM(self), PyO
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_PairVector" "', argument " "1"" of type '" "std::vector< std::pair< std::string,double > > *""'"); 
   }
   arg1 = reinterpret_cast< std::vector< std::pair< std::string,double > > * >(argp1);
-  delete arg1;
+  {
+    try{
+      delete arg1;
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -11375,7 +11247,15 @@ SWIGINTERN PyObject *_wrap_delete_PairVectorVector(PyObject *SWIGUNUSEDPARM(self
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_PairVectorVector" "', argument " "1"" of type '" "std::vector< std::vector< std::pair< std::string,double > > > *""'"); 
   }
   arg1 = reinterpret_cast< std::vector< std::vector< std::pair< std::string,double > > > * >(argp1);
-  delete arg1;
+  {
+    try{
+      delete arg1;
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13087,7 +12967,15 @@ SWIGINTERN PyObject *_wrap_delete_TagsVector(PyObject *SWIGUNUSEDPARM(self), PyO
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_TagsVector" "', argument " "1"" of type '" "std::vector< Tags > *""'"); 
   }
   arg1 = reinterpret_cast< std::vector< Tags > * >(argp1);
-  delete arg1;
+  {
+    try{
+      delete arg1;
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13125,7 +13013,15 @@ SWIGINTERN PyObject *_wrap_Kytea_readModel(PyObject *SWIGUNUSEDPARM(self), PyObj
     SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Kytea_readModel" "', argument " "2"" of type '" "char const *""'");
   }
   arg2 = reinterpret_cast< char * >(buf2);
-  (arg1)->readModel((char const *)arg2);
+  {
+    try{
+      (arg1)->readModel((char const *)arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
   return resultobj;
@@ -13158,7 +13054,15 @@ SWIGINTERN PyObject *_wrap_Kytea_writeModel(PyObject *SWIGUNUSEDPARM(self), PyOb
     SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Kytea_writeModel" "', argument " "2"" of type '" "char const *""'");
   }
   arg2 = reinterpret_cast< char * >(buf2);
-  (arg1)->writeModel((char const *)arg2);
+  {
+    try{
+      (arg1)->writeModel((char const *)arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
   return resultobj;
@@ -13193,7 +13097,15 @@ SWIGINTERN PyObject *_wrap_Kytea_calculateWS(PyObject *SWIGUNUSEDPARM(self), PyO
     SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Kytea_calculateWS" "', argument " "2"" of type '" "KyteaSentence &""'"); 
   }
   arg2 = reinterpret_cast< KyteaSentence * >(argp2);
-  (arg1)->calculateWS(*arg2);
+  {
+    try{
+      (arg1)->calculateWS(*arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13235,7 +13147,15 @@ SWIGINTERN PyObject *_wrap_Kytea_calculateTags(PyObject *SWIGUNUSEDPARM(self), P
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Kytea_calculateTags" "', argument " "3"" of type '" "int""'");
   } 
   arg3 = static_cast< int >(val3);
-  (arg1)->calculateTags(*arg2,arg3);
+  {
+    try{
+      (arg1)->calculateTags(*arg2,arg3);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13277,7 +13197,15 @@ SWIGINTERN PyObject *_wrap_Kytea_calculateUnknownTag(PyObject *SWIGUNUSEDPARM(se
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Kytea_calculateUnknownTag" "', argument " "3"" of type '" "int""'");
   } 
   arg3 = static_cast< int >(val3);
-  (arg1)->calculateUnknownTag(*arg2,arg3);
+  {
+    try{
+      (arg1)->calculateUnknownTag(*arg2,arg3);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13299,7 +13227,15 @@ SWIGINTERN PyObject *_wrap_Kytea_getStringUtil(PyObject *SWIGUNUSEDPARM(self), P
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Kytea_getStringUtil" "', argument " "1"" of type '" "kytea::Kytea *""'"); 
   }
   arg1 = reinterpret_cast< kytea::Kytea * >(argp1);
-  result = (StringUtil *)(arg1)->getStringUtil();
+  {
+    try{
+      result = (StringUtil *)(arg1)->getStringUtil();
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_StringUtil, 0 |  0 );
   return resultobj;
 fail:
@@ -13321,7 +13257,15 @@ SWIGINTERN PyObject *_wrap_Kytea_getConfig(PyObject *SWIGUNUSEDPARM(self), PyObj
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Kytea_getConfig" "', argument " "1"" of type '" "kytea::Kytea *""'"); 
   }
   arg1 = reinterpret_cast< kytea::Kytea * >(argp1);
-  result = (KyteaConfig *)(arg1)->getConfig();
+  {
+    try{
+      result = (KyteaConfig *)(arg1)->getConfig();
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_KyteaConfig, 0 |  0 );
   return resultobj;
 fail:
@@ -13342,7 +13286,15 @@ SWIGINTERN PyObject *_wrap_Kytea_trainAll(PyObject *SWIGUNUSEDPARM(self), PyObje
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Kytea_trainAll" "', argument " "1"" of type '" "kytea::Kytea *""'"); 
   }
   arg1 = reinterpret_cast< kytea::Kytea * >(argp1);
-  (arg1)->trainAll();
+  {
+    try{
+      (arg1)->trainAll();
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13363,7 +13315,15 @@ SWIGINTERN PyObject *_wrap_Kytea_analyze(PyObject *SWIGUNUSEDPARM(self), PyObjec
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Kytea_analyze" "', argument " "1"" of type '" "kytea::Kytea *""'"); 
   }
   arg1 = reinterpret_cast< kytea::Kytea * >(argp1);
-  (arg1)->analyze();
+  {
+    try{
+      (arg1)->analyze();
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13384,7 +13344,15 @@ SWIGINTERN PyObject *_wrap_Kytea_init(PyObject *SWIGUNUSEDPARM(self), PyObject *
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Kytea_init" "', argument " "1"" of type '" "kytea::Kytea *""'"); 
   }
   arg1 = reinterpret_cast< kytea::Kytea * >(argp1);
-  (arg1)->init();
+  {
+    try{
+      (arg1)->init();
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13397,7 +13365,15 @@ SWIGINTERN PyObject *_wrap_new_Kytea__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyO
   kytea::Kytea *result = 0 ;
   
   if (!PyArg_ParseTuple(args,(char *)":new_Kytea")) SWIG_fail;
-  result = (kytea::Kytea *)new kytea::Kytea();
+  {
+    try{
+      result = (kytea::Kytea *)new kytea::Kytea();
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_kytea__Kytea, SWIG_POINTER_NEW |  0 );
   return resultobj;
 fail:
@@ -13419,7 +13395,15 @@ SWIGINTERN PyObject *_wrap_new_Kytea__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyO
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_Kytea" "', argument " "1"" of type '" "KyteaConfig *""'"); 
   }
   arg1 = reinterpret_cast< KyteaConfig * >(argp1);
-  result = (kytea::Kytea *)new kytea::Kytea(arg1);
+  {
+    try{
+      result = (kytea::Kytea *)new kytea::Kytea(arg1);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_kytea__Kytea, SWIG_POINTER_NEW |  0 );
   return resultobj;
 fail:
@@ -13472,7 +13456,15 @@ SWIGINTERN PyObject *_wrap_delete_Kytea(PyObject *SWIGUNUSEDPARM(self), PyObject
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Kytea" "', argument " "1"" of type '" "kytea::Kytea *""'"); 
   }
   arg1 = reinterpret_cast< kytea::Kytea * >(argp1);
-  delete arg1;
+  {
+    try{
+      delete arg1;
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13494,7 +13486,15 @@ SWIGINTERN PyObject *_wrap_Kytea_getWSModel(PyObject *SWIGUNUSEDPARM(self), PyOb
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Kytea_getWSModel" "', argument " "1"" of type '" "kytea::Kytea *""'"); 
   }
   arg1 = reinterpret_cast< kytea::Kytea * >(argp1);
-  result = (KyteaModel *)(arg1)->getWSModel();
+  {
+    try{
+      result = (KyteaModel *)(arg1)->getWSModel();
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_KyteaModel, 0 |  0 );
   return resultobj;
 fail:
@@ -13524,7 +13524,15 @@ SWIGINTERN PyObject *_wrap_Kytea_setWSModel(PyObject *SWIGUNUSEDPARM(self), PyOb
     SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Kytea_setWSModel" "', argument " "2"" of type '" "KyteaModel *""'"); 
   }
   arg2 = reinterpret_cast< KyteaModel * >(argp2);
-  (arg1)->setWSModel(arg2);
+  {
+    try{
+      (arg1)->setWSModel(arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13557,7 +13565,15 @@ SWIGINTERN PyObject *_wrap_Kytea_checkEqual(PyObject *SWIGUNUSEDPARM(self), PyOb
     SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Kytea_checkEqual" "', argument " "2"" of type '" "kytea::Kytea const &""'"); 
   }
   arg2 = reinterpret_cast< kytea::Kytea * >(argp2);
-  (arg1)->checkEqual((kytea::Kytea const &)*arg2);
+  {
+    try{
+      (arg1)->checkEqual((kytea::Kytea const &)*arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13601,7 +13617,15 @@ SWIGINTERN PyObject *_wrap___lt__(PyObject *SWIGUNUSEDPARM(self), PyObject *args
     SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "__lt__" "', argument " "2"" of type '" "kytea::KyteaTag const &""'"); 
   }
   arg2 = reinterpret_cast< kytea::KyteaTag * >(argp2);
-  result = (bool)kytea::operator <((std::pair< KyteaString,double > const &)*arg1,(std::pair< KyteaString,double > const &)*arg2);
+  {
+    try{
+      result = (bool)kytea::operator <((std::pair< KyteaString,double > const &)*arg1,(std::pair< KyteaString,double > const &)*arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
@@ -13626,7 +13650,15 @@ SWIGINTERN PyObject *_wrap_new_KyteaWord(PyObject *SWIGUNUSEDPARM(self), PyObjec
     SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_KyteaWord" "', argument " "1"" of type '" "KyteaString const &""'"); 
   }
   arg1 = reinterpret_cast< KyteaString * >(argp1);
-  result = (kytea::KyteaWord *)new kytea::KyteaWord((KyteaString const &)*arg1);
+  {
+    try{
+      result = (kytea::KyteaWord *)new kytea::KyteaWord((KyteaString const &)*arg1);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_kytea__KyteaWord, SWIG_POINTER_NEW |  0 );
   return resultobj;
 fail:
@@ -13881,7 +13913,15 @@ SWIGINTERN PyObject *_wrap_KyteaWord_limitTags(PyObject *SWIGUNUSEDPARM(self), P
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "KyteaWord_limitTags" "', argument " "3"" of type '" "unsigned int""'");
   } 
   arg3 = static_cast< unsigned int >(val3);
-  (arg1)->limitTags(arg2,arg3);
+  {
+    try{
+      (arg1)->limitTags(arg2,arg3);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13903,7 +13943,15 @@ SWIGINTERN PyObject *_wrap_KyteaWord_getNumTags(PyObject *SWIGUNUSEDPARM(self), 
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "KyteaWord_getNumTags" "', argument " "1"" of type '" "kytea::KyteaWord const *""'"); 
   }
   arg1 = reinterpret_cast< kytea::KyteaWord * >(argp1);
-  result = (int)((kytea::KyteaWord const *)arg1)->getNumTags();
+  {
+    try{
+      result = (int)((kytea::KyteaWord const *)arg1)->getNumTags();
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_From_int(static_cast< int >(result));
   return resultobj;
 fail:
@@ -13934,7 +13982,15 @@ SWIGINTERN PyObject *_wrap_KyteaWord_getTag(PyObject *SWIGUNUSEDPARM(self), PyOb
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "KyteaWord_getTag" "', argument " "2"" of type '" "int""'");
   } 
   arg2 = static_cast< int >(val2);
-  result = (kytea::KyteaTag *)((kytea::KyteaWord const *)arg1)->getTag(arg2);
+  {
+    try{
+      result = (kytea::KyteaTag *)((kytea::KyteaWord const *)arg1)->getTag(arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__pairT_KyteaString_double_t, 0 |  0 );
   return resultobj;
 fail:
@@ -13965,7 +14021,15 @@ SWIGINTERN PyObject *_wrap_KyteaWord_getTags(PyObject *SWIGUNUSEDPARM(self), PyO
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "KyteaWord_getTags" "', argument " "2"" of type '" "int""'");
   } 
   arg2 = static_cast< int >(val2);
-  result = (std::vector< kytea::KyteaTag,std::allocator< kytea::KyteaTag > > *) &((kytea::KyteaWord const *)arg1)->getTags(arg2);
+  {
+    try{
+      result = (std::vector< kytea::KyteaTag,std::allocator< kytea::KyteaTag > > *) &((kytea::KyteaWord const *)arg1)->getTags(arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_std__pairT_KyteaString_double_t_std__allocatorT_std__pairT_KyteaString_double_t_t_t, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
@@ -13996,7 +14060,15 @@ SWIGINTERN PyObject *_wrap_KyteaWord_getTagSurf(PyObject *SWIGUNUSEDPARM(self), 
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "KyteaWord_getTagSurf" "', argument " "2"" of type '" "int""'");
   } 
   arg2 = static_cast< int >(val2);
-  result = (KyteaString *) &((kytea::KyteaWord const *)arg1)->getTagSurf(arg2);
+  {
+    try{
+      result = (KyteaString *) &((kytea::KyteaWord const *)arg1)->getTagSurf(arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_KyteaString, 0 |  0 );
   return resultobj;
 fail:
@@ -14027,7 +14099,15 @@ SWIGINTERN PyObject *_wrap_KyteaWord_getTagConf(PyObject *SWIGUNUSEDPARM(self), 
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "KyteaWord_getTagConf" "', argument " "2"" of type '" "int""'");
   } 
   arg2 = static_cast< int >(val2);
-  result = (double)((kytea::KyteaWord const *)arg1)->getTagConf(arg2);
+  {
+    try{
+      result = (double)((kytea::KyteaWord const *)arg1)->getTagConf(arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
@@ -14069,7 +14149,15 @@ SWIGINTERN PyObject *_wrap_KyteaWord_setTag(PyObject *SWIGUNUSEDPARM(self), PyOb
     SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "KyteaWord_setTag" "', argument " "3"" of type '" "kytea::KyteaTag const &""'"); 
   }
   arg3 = reinterpret_cast< kytea::KyteaTag * >(argp3);
-  (arg1)->setTag(arg2,(kytea::KyteaTag const &)*arg3);
+  {
+    try{
+      (arg1)->setTag(arg2,(kytea::KyteaTag const &)*arg3);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -14108,7 +14196,15 @@ SWIGINTERN PyObject *_wrap_KyteaWord_setTagConf(PyObject *SWIGUNUSEDPARM(self), 
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "KyteaWord_setTagConf" "', argument " "3"" of type '" "double""'");
   } 
   arg3 = static_cast< double >(val3);
-  (arg1)->setTagConf(arg2,arg3);
+  {
+    try{
+      (arg1)->setTagConf(arg2,arg3);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -14138,7 +14234,15 @@ SWIGINTERN PyObject *_wrap_KyteaWord_clearTags(PyObject *SWIGUNUSEDPARM(self), P
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "KyteaWord_clearTags" "', argument " "2"" of type '" "int""'");
   } 
   arg2 = static_cast< int >(val2);
-  (arg1)->clearTags(arg2);
+  {
+    try{
+      (arg1)->clearTags(arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -14180,7 +14284,15 @@ SWIGINTERN PyObject *_wrap_KyteaWord_addTag(PyObject *SWIGUNUSEDPARM(self), PyOb
     SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "KyteaWord_addTag" "', argument " "3"" of type '" "kytea::KyteaTag const &""'"); 
   }
   arg3 = reinterpret_cast< kytea::KyteaTag * >(argp3);
-  (arg1)->addTag(arg2,(kytea::KyteaTag const &)*arg3);
+  {
+    try{
+      (arg1)->addTag(arg2,(kytea::KyteaTag const &)*arg3);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -14210,7 +14322,15 @@ SWIGINTERN PyObject *_wrap_KyteaWord_setUnknown(PyObject *SWIGUNUSEDPARM(self), 
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "KyteaWord_setUnknown" "', argument " "2"" of type '" "bool""'");
   } 
   arg2 = static_cast< bool >(val2);
-  (arg1)->setUnknown(arg2);
+  {
+    try{
+      (arg1)->setUnknown(arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -14232,7 +14352,15 @@ SWIGINTERN PyObject *_wrap_KyteaWord_getUnknown(PyObject *SWIGUNUSEDPARM(self), 
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "KyteaWord_getUnknown" "', argument " "1"" of type '" "kytea::KyteaWord const *""'"); 
   }
   arg1 = reinterpret_cast< kytea::KyteaWord * >(argp1);
-  result = (bool)((kytea::KyteaWord const *)arg1)->getUnknown();
+  {
+    try{
+      result = (bool)((kytea::KyteaWord const *)arg1)->getUnknown();
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
@@ -14263,7 +14391,15 @@ SWIGINTERN PyObject *_wrap_KyteaWord_hasTag(PyObject *SWIGUNUSEDPARM(self), PyOb
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "KyteaWord_hasTag" "', argument " "2"" of type '" "int""'");
   } 
   arg2 = static_cast< int >(val2);
-  result = (bool)((kytea::KyteaWord const *)arg1)->hasTag(arg2);
+  {
+    try{
+      result = (bool)((kytea::KyteaWord const *)arg1)->hasTag(arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
@@ -14284,7 +14420,15 @@ SWIGINTERN PyObject *_wrap_delete_KyteaWord(PyObject *SWIGUNUSEDPARM(self), PyOb
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_KyteaWord" "', argument " "1"" of type '" "kytea::KyteaWord *""'"); 
   }
   arg1 = reinterpret_cast< kytea::KyteaWord * >(argp1);
-  delete arg1;
+  {
+    try{
+      delete arg1;
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -14468,7 +14612,15 @@ SWIGINTERN PyObject *_wrap_new_KyteaSentence__SWIG_0(PyObject *SWIGUNUSEDPARM(se
   kytea::KyteaSentence *result = 0 ;
   
   if (!PyArg_ParseTuple(args,(char *)":new_KyteaSentence")) SWIG_fail;
-  result = (kytea::KyteaSentence *)new kytea::KyteaSentence();
+  {
+    try{
+      result = (kytea::KyteaSentence *)new kytea::KyteaSentence();
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_kytea__KyteaSentence, SWIG_POINTER_NEW |  0 );
   return resultobj;
 fail:
@@ -14493,7 +14645,15 @@ SWIGINTERN PyObject *_wrap_new_KyteaSentence__SWIG_1(PyObject *SWIGUNUSEDPARM(se
     SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_KyteaSentence" "', argument " "1"" of type '" "KyteaString const &""'"); 
   }
   arg1 = reinterpret_cast< KyteaString * >(argp1);
-  result = (kytea::KyteaSentence *)new kytea::KyteaSentence((KyteaString const &)*arg1);
+  {
+    try{
+      result = (kytea::KyteaSentence *)new kytea::KyteaSentence((KyteaString const &)*arg1);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_kytea__KyteaSentence, SWIG_POINTER_NEW |  0 );
   return resultobj;
 fail:
@@ -14554,7 +14714,15 @@ SWIGINTERN PyObject *_wrap_KyteaSentence_refreshWS(PyObject *SWIGUNUSEDPARM(self
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "KyteaSentence_refreshWS" "', argument " "2"" of type '" "double""'");
   } 
   arg2 = static_cast< double >(val2);
-  (arg1)->refreshWS(arg2);
+  {
+    try{
+      (arg1)->refreshWS(arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -14575,7 +14743,15 @@ SWIGINTERN PyObject *_wrap_delete_KyteaSentence(PyObject *SWIGUNUSEDPARM(self), 
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_KyteaSentence" "', argument " "1"" of type '" "kytea::KyteaSentence *""'"); 
   }
   arg1 = reinterpret_cast< kytea::KyteaSentence * >(argp1);
-  delete arg1;
+  {
+    try{
+      delete arg1;
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -14587,6 +14763,174 @@ SWIGINTERN PyObject *KyteaSentence_swigregister(PyObject *SWIGUNUSEDPARM(self), 
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
   SWIG_TypeNewClientData(SWIGTYPE_p_kytea__KyteaSentence, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_Tags_surface_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Tags *arg1 = (Tags *) 0 ;
+  std::string *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Tags_surface_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Tags, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Tags_surface_set" "', argument " "1"" of type '" "Tags *""'"); 
+  }
+  arg1 = reinterpret_cast< Tags * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    res2 = SWIG_AsPtr_std_string(obj1, &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Tags_surface_set" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Tags_surface_set" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  if (arg1) (arg1)->surface = *arg2;
+  resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Tags_surface_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Tags *arg1 = (Tags *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  std::string *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Tags_surface_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Tags, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Tags_surface_get" "', argument " "1"" of type '" "Tags *""'"); 
+  }
+  arg1 = reinterpret_cast< Tags * >(argp1);
+  result = (std::string *) & ((arg1)->surface);
+  resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Tags_tag_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Tags *arg1 = (Tags *) 0 ;
+  tags *arg2 = (tags *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Tags_tag_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Tags, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Tags_tag_set" "', argument " "1"" of type '" "Tags *""'"); 
+  }
+  arg1 = reinterpret_cast< Tags * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_std__vectorT_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t_std__allocatorT_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Tags_tag_set" "', argument " "2"" of type '" "tags *""'"); 
+  }
+  arg2 = reinterpret_cast< tags * >(argp2);
+  if (arg1) (arg1)->tag = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Tags_tag_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Tags *arg1 = (Tags *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  tags *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Tags_tag_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Tags, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Tags_tag_get" "', argument " "1"" of type '" "Tags *""'"); 
+  }
+  arg1 = reinterpret_cast< Tags * >(argp1);
+  result = (tags *)& ((arg1)->tag);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t_std__allocatorT_std__vectorT_std__pairT_std__string_double_t_std__allocatorT_std__pairT_std__string_double_t_t_t_t_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_Tags(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Tags *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_Tags")) SWIG_fail;
+  {
+    try{
+      result = (Tags *)new Tags();
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Tags, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_Tags(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Tags *arg1 = (Tags *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_Tags",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Tags, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Tags" "', argument " "1"" of type '" "Tags *""'"); 
+  }
+  arg1 = reinterpret_cast< Tags * >(argp1);
+  {
+    try{
+      delete arg1;
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *Tags_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_Tags, SWIG_NewClientData(obj));
   return SWIG_Py_Void();
 }
 
@@ -14605,7 +14949,15 @@ SWIGINTERN PyObject *_wrap_new_Mykytea(PyObject *SWIGUNUSEDPARM(self), PyObject 
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_Mykytea" "', argument " "1"" of type '" "char *""'");
   }
   arg1 = reinterpret_cast< char * >(buf1);
-  result = (Mykytea *)new Mykytea(arg1);
+  {
+    try{
+      result = (Mykytea *)new Mykytea(arg1);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Mykytea, SWIG_POINTER_NEW |  0 );
   if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
   return resultobj;
@@ -14628,7 +14980,15 @@ SWIGINTERN PyObject *_wrap_delete_Mykytea(PyObject *SWIGUNUSEDPARM(self), PyObje
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Mykytea" "', argument " "1"" of type '" "Mykytea *""'"); 
   }
   arg1 = reinterpret_cast< Mykytea * >(argp1);
-  delete arg1;
+  {
+    try{
+      delete arg1;
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -14661,7 +15021,15 @@ SWIGINTERN PyObject *_wrap_Mykytea_getWS(PyObject *SWIGUNUSEDPARM(self), PyObjec
     arg2 = *ptr;
     if (SWIG_IsNewObj(res)) delete ptr;
   }
-  result = (std::vector< std::string > *)(arg1)->getWS(arg2);
+  {
+    try{
+      result = (std::vector< std::string > *)(arg1)->getWS(arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
@@ -14694,7 +15062,15 @@ SWIGINTERN PyObject *_wrap_Mykytea_getTags(PyObject *SWIGUNUSEDPARM(self), PyObj
     arg2 = *ptr;
     if (SWIG_IsNewObj(res)) delete ptr;
   }
-  result = (std::vector< Tags > *)(arg1)->getTags(arg2);
+  {
+    try{
+      result = (std::vector< Tags > *)(arg1)->getTags(arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_Tags_std__allocatorT_Tags_t_t, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
@@ -14727,7 +15103,15 @@ SWIGINTERN PyObject *_wrap_Mykytea_getAllTags(PyObject *SWIGUNUSEDPARM(self), Py
     arg2 = *ptr;
     if (SWIG_IsNewObj(res)) delete ptr;
   }
-  result = (std::vector< Tags > *)(arg1)->getAllTags(arg2);
+  {
+    try{
+      result = (std::vector< Tags > *)(arg1)->getAllTags(arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_Tags_std__allocatorT_Tags_t_t, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
@@ -14760,7 +15144,15 @@ SWIGINTERN PyObject *_wrap_Mykytea_getTagsToString(PyObject *SWIGUNUSEDPARM(self
     arg2 = *ptr;
     if (SWIG_IsNewObj(res)) delete ptr;
   }
-  result = (arg1)->getTagsToString(arg2);
+  {
+    try{
+      result = (arg1)->getTagsToString(arg2);
+    } catch (const std::exception &e){
+      SWIG_exception(SWIG_RuntimeError, e.what() );
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError, "Unknown exception");
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(result));
   return resultobj;
 fail:
@@ -14795,13 +15187,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"SwigPyIterator___add__", _wrap_SwigPyIterator___add__, METH_VARARGS, NULL},
 	 { (char *)"SwigPyIterator___sub__", _wrap_SwigPyIterator___sub__, METH_VARARGS, NULL},
 	 { (char *)"SwigPyIterator_swigregister", SwigPyIterator_swigregister, METH_VARARGS, NULL},
-	 { (char *)"Tags_surface_set", _wrap_Tags_surface_set, METH_VARARGS, NULL},
-	 { (char *)"Tags_surface_get", _wrap_Tags_surface_get, METH_VARARGS, NULL},
-	 { (char *)"Tags_tag_set", _wrap_Tags_tag_set, METH_VARARGS, NULL},
-	 { (char *)"Tags_tag_get", _wrap_Tags_tag_get, METH_VARARGS, NULL},
-	 { (char *)"new_Tags", _wrap_new_Tags, METH_VARARGS, NULL},
-	 { (char *)"delete_Tags", _wrap_delete_Tags, METH_VARARGS, NULL},
-	 { (char *)"Tags_swigregister", Tags_swigregister, METH_VARARGS, NULL},
 	 { (char *)"StringVector_iterator", _wrap_StringVector_iterator, METH_VARARGS, NULL},
 	 { (char *)"StringVector___nonzero__", _wrap_StringVector___nonzero__, METH_VARARGS, NULL},
 	 { (char *)"StringVector___bool__", _wrap_StringVector___bool__, METH_VARARGS, NULL},
@@ -14996,6 +15381,13 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"KyteaSentence_refreshWS", _wrap_KyteaSentence_refreshWS, METH_VARARGS, NULL},
 	 { (char *)"delete_KyteaSentence", _wrap_delete_KyteaSentence, METH_VARARGS, NULL},
 	 { (char *)"KyteaSentence_swigregister", KyteaSentence_swigregister, METH_VARARGS, NULL},
+	 { (char *)"Tags_surface_set", _wrap_Tags_surface_set, METH_VARARGS, NULL},
+	 { (char *)"Tags_surface_get", _wrap_Tags_surface_get, METH_VARARGS, NULL},
+	 { (char *)"Tags_tag_set", _wrap_Tags_tag_set, METH_VARARGS, NULL},
+	 { (char *)"Tags_tag_get", _wrap_Tags_tag_get, METH_VARARGS, NULL},
+	 { (char *)"new_Tags", _wrap_new_Tags, METH_VARARGS, NULL},
+	 { (char *)"delete_Tags", _wrap_delete_Tags, METH_VARARGS, NULL},
+	 { (char *)"Tags_swigregister", Tags_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_Mykytea", _wrap_new_Mykytea, METH_VARARGS, NULL},
 	 { (char *)"delete_Mykytea", _wrap_delete_Mykytea, METH_VARARGS, NULL},
 	 { (char *)"Mykytea_getWS", _wrap_Mykytea_getWS, METH_VARARGS, NULL},
