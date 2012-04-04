@@ -2,14 +2,11 @@
 %include "stl.i"
 %include "exception.i"
 
+
 %{
 #include "mykytea.hpp"
 %}
 
-typedef struct{
-  std::string surface;
-  tags tag;
-} Tags;
 
 namespace std {
   %template(StringVector) vector<string>;
