@@ -44,7 +44,7 @@ public:
   string getTagsToString(string str);
 
 private:
-  Kytea kytea;
+  Kytea* kytea;
   StringUtil* util;
   KyteaConfig* config;
 };

@@ -2,23 +2,51 @@
 #include <iostream>
 #include "mykytea.hpp"
 
+const int MAX_LEN = 256;
+
+int split_argv(char* input, const char* configs[]){
+  int len;
+  char *cp;
+  const char *delim = " ";
+  
+  cp = input;
+  for(len = 0; len < MAX_LEN; len++){
+    if((configs[len] = strtok(cp, delim)) == NULL )
+      break;
+    cp = NULL;
+  }
+  return len;
+}
 
 Mykytea::Mykytea(char* str)
 {
-    kytea.readModel(str);
-    util = kytea.getStringUtil(); 
-    config = kytea.getConfig();
+  const char* configs[MAX_LEN];
+  int len = split_argv(str, configs);
+  //cout << len << endl;
+  //for(int i = 0; i < len; i++)
+  // cout << configs[i] << endl;
+  
+  KyteaConfig* _config = new KyteaConfig();
+  _config->parseRunCommandLine(len, configs);
+  config = _config;
+  
+  Kytea* _kytea = new Kytea(_config);
+  _kytea->readModel(_config->getModelFile().c_str());
+  kytea = _kytea;
+  util = _kytea->getStringUtil();
+  
 }
 
 Mykytea::~Mykytea()
 {
+  if(kytea != NULL) delete kytea;
 }
 
 vector<string>* Mykytea::getWS(string str){
     vector<string>* vec = new vector<string>;
 
     KyteaSentence sentence(util->mapString(str));
-    kytea.calculateWS(sentence);
+    kytea->calculateWS(sentence);
 
     const KyteaSentence::Words & words =  sentence.words;
 
@@ -32,10 +60,10 @@ vector<Tags>* Mykytea::getTags(string str){
     vector<Tags>* ret_words = new vector<Tags>;
 
     KyteaSentence sentence(util->mapString(str));
-    kytea.calculateWS(sentence);
+    kytea->calculateWS(sentence);
 
     for(int i = 0; i < config->getNumTags(); i++)
-        kytea.calculateTags(sentence,i);
+        kytea->calculateTags(sentence,i);
 
     const KyteaSentence::Words & words =  sentence.words;
 
@@ -58,10 +86,10 @@ vector<Tags>* Mykytea::getAllTags(string str){
     vector<Tags>* ret_words = new vector<Tags>;
 
     KyteaSentence sentence(util->mapString(str));
-    kytea.calculateWS(sentence);
+    kytea->calculateWS(sentence);
 
     for(int i = 0; i < config->getNumTags(); i++)
-        kytea.calculateTags(sentence,i);
+        kytea->calculateTags(sentence,i);
 
     const KyteaSentence::Words & words =  sentence.words;
 
@@ -83,10 +111,10 @@ vector<Tags>* Mykytea::getAllTags(string str){
 string Mykytea::getTagsToString(string str)
 {
     KyteaSentence sentence(util->mapString(str));
-    kytea.calculateWS(sentence);
+    kytea->calculateWS(sentence);
 
     for(int i = 0; i < config->getNumTags(); i++)
-        kytea.calculateTags(sentence,i);
+        kytea->calculateTags(sentence,i);
 
     const KyteaSentence::Words & words =  sentence.words;
 

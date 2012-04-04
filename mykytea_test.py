@@ -15,10 +15,10 @@ def showTags(t):
         print out
 
 
-model_path = "/usr/local/share/kytea/model.bin"
-mk = Mykytea.Mykytea(model_path)
+opt = "-model /usr/local/share/kytea/model.bin -deftag UNKNOWN!!"
+mk = Mykytea.Mykytea(opt)
 
-s = "今日はいい天気です。"
+s = "今日はいい天気です。1999"
 
 #分かち書きを取得
 for word in mk.getWS(s):
