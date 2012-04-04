@@ -1,4 +1,4 @@
-KyTea wrapper for ruby
+KyTea wrapper for python
 ==========================
 
 2011/07/15 chezou
@@ -14,10 +14,9 @@ Install Dependencies
 
 You need to install KyTea before build.
 
-To build Mykytea-ruby, run
+To build Mykytea-python, run
 --------------------
 
-    % ruby extconf.rb
     % make
 
   (If you want to install, run)
@@ -26,12 +25,14 @@ To build Mykytea-ruby, run
 
   (If you fail to make, please try to install SWIG and run)
 
-    % swig -c++ -ruby -I/usr/local/include mykytea.i
+    % swig -c++ -python -I/usr/local/include mykytea.i
 
 How to use?
 --------------------
-  See 'mykytea_test.rb' as a sample program.
+
+  See 'mykytea_test.py' as a sample program.
 
 License
 --------------------
+
 MIT License
