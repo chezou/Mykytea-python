@@ -13636,12 +13636,16 @@ fail:
 SWIGINTERN PyObject *_wrap_new_KyteaWord(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   KyteaString *arg1 = 0 ;
+  KyteaString *arg2 = 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
   PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
   kytea::KyteaWord *result = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:new_KyteaWord",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:new_KyteaWord",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_KyteaString,  0  | 0);
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_KyteaWord" "', argument " "1"" of type '" "KyteaString const &""'"); 
@@ -13650,9 +13654,17 @@ SWIGINTERN PyObject *_wrap_new_KyteaWord(PyObject *SWIGUNUSEDPARM(self), PyObjec
     SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_KyteaWord" "', argument " "1"" of type '" "KyteaString const &""'"); 
   }
   arg1 = reinterpret_cast< KyteaString * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_KyteaString,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_KyteaWord" "', argument " "2"" of type '" "KyteaString const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_KyteaWord" "', argument " "2"" of type '" "KyteaString const &""'"); 
+  }
+  arg2 = reinterpret_cast< KyteaString * >(argp2);
   {
     try{
-      result = (kytea::KyteaWord *)new kytea::KyteaWord((KyteaString const &)*arg1);
+      result = (kytea::KyteaWord *)new kytea::KyteaWord((KyteaString const &)*arg1,(KyteaString const &)*arg2);
     } catch (const std::exception &e){
       SWIG_exception(SWIG_RuntimeError, e.what() );
     } catch (...) {
@@ -13666,7 +13678,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_KyteaWord_surf_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_KyteaWord_surface_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   kytea::KyteaWord *arg1 = (kytea::KyteaWord *) 0 ;
   KyteaString arg2 ;
@@ -13677,26 +13689,26 @@ SWIGINTERN PyObject *_wrap_KyteaWord_surf_set(PyObject *SWIGUNUSEDPARM(self), Py
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:KyteaWord_surf_set",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:KyteaWord_surface_set",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_kytea__KyteaWord, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "KyteaWord_surf_set" "', argument " "1"" of type '" "kytea::KyteaWord *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "KyteaWord_surface_set" "', argument " "1"" of type '" "kytea::KyteaWord *""'"); 
   }
   arg1 = reinterpret_cast< kytea::KyteaWord * >(argp1);
   {
     res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_KyteaString,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "KyteaWord_surf_set" "', argument " "2"" of type '" "KyteaString""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "KyteaWord_surface_set" "', argument " "2"" of type '" "KyteaString""'"); 
     }  
     if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "KyteaWord_surf_set" "', argument " "2"" of type '" "KyteaString""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "KyteaWord_surface_set" "', argument " "2"" of type '" "KyteaString""'");
     } else {
       KyteaString * temp = reinterpret_cast< KyteaString * >(argp2);
       arg2 = *temp;
       if (SWIG_IsNewObj(res2)) delete temp;
     }
   }
-  if (arg1) (arg1)->surf = arg2;
+  if (arg1) (arg1)->surface = arg2;
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13704,7 +13716,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_KyteaWord_surf_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_KyteaWord_surface_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   kytea::KyteaWord *arg1 = (kytea::KyteaWord *) 0 ;
   void *argp1 = 0 ;
@@ -13712,13 +13724,73 @@ SWIGINTERN PyObject *_wrap_KyteaWord_surf_get(PyObject *SWIGUNUSEDPARM(self), Py
   PyObject * obj0 = 0 ;
   KyteaString result;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:KyteaWord_surf_get",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:KyteaWord_surface_get",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_kytea__KyteaWord, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "KyteaWord_surf_get" "', argument " "1"" of type '" "kytea::KyteaWord *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "KyteaWord_surface_get" "', argument " "1"" of type '" "kytea::KyteaWord *""'"); 
   }
   arg1 = reinterpret_cast< kytea::KyteaWord * >(argp1);
-  result =  ((arg1)->surf);
+  result =  ((arg1)->surface);
+  resultobj = SWIG_NewPointerObj((new KyteaString(static_cast< const KyteaString& >(result))), SWIGTYPE_p_KyteaString, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_KyteaWord_norm_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  kytea::KyteaWord *arg1 = (kytea::KyteaWord *) 0 ;
+  KyteaString arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:KyteaWord_norm_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_kytea__KyteaWord, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "KyteaWord_norm_set" "', argument " "1"" of type '" "kytea::KyteaWord *""'"); 
+  }
+  arg1 = reinterpret_cast< kytea::KyteaWord * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_KyteaString,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "KyteaWord_norm_set" "', argument " "2"" of type '" "KyteaString""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "KyteaWord_norm_set" "', argument " "2"" of type '" "KyteaString""'");
+    } else {
+      KyteaString * temp = reinterpret_cast< KyteaString * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  if (arg1) (arg1)->norm = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_KyteaWord_norm_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  kytea::KyteaWord *arg1 = (kytea::KyteaWord *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  KyteaString result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:KyteaWord_norm_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_kytea__KyteaWord, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "KyteaWord_norm_get" "', argument " "1"" of type '" "kytea::KyteaWord *""'"); 
+  }
+  arg1 = reinterpret_cast< kytea::KyteaWord * >(argp1);
+  result =  ((arg1)->norm);
   resultobj = SWIG_NewPointerObj((new KyteaString(static_cast< const KyteaString& >(result))), SWIGTYPE_p_KyteaString, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
@@ -14443,7 +14515,7 @@ SWIGINTERN PyObject *KyteaWord_swigregister(PyObject *SWIGUNUSEDPARM(self), PyOb
   return SWIG_Py_Void();
 }
 
-SWIGINTERN PyObject *_wrap_KyteaSentence_chars_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_KyteaSentence_surface_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   kytea::KyteaSentence *arg1 = (kytea::KyteaSentence *) 0 ;
   KyteaString arg2 ;
@@ -14454,26 +14526,26 @@ SWIGINTERN PyObject *_wrap_KyteaSentence_chars_set(PyObject *SWIGUNUSEDPARM(self
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:KyteaSentence_chars_set",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:KyteaSentence_surface_set",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_kytea__KyteaSentence, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "KyteaSentence_chars_set" "', argument " "1"" of type '" "kytea::KyteaSentence *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "KyteaSentence_surface_set" "', argument " "1"" of type '" "kytea::KyteaSentence *""'"); 
   }
   arg1 = reinterpret_cast< kytea::KyteaSentence * >(argp1);
   {
     res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_KyteaString,  0  | 0);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "KyteaSentence_chars_set" "', argument " "2"" of type '" "KyteaString""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "KyteaSentence_surface_set" "', argument " "2"" of type '" "KyteaString""'"); 
     }  
     if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "KyteaSentence_chars_set" "', argument " "2"" of type '" "KyteaString""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "KyteaSentence_surface_set" "', argument " "2"" of type '" "KyteaString""'");
     } else {
       KyteaString * temp = reinterpret_cast< KyteaString * >(argp2);
       arg2 = *temp;
       if (SWIG_IsNewObj(res2)) delete temp;
     }
   }
-  if (arg1) (arg1)->chars = arg2;
+  if (arg1) (arg1)->surface = arg2;
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -14481,7 +14553,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_KyteaSentence_chars_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_KyteaSentence_surface_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   kytea::KyteaSentence *arg1 = (kytea::KyteaSentence *) 0 ;
   void *argp1 = 0 ;
@@ -14489,13 +14561,73 @@ SWIGINTERN PyObject *_wrap_KyteaSentence_chars_get(PyObject *SWIGUNUSEDPARM(self
   PyObject * obj0 = 0 ;
   KyteaString result;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:KyteaSentence_chars_get",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:KyteaSentence_surface_get",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_kytea__KyteaSentence, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "KyteaSentence_chars_get" "', argument " "1"" of type '" "kytea::KyteaSentence *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "KyteaSentence_surface_get" "', argument " "1"" of type '" "kytea::KyteaSentence *""'"); 
   }
   arg1 = reinterpret_cast< kytea::KyteaSentence * >(argp1);
-  result =  ((arg1)->chars);
+  result =  ((arg1)->surface);
+  resultobj = SWIG_NewPointerObj((new KyteaString(static_cast< const KyteaString& >(result))), SWIGTYPE_p_KyteaString, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_KyteaSentence_norm_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  kytea::KyteaSentence *arg1 = (kytea::KyteaSentence *) 0 ;
+  KyteaString arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:KyteaSentence_norm_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_kytea__KyteaSentence, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "KyteaSentence_norm_set" "', argument " "1"" of type '" "kytea::KyteaSentence *""'"); 
+  }
+  arg1 = reinterpret_cast< kytea::KyteaSentence * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_KyteaString,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "KyteaSentence_norm_set" "', argument " "2"" of type '" "KyteaString""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "KyteaSentence_norm_set" "', argument " "2"" of type '" "KyteaString""'");
+    } else {
+      KyteaString * temp = reinterpret_cast< KyteaString * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  if (arg1) (arg1)->norm = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_KyteaSentence_norm_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  kytea::KyteaSentence *arg1 = (kytea::KyteaSentence *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  KyteaString result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:KyteaSentence_norm_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_kytea__KyteaSentence, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "KyteaSentence_norm_get" "', argument " "1"" of type '" "kytea::KyteaSentence *""'"); 
+  }
+  arg1 = reinterpret_cast< kytea::KyteaSentence * >(argp1);
+  result =  ((arg1)->norm);
   resultobj = SWIG_NewPointerObj((new KyteaString(static_cast< const KyteaString& >(result))), SWIGTYPE_p_KyteaString, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
@@ -14631,12 +14763,16 @@ fail:
 SWIGINTERN PyObject *_wrap_new_KyteaSentence__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   KyteaString *arg1 = 0 ;
+  KyteaString *arg2 = 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
   PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
   kytea::KyteaSentence *result = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:new_KyteaSentence",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:new_KyteaSentence",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_KyteaString,  0  | 0);
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_KyteaSentence" "', argument " "1"" of type '" "KyteaString const &""'"); 
@@ -14645,9 +14781,17 @@ SWIGINTERN PyObject *_wrap_new_KyteaSentence__SWIG_1(PyObject *SWIGUNUSEDPARM(se
     SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_KyteaSentence" "', argument " "1"" of type '" "KyteaString const &""'"); 
   }
   arg1 = reinterpret_cast< KyteaString * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_KyteaString,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_KyteaSentence" "', argument " "2"" of type '" "KyteaString const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_KyteaSentence" "', argument " "2"" of type '" "KyteaString const &""'"); 
+  }
+  arg2 = reinterpret_cast< KyteaString * >(argp2);
   {
     try{
-      result = (kytea::KyteaSentence *)new kytea::KyteaSentence((KyteaString const &)*arg1);
+      result = (kytea::KyteaSentence *)new kytea::KyteaSentence((KyteaString const &)*arg1,(KyteaString const &)*arg2);
     } catch (const std::exception &e){
       SWIG_exception(SWIG_RuntimeError, e.what() );
     } catch (...) {
@@ -14663,23 +14807,27 @@ fail:
 
 SWIGINTERN PyObject *_wrap_new_KyteaSentence(PyObject *self, PyObject *args) {
   int argc;
-  PyObject *argv[2];
+  PyObject *argv[3];
   int ii;
   
   if (!PyTuple_Check(args)) SWIG_fail;
   argc = (int)PyObject_Length(args);
-  for (ii = 0; (ii < argc) && (ii < 1); ii++) {
+  for (ii = 0; (ii < argc) && (ii < 2); ii++) {
     argv[ii] = PyTuple_GET_ITEM(args,ii);
   }
   if (argc == 0) {
     return _wrap_new_KyteaSentence__SWIG_0(self, args);
   }
-  if (argc == 1) {
+  if (argc == 2) {
     int _v;
     int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_KyteaString, 0);
     _v = SWIG_CheckState(res);
     if (_v) {
-      return _wrap_new_KyteaSentence__SWIG_1(self, args);
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_KyteaString, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_new_KyteaSentence__SWIG_1(self, args);
+      }
     }
   }
   
@@ -14687,7 +14835,7 @@ fail:
   SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'new_KyteaSentence'.\n"
     "  Possible C/C++ prototypes are:\n"
     "    kytea::KyteaSentence()\n"
-    "    kytea::KyteaSentence(KyteaString const &)\n");
+    "    kytea::KyteaSentence(KyteaString const &,KyteaString const &)\n");
   return NULL;
 }
 
@@ -15348,8 +15496,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Kytea_swigregister", Kytea_swigregister, METH_VARARGS, NULL},
 	 { (char *)"__lt__", _wrap___lt__, METH_VARARGS, NULL},
 	 { (char *)"new_KyteaWord", _wrap_new_KyteaWord, METH_VARARGS, NULL},
-	 { (char *)"KyteaWord_surf_set", _wrap_KyteaWord_surf_set, METH_VARARGS, NULL},
-	 { (char *)"KyteaWord_surf_get", _wrap_KyteaWord_surf_get, METH_VARARGS, NULL},
+	 { (char *)"KyteaWord_surface_set", _wrap_KyteaWord_surface_set, METH_VARARGS, NULL},
+	 { (char *)"KyteaWord_surface_get", _wrap_KyteaWord_surface_get, METH_VARARGS, NULL},
+	 { (char *)"KyteaWord_norm_set", _wrap_KyteaWord_norm_set, METH_VARARGS, NULL},
+	 { (char *)"KyteaWord_norm_get", _wrap_KyteaWord_norm_get, METH_VARARGS, NULL},
 	 { (char *)"KyteaWord_tags_set", _wrap_KyteaWord_tags_set, METH_VARARGS, NULL},
 	 { (char *)"KyteaWord_tags_get", _wrap_KyteaWord_tags_get, METH_VARARGS, NULL},
 	 { (char *)"KyteaWord_isCertain_set", _wrap_KyteaWord_isCertain_set, METH_VARARGS, NULL},
@@ -15371,8 +15521,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"KyteaWord_hasTag", _wrap_KyteaWord_hasTag, METH_VARARGS, NULL},
 	 { (char *)"delete_KyteaWord", _wrap_delete_KyteaWord, METH_VARARGS, NULL},
 	 { (char *)"KyteaWord_swigregister", KyteaWord_swigregister, METH_VARARGS, NULL},
-	 { (char *)"KyteaSentence_chars_set", _wrap_KyteaSentence_chars_set, METH_VARARGS, NULL},
-	 { (char *)"KyteaSentence_chars_get", _wrap_KyteaSentence_chars_get, METH_VARARGS, NULL},
+	 { (char *)"KyteaSentence_surface_set", _wrap_KyteaSentence_surface_set, METH_VARARGS, NULL},
+	 { (char *)"KyteaSentence_surface_get", _wrap_KyteaSentence_surface_get, METH_VARARGS, NULL},
+	 { (char *)"KyteaSentence_norm_set", _wrap_KyteaSentence_norm_set, METH_VARARGS, NULL},
+	 { (char *)"KyteaSentence_norm_get", _wrap_KyteaSentence_norm_get, METH_VARARGS, NULL},
 	 { (char *)"KyteaSentence_wsConfs_set", _wrap_KyteaSentence_wsConfs_set, METH_VARARGS, NULL},
 	 { (char *)"KyteaSentence_wsConfs_get", _wrap_KyteaSentence_wsConfs_get, METH_VARARGS, NULL},
 	 { (char *)"KyteaSentence_words_set", _wrap_KyteaSentence_words_set, METH_VARARGS, NULL},

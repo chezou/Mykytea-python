@@ -44,14 +44,14 @@ Mykytea::~Mykytea()
 
 vector<string>* Mykytea::getWS(string str){
     vector<string>* vec = new vector<string>;
-
-    KyteaSentence sentence(util->mapString(str));
+    KyteaString surface_string = util->mapString(str);
+    KyteaSentence sentence(surface_string, util->normalize(surface_string));
     kytea->calculateWS(sentence);
 
     const KyteaSentence::Words & words =  sentence.words;
 
     for(int i = 0; i < (int)words.size(); i++) {
-         (*vec).push_back(util->showString(words[i].surf));
+         (*vec).push_back(util->showString(words[i].surface));
     }
     return vec;
 }
@@ -59,7 +59,8 @@ vector<string>* Mykytea::getWS(string str){
 vector<Tags>* Mykytea::getTags(string str){
     vector<Tags>* ret_words = new vector<Tags>;
 
-    KyteaSentence sentence(util->mapString(str));
+    KyteaString surface_string = util->mapString(str);
+    KyteaSentence sentence(surface_string, util->normalize(surface_string));
     kytea->calculateWS(sentence);
 
     for(int i = 0; i < config->getNumTags(); i++)
@@ -76,7 +77,7 @@ vector<Tags>* Mykytea::getTags(string str){
             }
             vec_tag.push_back( vec_tmp );
         }
-        struct Tags t = { util->showString(words[i].surf), vec_tag };
+        struct Tags t = { util->showString(words[i].surface), vec_tag };
         (*ret_words).push_back( t );
     }
     return ret_words;
@@ -85,7 +86,8 @@ vector<Tags>* Mykytea::getTags(string str){
 vector<Tags>* Mykytea::getAllTags(string str){
     vector<Tags>* ret_words = new vector<Tags>;
 
-    KyteaSentence sentence(util->mapString(str));
+    KyteaString surface_string = util->mapString(str);
+    KyteaSentence sentence(surface_string, util->normalize(surface_string));
     kytea->calculateWS(sentence);
 
     for(int i = 0; i < config->getNumTags(); i++)
@@ -102,7 +104,7 @@ vector<Tags>* Mykytea::getAllTags(string str){
             }
             vec_tag.push_back( vec_tmp );
         }
-        struct Tags t = { util->showString(words[i].surf), vec_tag };
+        struct Tags t = { util->showString(words[i].surface), vec_tag };
         (*ret_words).push_back( t );
     }
     return ret_words;
@@ -110,7 +112,8 @@ vector<Tags>* Mykytea::getAllTags(string str){
 
 string Mykytea::getTagsToString(string str)
 {
-    KyteaSentence sentence(util->mapString(str));
+    KyteaString surface_string = util->mapString(str);
+    KyteaSentence sentence(surface_string, util->normalize(surface_string));
     kytea->calculateWS(sentence);
 
     for(int i = 0; i < config->getNumTags(); i++)
@@ -120,7 +123,7 @@ string Mykytea::getTagsToString(string str)
 
     string ret_str;
     for(int i = 0; i < (int)words.size(); i++) {
-        ret_str += util->showString(words[i].surf);
+        ret_str += util->showString(words[i].surface);
         for(int j = 0; j < (int)words[i].tags.size(); j++) {
             for(int k = 0; k < 1; k++) {
                 ret_str += "/";
