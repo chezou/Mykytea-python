@@ -27,6 +27,9 @@ To build Mykytea-python, run
 
     % swig -c++ -python -I/usr/local/include mykytea.i
 
+  (Or if you still fail on Max OS X, run with some variables)
+    % ARCHFLAGS="-arch x86_64" CC=gcc CXX=g++ make
+
 How to use?
 --------------------
 

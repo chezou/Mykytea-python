@@ -6,8 +6,9 @@
 #include <string>
 #include <map>
 
-#include "kytea/kytea.h"
-#include "kytea/kytea-struct.h"
+#include <kytea/kytea.h>
+#include <kytea/kytea-struct.h>
+#include <kytea/string-util.h>
 
 
 using namespace std;
