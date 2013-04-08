@@ -19,16 +19,18 @@ To build Mykytea-python, run
 
     % make
 
-  (If you want to install, run)
+If you want to install, run
 
     % sudo make install
 
-  (If you fail to make, please try to install SWIG and run)
+If you fail to make, please try to install SWIG and run
 
     % swig -c++ -python -I/usr/local/include mykytea.i
 
-  (Or if you still fail on Max OS X, run with some variables)
+Or if you still fail on Max OS X, run with some variables
     % ARCHFLAGS="-arch x86_64" CC=gcc CXX=g++ make
+
+If you compiled kytea with clang, you need ARCHFLAGS only.
 
 How to use?
 --------------------
