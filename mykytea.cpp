@@ -1,5 +1,6 @@
 // mykytea.cpp
 #include <iostream>
+#include <cstring>
 #include "mykytea.hpp"
 
 const int MAX_LEN = 256;
@@ -11,7 +12,7 @@ int split_argv(char* input, const char* configs[]){
   
   cp = input;
   for(len = 0; len < MAX_LEN; len++){
-    if((configs[len] = strtok(cp, delim)) == NULL )
+    if((configs[len] = std::strtok(cp, delim)) == NULL )
       break;
     cp = NULL;
   }
