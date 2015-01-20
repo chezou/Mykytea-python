@@ -9,33 +9,30 @@ int split_argv(char* input, const char* configs[]){
   int len;
   char *cp;
   const char *delim = " ";
-  
+
   cp = input;
+  configs[0] = "";
   for(len = 0; len < MAX_LEN; len++){
-    if((configs[len] = std::strtok(cp, delim)) == NULL )
+    if((configs[len + 1] = std::strtok(cp, delim)) == NULL )
       break;
     cp = NULL;
   }
-  return len;
+  return len + 1;
 }
 
 Mykytea::Mykytea(char* str)
 {
-  const char* configs[MAX_LEN];
+  const char* configs[MAX_LEN + 1];
   int len = split_argv(str, configs);
-  //cout << len << endl;
-  //for(int i = 0; i < len; i++)
-  // cout << configs[i] << endl;
-  
-  KyteaConfig* _config = new KyteaConfig();
-  _config->parseRunCommandLine(len, configs);
-  config = _config;
-  
-  Kytea* _kytea = new Kytea(_config);
-  _kytea->readModel(_config->getModelFile().c_str());
-  kytea = _kytea;
-  util = _kytea->getStringUtil();
-  
+
+  config = new KyteaConfig;
+  config->setDebug(0);
+  config->setOnTraining(false);
+  config->parseRunCommandLine(len, configs);
+
+  kytea = new Kytea(config);
+  kytea->readModel(config->getModelFile().c_str());
+  util = kytea->getStringUtil();
 }
 
 Mykytea::~Mykytea()
@@ -134,5 +131,4 @@ string Mykytea::getTagsToString(string str)
         ret_str += " ";
     }
     return ret_str;
-  
 }
