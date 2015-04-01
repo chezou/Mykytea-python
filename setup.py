@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
-from distutils.core import setup, Extension
+try:
+    from setuptools import setup, Extension
+except ImportError:
+    from distutils.core import setup, Extension
 
 ext_module = Extension('_Mykytea',
                        sources=['mykytea_wrap.cxx', 'mykytea.cpp'],

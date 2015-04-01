@@ -32,6 +32,13 @@ Or if you still fail on Max OS X, run with some variables
 
 If you compiled kytea with clang, you need ARCHFLAGS only.
 
+To create wheel
+--------------------
+
+To create whl archive, the setuptools and wheel are needed.
+
+   % python setup.py bdist_wheel
+
 How to use?
 --------------------
 
