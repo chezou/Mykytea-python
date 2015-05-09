@@ -7,10 +7,10 @@ const int MAX_LEN = 256;
 
 int split_argv(char* input, const char* configs[]){
   int len;
-  char *cp;
   const char *delim = " ";
 
-  cp = input;
+  char *cp = (char *)malloc(strlen(input) + 1);
+  strcpy(cp, input);
   configs[0] = "";
   for(len = 0; len < MAX_LEN; len++){
     if((configs[len + 1] = std::strtok(cp, delim)) == NULL )
