@@ -3,7 +3,7 @@ KyTea wrapper for python
 
 2011/07/15 chezou
 
-Mykytea-ruby is a ruby wrapper module for KyTea, a general text analysis toolkit.
+Mykytea-python is a python wrapper module for KyTea, a general text analysis toolkit.
 KyTea is developed by KyTea Development Team
 
 Detailed information of KyTea can be found at
