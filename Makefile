@@ -5,6 +5,9 @@ all:
 install:
 	python setup.py install
 
+test:
+	python mykytea_test.py
+
 .PHONY: clean
 clean:
 	find . -name "*.pyc" -delete
