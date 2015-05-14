@@ -14,6 +14,11 @@ Install Dependencies
 
 You need to install KyTea before build.
 
+To install Mykytea-python, run
+--------------------
+
+    % pip install kytea
+
 To build Mykytea-python, run
 --------------------
 
