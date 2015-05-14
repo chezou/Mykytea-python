@@ -6,8 +6,9 @@ except ImportError:
     from distutils.core import setup, Extension, find_packages
 
 ext_module = Extension('_Mykytea',
-                       sources=['lib/kytea/mykytea_wrap.cxx', 'lib/kytea/mykytea.cpp', 'lib/kytea/mykytea.hpp'],
+                       sources=['lib/kytea/mykytea_wrap.cxx', 'lib/kytea/mykytea.cpp'],
                        libraries=["kytea"],
+                       include_dirs=['lib/kytea']
                        )
 
 import os
