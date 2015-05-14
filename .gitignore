@@ -16,7 +16,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+#lib/
+lib/kytea/Mykytea.py
 lib64/
 parts/
 sdist/
