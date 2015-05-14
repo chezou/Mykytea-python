@@ -1,14 +1,22 @@
 #!/usr/bin/env python
 
 try:
-    from setuptools import setup, Extension
+    from setuptools import setup, Extension, find_packages
 except ImportError:
-    from distutils.core import setup, Extension
+    from distutils.core import setup, Extension, find_packages
 
 ext_module = Extension('_Mykytea',
                        sources=['lib/kytea/mykytea_wrap.cxx', 'lib/kytea/mykytea.cpp'],
                        libraries=["kytea"],
                        )
+
+import os
+import sys
+
+libdir = 'lib/kytea'
+
+import info
+import version
 
 setup(
       name='kytea',
@@ -20,5 +28,7 @@ setup(
       keywords = 'KyTea NLP',
       url = 'https://github.com/chezou/Mykytea-python',
       ext_modules=[ext_module],
-      py_modules=['lib/kytea/Mykytea'],
+      packages= find_packages(libdir),
+      package_dir={"": libdir},
+      py_modules=['Mykytea'],
       )
