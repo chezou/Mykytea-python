@@ -7,4 +7,6 @@ install:
 
 .PHONY: clean
 clean:
-	rm -f mykytea_wrap.cxx Mykytea.py _Mykytea.so
+	find . -name "*.pyc" -delete
+	rm -rf build
+	rm -rf dist
