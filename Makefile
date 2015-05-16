@@ -5,6 +5,11 @@ all:
 install:
 	python setup.py install
 
+test:
+	python mykytea_test.py
+
 .PHONY: clean
 clean:
-	rm -f mykytea_wrap.cxx Mykytea.py _Mykytea.so
+	find . -name "*.pyc" -delete
+	rm -rf build
+	rm -rf dist
