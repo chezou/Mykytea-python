@@ -47,7 +47,7 @@ To create whl archive, the setuptools and wheel are needed.
 How to use?
 --------------------
 
-  See 'mykytea_test.py' as a sample program.
+  See 'lib/test/mykytea_test.py' as a sample program.
 
 License
 --------------------
