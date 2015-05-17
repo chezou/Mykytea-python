@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <cstdlib>
 
 #include <kytea/kytea.h>
 #include <kytea/kytea-struct.h>
