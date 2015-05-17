@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import sys
-print sys.path
 
 import Mykytea
 
