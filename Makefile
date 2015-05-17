@@ -11,5 +11,7 @@ test:
 .PHONY: clean
 clean:
 	find . -name "*.pyc" -delete
+	find . -name "*.so" -delete
+	rm -f lib/kytea/Mykytea.py
 	rm -rf build
 	rm -rf dist
