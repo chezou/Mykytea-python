@@ -6,7 +6,7 @@ install:
 	python setup.py install
 
 test:
-	python mykytea_test.py
+	python ./lib/test/mykytea_test.py
 
 .PHONY: clean
 clean:
