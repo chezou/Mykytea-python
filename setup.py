@@ -15,6 +15,7 @@ import os
 import sys
 
 libdir = 'lib/kytea'
+sys.path.append('./lib/test')
 
 import info
 import version
@@ -32,4 +33,5 @@ setup(
       packages= find_packages(libdir),
       package_dir={"": libdir},
       py_modules=['Mykytea'],
+      test_suite= 'mykytea_test.suite'
       )

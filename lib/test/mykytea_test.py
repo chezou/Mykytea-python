@@ -114,6 +114,10 @@ class SimpleTest(unittest.TestCase):
                                      ('URL', float)],
                                     [('１９９９', float)]])])
 
+def suite():
+  suite = unittest.TestSuite()
+  suite.addTests(unittest.makeSuite(SimpleTest))
+  return suite
 
 if __name__ == '__main__':
     unittest.main()
