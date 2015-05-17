@@ -16,4 +16,4 @@ install:
   - sudo make install
 
 script:
-  - python ./lib/test/mykytea_test.py
+  - make test
