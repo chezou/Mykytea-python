@@ -1,7 +1,6 @@
 language: python
 
 python:
-  - "2.6"
   - "2.7"
 
 before_install:
@@ -12,6 +11,9 @@ before_install:
   - rm -r kytea-0.4.7
   - sudo ldconfig
 
+install:
+  - make
+  - sudo make install
+
 script:
-  - pip install .
-  - python setup.py test
+  - python ./lib/test/mykytea_test.py
