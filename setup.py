@@ -15,6 +15,7 @@ import os
 import sys
 
 libdir = 'lib/kytea'
+sys.path.append('./lib/kytea')
 sys.path.append('./lib/test')
 
 import info
