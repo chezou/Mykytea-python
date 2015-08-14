@@ -1,6 +1,7 @@
 // mykytea.cpp
 #include <iostream>
 #include <cstring>
+#include <cstdlib>
 #include "mykytea.hpp"
 
 const int MAX_LEN = 256;
