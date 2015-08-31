@@ -23,14 +23,14 @@ import version
 
 setup(
       name='kytea',
-      version='0.1.1',
+      version='0.1.2',
       author='Michiaki Ariga',
       author_email='chezou@gmail.com',
       description = ('An text analysis toolkit KyTea binding'),
       license = 'MIT',
       keywords = 'KyTea NLP',
       url = 'https://github.com/chezou/Mykytea-python',
-      download_url = 'https://github.com/chezou/Mykytea-python/tarball/0.1.1',
+      download_url = 'https://github.com/chezou/Mykytea-python/tarball/0.1.2',
       ext_modules=[ext_module],
       packages= find_packages(libdir),
       package_dir={"": libdir},
