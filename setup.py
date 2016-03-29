@@ -17,12 +17,11 @@ import sys
 libdir = 'lib/kytea'
 sys.path.append('./lib/kytea')
 sys.path.append('./lib/test')
-
-import version
+VERSION = "0.1.3"
 
 setup(
       name='kytea',
-      version='0.1.3',
+      version=VERSION,
       author='Michiaki Ariga',
       author_email='chezou@gmail.com',
       description = ('An text analysis toolkit KyTea binding'),
