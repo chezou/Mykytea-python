@@ -26,7 +26,7 @@ setup(
       author_email='chezou@gmail.com',
       description = ('An text analysis toolkit KyTea binding'),
       license = 'MIT License',
-      keywords = 'KyTea NLP',
+      keywords = ['KyTea', 'NLP', 'Japanese morphological analyzer'],
       url = 'https://github.com/chezou/Mykytea-python',
       download_url = 'https://github.com/chezou/Mykytea-python/tarball/0.1.3',
       classifier    = [
