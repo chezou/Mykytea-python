@@ -1,6 +1,9 @@
 KyTea wrapper for python
 ==========================
 
+[![Build Status](https://travis-ci.org/ibayer/fastFM.svg?branch=master)](https://travis-ci.org/ibayer/fastFM)
+
+
 Mykytea-python is a python wrapper module for KyTea, a general text analysis toolkit.
 KyTea is developed by KyTea Development Team
 
