@@ -12,8 +12,9 @@ if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     pyenv install $PYTHON
     export PYENV_VERSION=$PYTHON
     export PATH="/Users/travis/.pyenv/shims:${PATH}"
-    pyenv virtualenv venv
-    source "~/.pyenv/versions/${PYENV_VERSION}/envs/venv/bin/activate"
+    pip install virtualenv
+    virtualenv venv
+    source venv/bin/activate
     python --version
 fi
 wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz
