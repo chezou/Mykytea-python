@@ -1,16 +1,31 @@
 language: python
 
+os:
+  - linux
+  - osx
+
+compiler:
+  - gcc
+  - clang
+
+addons:
+  apt:
+    packages:
+      - swig
+
+sudo: required
+
 python:
   - "2.7"
   - "3.5"
 
 before_install:
-  - sudo apt-get install swig
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install swig; fi
   - wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz
   - tar zxf kytea-0.4.7.tar.gz
   - pushd kytea-0.4.7 && ./configure && make && sudo make install && popd
   - rm -r kytea-0.4.7
-  - sudo ldconfig
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo ldconfig; fi 
 
 install:
   - make
