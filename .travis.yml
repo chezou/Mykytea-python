@@ -1,16 +1,32 @@
 language: python
 
-python:
-  - "2.7"
-  - "3.5"
+matrix:
+  include:
+  - os: osx
+    language: generic
+    env: PYTHON="2.7.9"
+  - os: osx
+    language: generic
+    env: PYTHON="3.5.2"
+  - os: linux
+    sudo: required
+    python: 2.7
+  - os: linux
+    sudo: required
+    python: 3.5
+
+compiler:
+  - gcc
+  - clang
+
+addons:
+  apt:
+    packages:
+      - swig
+
 
 before_install:
-  - sudo apt-get install swig
-  - wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz
-  - tar zxf kytea-0.4.7.tar.gz
-  - pushd kytea-0.4.7 && ./configure && make && sudo make install && popd
-  - rm -r kytea-0.4.7
-  - sudo ldconfig
+  - bash ./.travis/install.sh
 
 install:
   - make
