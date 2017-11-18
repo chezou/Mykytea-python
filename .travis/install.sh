@@ -4,7 +4,8 @@ set -ex
 
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     brew update
-    brew outdated pyenv swig || brew upgrade pyenv swig
+    brew outdated pyenv || brew upgrade pyenv
+    brew outdated swig || brew upgrade swig
     brew install swig
     swig -version
     brew install pyenv-virtualenv
