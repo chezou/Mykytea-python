@@ -9,11 +9,12 @@ if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     brew install swig
     swig -version
     brew install pyenv-virtualenv
+    eval "$(pyenv virtualenv-init -)"
     pyenv install $PYTHON
     export PYENV_VERSION=$PYTHON
     export PATH="/Users/travis/.pyenv/shims:${PATH}"
     pyenv virtualenv venv
-    source venv/bin/activate
+    pyenv activate venv
     python --version
 fi
 wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz
