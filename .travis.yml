@@ -41,6 +41,7 @@ script:
     export PATH="/Users/travis/.pyenv/shims:${PATH}"
   fi
 - which pip
+- pip freeze
 - make test
 
 #before_deploy:

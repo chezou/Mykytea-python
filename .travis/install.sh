@@ -29,9 +29,7 @@ fi
 
 if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then sudo ldconfig; fi 
 
-if [[ "$DEPLOYABLE" = "true" ]] && [[ "$TRAVIS_OS_NAME" != "osx" ]]; then
-  :
-else
+if [ "$DEPLOYABLE" != "true" -o "$TRAVIS_OS_NAME" = "osx" ]; then
   make
   make install
 fi
