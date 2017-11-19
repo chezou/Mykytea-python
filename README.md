@@ -43,7 +43,7 @@ To create wheel
 
 To create whl archive, the setuptools and wheel are needed.
 
-   % python setup.py bdist_wheel
+    % python setup.py bdist_wheel
 
 How to use?
 --------------------

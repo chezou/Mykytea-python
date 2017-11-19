@@ -2,7 +2,7 @@
 
 set -ex
 
-if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
     brew update
     brew outdated pyenv || brew upgrade pyenv
     brew outdated swig || brew upgrade swig
@@ -19,6 +19,12 @@ if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
 fi
 wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz
 tar zxf kytea-0.4.7.tar.gz
-pushd kytea-0.4.7 && ./configure && make && sudo make install && popd
-rm -r kytea-0.4.7
-if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo ldconfig; fi 
+
+if [[ "$TRAVIS_OS_NAME" != "osx" -a "$DEPLOYABLE" = "true" ]]; then
+    :
+else
+    pushd kytea-0.4.7 && ./configure && make && sudo make install && popd
+    rm -r kytea-0.4.7
+fi
+
+if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then sudo ldconfig; fi 
