@@ -41,4 +41,4 @@ for PYBIN in /opt/python/*/bin; do
     (cd "$HOME"; "${PYBIN}/python" /io/lib/test/mykytea_test.py)
 done
 
-mv /io/wheelhous /io/dist
+mv /io/wheelhouse /io/dist
