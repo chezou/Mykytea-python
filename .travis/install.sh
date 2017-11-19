@@ -20,7 +20,7 @@ fi
 wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz
 tar zxf kytea-0.4.7.tar.gz
 
-if [[ "$TRAVIS_OS_NAME" != "osx" -a "$DEPLOYABLE" = "true" ]]; then
+if [[ "$TRAVIS_OS_NAME" != "osx" ]] && [[ "$DEPLOYABLE" = "true" ]]; then
     :
 else
     pushd kytea-0.4.7 && ./configure && make && sudo make install && popd
