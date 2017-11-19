@@ -31,22 +31,8 @@ addons:
     packages:
     - swig
 
-before_install:
-- bash ./.travis/install.sh
-
 install:
-- make
-- make install
-- |
-  if [[ "$DEPLOYABLE" == "true" ]]; then
-    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      python setup.py bdist_wheel
-      pip install dist/*.whl
-    else
-      docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_x86_64 /io/.travis/build-wheels.sh
-      docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_i686 linux32 /io/.travis/build-wheels.sh
-    fi
-  fi
+- ./.travis/install.sh
 
 script:
 - make test
