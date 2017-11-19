@@ -35,6 +35,11 @@ install:
 - ./.travis/install.sh
 
 script:
+- |
+  if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
+    export PYENV_VERSION=$PYTHON
+    export PATH="/Users/travis/.pyenv/shims:${PATH}"
+  fi
 - which pip
 - make test
 
