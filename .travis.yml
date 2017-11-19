@@ -4,33 +4,67 @@ matrix:
   include:
   - os: osx
     language: generic
-    env: PYTHON="2.7.9"
+    env: 
+      - PYTHON="2.7.9"
+      - DEPLOYABLE="true"
   - os: osx
     language: generic
-    env: PYTHON="3.5.2"
+    env:
+      - PYTHON="3.5.4"
+      - DEPLOYABLE="true"
+  - os: osx
+    language: generic
+    env:
+      - PYTHON="3.6.3"
+      - DEPLOYABLE="true"
   - os: linux
     sudo: required
     python: 2.7
   - os: linux
     sudo: required
     python: 3.5
+  - services: docker
+    sudo: required
+    env: DEPLOYABLE="true"
 
 compiler:
-  - gcc
-  - clang
+- gcc
+- clang
 
 addons:
   apt:
     packages:
-      - swig
-
-
-before_install:
-  - bash ./.travis/install.sh
+    - swig
 
 install:
-  - make
-  - make install
+- ./.travis/install.sh
 
 script:
-  - make test
+- |
+  if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
+    export PYENV_VERSION=$PYTHON
+    export PATH="/Users/travis/.pyenv/shims:${PATH}"
+    source venv/bin/activate
+  fi
+- which pip
+- pip freeze
+- |
+  if [ "$DEPLOYABLE" != "true" -o "$TRAVIS_OS_NAME" = "osx" ]; then
+    make test
+  fi
+
+#before_deploy:
+#- export RELEASE_PKG_FILE=$(ls dist/*.whl)
+#- echo "deploying $RELEASE_PKG_FILE to GitHub releases"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: ZsUf9DLLzSDROfwXJrqO5u1GqX2/duLGEtBYpO9SgHlgQieS8Ygs7OAj85OI6c8Wvdj+kDS2EgBs1ioGYR9XLTThPYfF4A8CBi2dNIikCsdsCIqVGSZRbrSMG1pVPOVSiqetAilKsReeWazKIET6dGbkPAXGnwGfXXzYFD+9W+M=
+  file_glob: true
+  file: dist/*.whl
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: chezou/Mykytea-python
+    condition: $DEPLOYABLE = true

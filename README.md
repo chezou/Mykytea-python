@@ -1,7 +1,7 @@
 KyTea wrapper for python
 ==========================
 
-[![Build Status](https://travis-ci.org/ibayer/fastFM.svg?branch=master)](https://travis-ci.org/ibayer/fastFM)
+[![Build Status](https://travis-ci.org/chezou/Mykytea-python.svg?branch=master)](https://travis-ci.org/chezou/Mykytea-python)
 
 
 Mykytea-python is a python wrapper module for KyTea, a general text analysis toolkit.
@@ -43,7 +43,7 @@ To create wheel
 
 To create whl archive, the setuptools and wheel are needed.
 
-   % python setup.py bdist_wheel
+    % python setup.py bdist_wheel
 
 How to use?
 --------------------
