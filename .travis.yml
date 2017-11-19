@@ -12,6 +12,11 @@ matrix:
     env:
       - PYTHON="3.5.4"
       - DEPLOYABLE="true"
+  - os: osx
+    language: generic
+    env:
+      - PYTHON="3.6.3"
+      - DEPLOYABLE="true"
   - os: linux
     sudo: required
     python: 2.7
