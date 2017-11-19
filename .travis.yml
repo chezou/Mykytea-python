@@ -32,7 +32,8 @@ addons:
     - swig
 
 before_install:
-- "./.travis/install.sh"
+- bash ./.travis/install.sh
+
 install:
 - make
 - make install
