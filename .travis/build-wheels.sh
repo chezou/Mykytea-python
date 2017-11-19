@@ -18,8 +18,7 @@ rm -rf /opt/python/cp33-cp33m
 #Make kytea
 cd /io/kytea-0.4.7
 autoreconf -i
-make distclean
-./configure && make && make install
+./configure && make distclean && make && make install
 ldconfig
 cd /io
 swig -Wall -c++ -python -shadow -I/usr/local/include /io/lib/kytea/mykytea.i
