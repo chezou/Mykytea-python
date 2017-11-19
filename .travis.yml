@@ -35,6 +35,7 @@ install:
 - ./.travis/install.sh
 
 script:
+- which pip
 - make test
 
 #before_deploy:
