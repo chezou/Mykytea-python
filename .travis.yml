@@ -39,6 +39,7 @@ script:
   if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
     export PYENV_VERSION=$PYTHON
     export PATH="/Users/travis/.pyenv/shims:${PATH}"
+    source venv/bin/activate
   fi
 - which pip
 - pip freeze
