@@ -42,7 +42,8 @@ install:
       python setup.py bdist_wheel
       pip install dist/*.whl
     else
-      ./.travis/build-wheels.sh
+      docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_x86_64 /io/.travis/build-wheels.sh
+      docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_i686 linux32 /io/.travis/build-wheels.sh
     fi
   fi
 
