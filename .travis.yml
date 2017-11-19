@@ -42,7 +42,10 @@ script:
   fi
 - which pip
 - pip freeze
-- make test
+- |
+  if [ "$DEPLOYABLE" != "true" -o "$TRAVIS_OS_NAME" = "osx" ]; then
+    make test
+  fi
 
 #before_deploy:
 #- export RELEASE_PKG_FILE=$(ls dist/*.whl)
