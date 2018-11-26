@@ -30,7 +30,7 @@ setup(
       keywords = ['KyTea', 'NLP', 'Japanese morphological analyzer'],
       url = 'https://github.com/chezou/Mykytea-python',
       download_url = 'https://github.com/chezou/Mykytea-python/tarball/0.1.3',
-      classifier    = [
+      classifiers    = [
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.5",
         "License :: OSI Approved :: MIT License",

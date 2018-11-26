@@ -6,7 +6,7 @@ platform:
 - Win32
 
 before_build:
-    - appveyor DownloadFile https://github.com/chezou/kytea/releases/download/0.4.7-2/kytea-win-%PLATFORM%.zip
+    - appveyor DownloadFile https://github.com/chezou/kytea/releases/download/0.4.7-3/kytea-win-%PLATFORM%.zip
     - 7z x kytea-win-%PLATFORM%.zip -okytea
     - cp -r kytea\include include
     - cp  kytea\lib\libkytea.lib lib\kytea\
