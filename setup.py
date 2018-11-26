@@ -1,18 +1,19 @@
 #!/usr/bin/env python
 
-try:
-    from setuptools import setup, Extension, find_packages
-except ImportError:
-    from distutils.core import setup, Extension, find_packages
+import os
+import sys
+from setuptools import setup, Extension, find_packages
+
+is_windows = os.name == 'nt'
+
+lib = ["libkytea"] if is_windows else ["kytea"]
 
 ext_module = Extension('_Mykytea',
                        sources=['lib/kytea/mykytea_wrap.cxx', 'lib/kytea/mykytea.cpp'],
-                       libraries=["kytea"],
-                       include_dirs=['lib/kytea']
+                       library_dirs=["lib/kytea"],
+                       libraries=lib,
+                       include_dirs=['lib/kytea', 'include']
                        )
-
-import os
-import sys
 
 libdir = 'lib/kytea'
 sys.path.append('./lib/kytea')
