@@ -1,0 +1,30 @@
+image: Visual Studio 2015
+configuration: Release
+
+platform:
+- x64
+- Win32
+
+before_build:
+    - appveyor DownloadFile https://github.com/chezou/kytea/releases/download/0.4.7-2/kytea-win-%PLATFORM%.zip
+    - 7z x kytea-win-%PLATFORM%.zip -okytea
+    - cp -r kytea\include include
+    - cp  kytea\lib\libkytea.lib lib\kytea\
+
+build_script:
+    - call .\.travis\build.bat
+
+artifacts:
+  - path: 'dist\*.whl'
+    name: kytea-win
+
+deploy:
+  description: 'Mykyte Python release'
+  provider: GitHub
+  auth_token:
+    secure: 16F0uhorK8dShV8V1/oHN1+APQ0fsB4nJRbVVNjsmkX+wG96Gm2Yh+qKp7vl+qVZ
+  artifact: kytea-win
+  draft: false
+  prerelease: false
+  on:
+    appveyor_repo_tag: true
