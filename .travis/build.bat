@@ -1,7 +1,6 @@
 set PLATFORM_PREFIX=
 if "%PLATFORM%"=="x64" set PLATFORM_PREFIX=-x64
 
-call :BuildPython C:\Python27%PLATFORM_PREFIX%
 call :BuildPython C:\Python35%PLATFORM_PREFIX%
 call :BuildPython C:\Python36%PLATFORM_PREFIX%
 call :BuildPython C:\Python37%PLATFORM_PREFIX%
