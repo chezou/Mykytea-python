@@ -18,7 +18,7 @@ ext_module = Extension('_Mykytea',
 libdir = 'lib/kytea'
 sys.path.append('./lib/kytea')
 sys.path.append('./lib/test')
-VERSION = "0.1.3"
+VERSION = "0.1.4"
 
 setup(
       name='kytea',
@@ -29,7 +29,7 @@ setup(
       license = 'MIT License',
       keywords = ['KyTea', 'NLP', 'Japanese morphological analyzer'],
       url = 'https://github.com/chezou/Mykytea-python',
-      download_url = 'https://github.com/chezou/Mykytea-python/tarball/0.1.3',
+      download_url = 'https://github.com/chezou/Mykytea-python/tarball/{}'.format(VERSION),
       classifiers    = [
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.5",
