@@ -12,7 +12,7 @@ before_build:
     - cp  kytea\lib\libkytea.lib lib\kytea\
 
 build_script:
-    - call .\.travis\build.bat
+    - call .\ci\build.bat
 
 artifacts:
   - path: 'dist\*.whl'

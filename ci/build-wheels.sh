@@ -10,11 +10,6 @@ tar xzf swig-3.0.12.tar.gz
 pushd swig-3.0.12 && ./configure --prefix=/usr && make  && make install && popd
 swig -version
 
-# Remove old Python
-rm -rf /opt/python/cpython-2.6.9-ucs2
-rm -rf /opt/python/cpython-2.6.9-ucs4
-rm -rf /opt/python/cp33-cp33m
-
 #Make kytea
 cd /io/kytea-0.4.7
 autoreconf -i
@@ -26,7 +21,6 @@ cd /
 
 #Compile wheels
 for PYBIN in /opt/python/*/bin; do
-    #"${PYBIN}/pip" install -r /io/requirements.txt   
     "${PYBIN}/pip" wheel /io/ -w wheelhouse/
 done
 

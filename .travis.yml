@@ -37,7 +37,7 @@ addons:
     - swig
 
 install:
-- ./.travis/install.sh
+- ./ci/install.sh
 
 script:
 - |
