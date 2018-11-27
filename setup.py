@@ -26,6 +26,8 @@ setup(
       author='Michiaki Ariga',
       author_email='chezou@gmail.com',
       description = ('An text analysis toolkit KyTea binding'),
+      long_description=open('README.md').read(),
+      long_description_content_type="text/markdown",
       license = 'MIT License',
       keywords = ['KyTea', 'NLP', 'Japanese morphological analyzer'],
       url = 'https://github.com/chezou/Mykytea-python',
