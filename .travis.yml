@@ -4,18 +4,23 @@ matrix:
   include:
   - os: osx
     language: generic
-    env: 
-      - PYTHON="2.7.9"
+    env:
+      - PYTHON="2.7.15"
       - DEPLOYABLE="true"
   - os: osx
     language: generic
     env:
-      - PYTHON="3.5.4"
+      - PYTHON="3.5.6"
       - DEPLOYABLE="true"
   - os: osx
     language: generic
     env:
-      - PYTHON="3.6.3"
+      - PYTHON="3.6.7"
+      - DEPLOYABLE="true"
+  - os: osx
+    language: generic
+    env:
+      - PYTHON="3.7.1"
       - DEPLOYABLE="true"
   - os: linux
     sudo: required
@@ -37,7 +42,7 @@ addons:
     - swig
 
 install:
-- ./.travis/install.sh
+- ./ci/install.sh
 
 script:
 - |

@@ -27,7 +27,7 @@ else
   rm -r kytea-0.4.7
 fi
 
-if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then sudo ldconfig; fi 
+if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then sudo ldconfig; fi
 
 if [ "$DEPLOYABLE" != "true" -o "$TRAVIS_OS_NAME" = "osx" ]; then
   make
@@ -39,7 +39,7 @@ if [[ "$DEPLOYABLE" = "true" ]]; then
     python setup.py bdist_wheel
     pip install dist/*.whl
   else
-    docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_x86_64 /io/.travis/build-wheels.sh
-    docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_i686 linux32 /io/.travis/build-wheels.sh
+    docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_x86_64 /io/ci/build-wheels.sh
+    docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_i686 linux32 /io/ci/build-wheels.sh
   fi
 fi
