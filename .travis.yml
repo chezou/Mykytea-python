@@ -20,7 +20,7 @@ matrix:
   - os: osx
     language: generic
     env:
-      - PYTHON="3.8.2"
+      - PYTHON="3.8.1"
       - DEPLOYABLE="true"
   - os: linux
     sudo: required
