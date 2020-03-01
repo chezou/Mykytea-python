@@ -16,7 +16,7 @@ swig -version
 
 #Make kytea
 cd /tmp
-wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz
+curl --location-trusted --remote-name http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz -o kytea-0.4.7.tar.gz
 tar zxf kytea-0.4.7.tar.gz
 cd /tmp/kytea-0.4.7
 autoreconf -i
