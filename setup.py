@@ -25,22 +25,24 @@ setup(
       version=VERSION,
       author='Michiaki Ariga',
       author_email='chezou@gmail.com',
-      description = ('An text analysis toolkit KyTea binding'),
+      description=('An text analysis toolkit KyTea binding'),
       long_description=open('README.md').read(),
       long_description_content_type="text/markdown",
-      license = 'MIT License',
-      keywords = ['KyTea', 'NLP', 'Japanese morphological analyzer'],
-      url = 'https://github.com/chezou/Mykytea-python',
-      download_url = 'https://github.com/chezou/Mykytea-python/tarball/{}'.format(VERSION),
-      classifiers    = [
-        "Programming Language :: Python :: 2.7",
+      license='MIT License',
+      keywords=['KyTea', 'NLP', 'Japanese morphological analyzer'],
+      url='https://github.com/chezou/Mykytea-python',
+      download_url='https://github.com/chezou/Mykytea-python/tarball/{}'.format(VERSION),
+      classifiers=[
         "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "License :: OSI Approved :: MIT License",
         "Topic :: Text Processing :: Linguistic",
       ],
       ext_modules=[ext_module],
-      packages= find_packages(libdir),
+      packages=find_packages(libdir),
       package_dir={"": libdir},
       py_modules=['Mykytea'],
-      test_suite= 'mykytea_test.suite'
+      test_suite='mykytea_test.suite'
       )
