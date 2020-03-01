@@ -39,7 +39,7 @@ if [[ "$DEPLOYABLE" = "true" ]]; then
     python setup.py bdist_wheel
     pip install dist/*.whl
   else
-    docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_x86_64 /io/ci/build-wheels.sh
-    docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_i686 linux32 /io/ci/build-wheels.sh
+    docker run --rm -v `pwd`:/io quay.io/pypa/manylinux2010_x86_64 /io/ci/build-wheels.sh
+    docker run --rm -v `pwd`:/io quay.io/pypa/manylinux2010_i686 /io/ci/build-wheels.sh
   fi
 fi

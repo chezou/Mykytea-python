@@ -5,9 +5,10 @@ set -e -x
 yum -y update && yum -y install libtool pcre-devel curl make autoconf
 
 # Install swig
-curl --location-trusted --remote-name https://downloads.sourceforge.net/project/swig/swig/swig-3.0.12/swig-3.0.12.tar.gz -o swig-3.0.12.tar.gz
-tar xzf swig-3.0.12.tar.gz
-pushd swig-3.0.12 && ./configure --prefix=/usr && make  && make install && popd
+SWIG_VER=4.0.1
+curl --location-trusted --remote-name https://downloads.sourceforge.net/project/swig/swig/swig-${SWIG_VER}/swig-${SWIG_VER}.tar.gz -o swig-${SWIG_VER}.tar.gz
+tar xzf swig-${SWIG_VER}.tar.gz
+pushd swig-${SWIG_VER} && ./configure --prefix=/usr && make  && make install && popd
 swig -version
 
 #Make kytea
