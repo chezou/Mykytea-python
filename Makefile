@@ -1,5 +1,5 @@
 all:
-	swig -Wall -c++ -python -shadow -c++ -I/usr/local/include lib/kytea/mykytea.i
+	swig -Wall -c++ -python -shadow -I/usr/local/include lib/kytea/mykytea.i
 	python setup.py build_ext --inplace
 
 install:
