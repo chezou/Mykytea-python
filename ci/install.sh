@@ -17,12 +17,12 @@ if [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
   source venv/bin/activate
   python --version
 fi
-wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz
-tar zxf kytea-0.4.7.tar.gz
 
 if [[ "$TRAVIS_OS_NAME" != "osx" ]] && [[ "$DEPLOYABLE" = "true" ]]; then
   :
 else
+  wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz
+  tar zxf kytea-0.4.7.tar.gz
   pushd kytea-0.4.7 && ./configure && make && sudo make install && popd
   rm -r kytea-0.4.7
 fi
@@ -40,6 +40,5 @@ if [[ "$DEPLOYABLE" = "true" ]]; then
     pip install dist/*.whl
   else
     docker run --rm -v `pwd`:/io quay.io/pypa/manylinux2010_x86_64 /io/ci/build-wheels.sh
-    docker run --rm -v `pwd`:/io quay.io/pypa/manylinux2010_i686 /io/ci/build-wheels.sh
   fi
 fi

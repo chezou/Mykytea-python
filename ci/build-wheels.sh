@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e -x
 
+# Remove Python 2.7
+rm -rf /opt/python/cp27*/
+
 # Install any system packages required here
 yum -y update && yum -y install libtool pcre-devel curl make autoconf
 
@@ -12,9 +15,12 @@ pushd swig-${SWIG_VER} && ./configure --prefix=/usr && make  && make install && 
 swig -version
 
 #Make kytea
-cd /io/kytea-0.4.7
+cd /tmp
+wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz
+tar zxf kytea-0.4.7.tar.gz
+cd /tmp/kytea-0.4.7
 autoreconf -i
-./configure && make clean && make && make install
+./configure && make && make install
 ldconfig
 cd /io
 swig -Wall -c++ -python -shadow -I/usr/local/include /io/lib/kytea/mykytea.i
