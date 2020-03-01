@@ -5,29 +5,26 @@ matrix:
   - os: osx
     language: generic
     env:
-      - PYTHON="2.7.15"
+      - PYTHON="3.5.8"
       - DEPLOYABLE="true"
   - os: osx
     language: generic
     env:
-      - PYTHON="3.5.6"
+      - PYTHON="3.6.10"
       - DEPLOYABLE="true"
   - os: osx
     language: generic
     env:
-      - PYTHON="3.6.7"
+      - PYTHON="3.7.6"
       - DEPLOYABLE="true"
   - os: osx
     language: generic
     env:
-      - PYTHON="3.7.1"
+      - PYTHON="3.8.2"
       - DEPLOYABLE="true"
   - os: linux
     sudo: required
-    python: 2.7
-  - os: linux
-    sudo: required
-    python: 3.5
+    python: 3.8
   - services: docker
     sudo: required
     env: DEPLOYABLE="true"
