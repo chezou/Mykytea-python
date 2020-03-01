@@ -60,13 +60,13 @@ script:
 #- echo "deploying $RELEASE_PKG_FILE to GitHub releases"
 
 deploy:
-  provider: releases
-  api_key:
-    secure: ZsUf9DLLzSDROfwXJrqO5u1GqX2/duLGEtBYpO9SgHlgQieS8Ygs7OAj85OI6c8Wvdj+kDS2EgBs1ioGYR9XLTThPYfF4A8CBi2dNIikCsdsCIqVGSZRbrSMG1pVPOVSiqetAilKsReeWazKIET6dGbkPAXGnwGfXXzYFD+9W+M=
+  provider: pypi
+  user: $PYPI_USER
+  password: $PYPI_TOKEN
   file_glob: true
   file: dist/*.whl
   skip_cleanup: true
+  skip_existing: true
   on:
     tags: true
-    repo: chezou/Mykytea-python
     condition: $DEPLOYABLE = true

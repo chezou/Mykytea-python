@@ -8,7 +8,7 @@ call :BuildPython C:\Python38%PLATFORM_PREFIX%
 exit
 
 :BuildPython
-%1\python -m pip install wheel || goto :error
+%1\python -m pip install -U wheel setuptools || goto :error
 %1\python setup.py bdist_wheel || goto :error
 rmdir /Q /S build
 exit /b

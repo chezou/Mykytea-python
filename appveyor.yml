@@ -1,6 +1,12 @@
 image: Visual Studio 2015
 configuration: Release
 
+environment:
+  PYPI_USER:
+    secure: 51yLKbqfXovqhV089twFAA==
+  PYPI_PASS:
+    secure: yYfy7feFy3c1kXFGCWnZlSV59DMe+4TT2Ko2Knzgd62/aV6QZfIkto6SdclcNIjtS+7KDWSur1MaxZIW5yStKKhIEoWHpYhbt7pfYnfIvvHhTl1doDCQzsZPmmR0j6mBNe6ml3uHPb8RyhoGDYnOYvfBHPG6MKFe1Qij2EGQ2/y7J/wZ1a9jk6blYaSoBi1jDgZRS84epK2S6wJZa3lPYgNDrukAcxv/O4WIuJJvvsIomzB8paMU4L3Zy4rUxhz9ybVep5Kd4PYxW9SJX5RSZg==
+
 platform:
 - x64
 - Win32
@@ -18,13 +24,12 @@ artifacts:
   - path: 'dist\*.whl'
     name: kytea-win
 
-deploy:
-  description: 'Mykyte Python release'
-  provider: GitHub
-  auth_token:
-    secure: 16F0uhorK8dShV8V1/oHN1+APQ0fsB4nJRbVVNjsmkX+wG96Gm2Yh+qKp7vl+qVZ
-  artifact: kytea-win
-  draft: false
-  prerelease: false
-  on:
-    appveyor_repo_tag: true
+deploy_script:
+  - ps: |
+      if($env:APPVEYOR_REPO_TAG -eq 'true') {
+        Write-Output ("Deploying " + $env:APPVEYOR_REPO_TAG_NAME + " to PyPI...")
+        py -3 -m pip install twine
+        py -3 -m twine upload -u ${Env:PYPI_USER} -p ${Env:PYPI_PASS} --skip-existing dist/*.whl
+      } else {
+        Write-Output "No tag for deployment"
+      }
