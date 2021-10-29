@@ -30,6 +30,10 @@ jobs:
         if: runner.os == 'Linux'
         run: apt install automake libtool
       
+      - name: Prepare for macOS
+        if: runner.os == 'macOS'
+        run: brew install autoconf automake libtool
+      
       - name: Prepare kytea for windows
         if: runner.os == 'Windows'
         run: |
