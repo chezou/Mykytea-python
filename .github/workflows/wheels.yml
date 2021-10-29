@@ -33,7 +33,7 @@ jobs:
       - name: Prepare kytea for windows
         if: runner.os == 'Windows'
         run: |
-          appveyor DownloadFile https://github.com/chezou/kytea/releases/download/0.4.7-3/kytea-win-x64.zip
+          Invoke-WebRequest -OutFile kytea-win-x64.zip https://github.com/chezou/kytea/releases/download/0.4.7-3/kytea-win-x64.zip
           7z x kytea-win-x64.zip -okytea
           cp -r kytea\include include
           cp  kytea\lib\libkytea.lib lib\kytea\
