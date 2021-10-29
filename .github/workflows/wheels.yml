@@ -26,6 +26,10 @@ jobs:
         with:
           python-version: '3.9'
       
+      - name: Prepare for Linux
+        if: runner.os == 'Linux'
+        run: apt install automake libtool
+      
       - name: Prepare kytea for windows
         if: runner.os == 'Windows'
         run: |
