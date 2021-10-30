@@ -16,8 +16,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        #os: [ubuntu-latest, windows-latest, macos-latest]
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - uses: actions/checkout@v2
@@ -27,20 +26,11 @@ jobs:
         with:
           python-version: '3.9'
 
-      
-      #- name: Prepare kytea for windows
-      #  if: runner.os == 'Windows'
-      #  run: |
-      #    Invoke-WebRequest -OutFile kytea-win-x64.zip https://github.com/chezou/kytea/releases/download/0.4.7-3/kytea-win-x64.zip
-      #    7z x kytea-win-x64.zip -okytea
-      #    cp -r kytea\include include
-      #    cp  kytea\lib\libkytea.lib lib\kytea\
-
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.2.2
         env:
           CIBW_SKIP: "cp36-* *-musllinux* *-i686*"
-          CIBW_BEFORE_BUILD_LINUX: >
+          CIBW_BEFORE_ALL_LINUX: >
             yum install -y wget &&
             wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz &&
             tar zxf kytea-0.4.7.tar.gz &&
@@ -51,7 +41,7 @@ jobs:
             popd &&
             rm -r kytea-0.4.7 &&
             swig -Wall -c++ -python -shadow -I/usr/local/include lib/kytea/mykytea.i
-          CIBW_BEFORE_BUILD_MACOS: >
+          CIBW_BEFORE_ALL_MACOS: >
             brew install autoconf automake libtool &&
             wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz &&
             tar zxf kytea-0.4.7.tar.gz &&
@@ -61,6 +51,11 @@ jobs:
             popd &&
             rm -r kytea-0.4.7 &&
             swig -Wall -c++ -python -shadow -I/usr/local/include lib/kytea/mykytea.i
+          CIBW_BEFORE_ALL_WINDOWS: >
+            Invoke-WebRequest -OutFile kytea-win-x64.zip https://github.com/chezou/kytea/releases/download/0.4.7-3/kytea-win-x64.zip
+            7z x kytea-win-x64.zip -okytea
+            cp -r kytea\include include
+            cp  kytea\lib\libkytea.lib lib\kytea\
 
       - uses: actions/upload-artifact@v2
         with:
