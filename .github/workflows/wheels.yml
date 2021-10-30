@@ -52,9 +52,9 @@ jobs:
             rm -r kytea-0.4.7 &&
             swig -Wall -c++ -python -shadow -I/usr/local/include lib/kytea/mykytea.i
           CIBW_BEFORE_ALL_WINDOWS: >
-            Invoke-WebRequest -OutFile kytea-win-x64.zip https://github.com/chezou/kytea/releases/download/0.4.7-3/kytea-win-x64.zip
-            7z x kytea-win-x64.zip -okytea
-            cp -r kytea\include include
+            Invoke-WebRequest -OutFile kytea-win-x64.zip https://github.com/chezou/kytea/releases/download/0.4.7-3/kytea-win-x64.zip &&
+            7z x kytea-win-x64.zip -okytea &&
+            cp -r kytea\include include &&
             cp  kytea\lib\libkytea.lib lib\kytea\
 
       - uses: actions/upload-artifact@v2
