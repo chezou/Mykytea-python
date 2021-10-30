@@ -26,10 +26,7 @@ jobs:
         name: Install Python
         with:
           python-version: '3.9'
-      
-      - name: Prepare for macOS
-        if: runner.os == 'macOS'
-        run: brew install autoconf automake libtool
+
       
       #- name: Prepare kytea for windows
       #  if: runner.os == 'Windows'
@@ -43,6 +40,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.2.2
         env:
           CIBW_BEFORE_BUILD_LINUX: >
+            yum install -y wget &&
             wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz &&
             tar zxf kytea-0.4.7.tar.gz &&
             pushd kytea-0.4.7 &&
@@ -53,6 +51,7 @@ jobs:
             rm -r kytea-0.4.7 &&
             swig -Wall -c++ -python -shadow -I/usr/local/include lib/kytea/mykytea.i
           CIBW_BEFORE_BUILD_MACOS: >
+            brew install autoconf automake libtool &&
             wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz &&
             tar zxf kytea-0.4.7.tar.gz &&
             pushd kytea-0.4.7 &&
