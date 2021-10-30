@@ -33,10 +33,10 @@ setup(
       url='https://github.com/chezou/Mykytea-python',
       download_url='https://github.com/chezou/Mykytea-python/tarball/{}'.format(VERSION),
       classifiers=[
-        "Programming Language :: Python :: 3.5",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "License :: OSI Approved :: MIT License",
         "Topic :: Text Processing :: Linguistic",
       ],
