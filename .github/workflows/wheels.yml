@@ -45,8 +45,8 @@ jobs:
             tar zxf kytea-0.4.7.tar.gz &&
             pushd kytea-0.4.7 &&
             autoreconf -i &&
-            ./configure && make && sudo make install &&
-            sudo ldconfig &&
+            ./configure && make && make install &&
+            ldconfig &&
             popd &&
             rm -r kytea-0.4.7 &&
             swig -Wall -c++ -python -shadow -I/usr/local/include lib/kytea/mykytea.i
@@ -56,7 +56,7 @@ jobs:
             tar zxf kytea-0.4.7.tar.gz &&
             pushd kytea-0.4.7 &&
             autoreconf -i &&
-            ./configure && make && sudo make install &&
+            ./configure && make && make install &&
             popd &&
             rm -r kytea-0.4.7 &&
             swig -Wall -c++ -python -shadow -I/usr/local/include lib/kytea/mykytea.i
