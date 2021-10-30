@@ -1,10 +1,7 @@
 KyTea wrapper for python
 ==========================
 
-[![Build Status](https://travis-ci.org/chezou/Mykytea-python.svg?branch=master)](https://travis-ci.org/chezou/Mykytea-python)
-[![Build status](https://ci.appveyor.com/api/projects/status/otgycewpbknsaq9r/branch/master?svg=true)](https://ci.appveyor.com/project/chezou/mykytea-python/branch/master)
 [![Patreon](https://img.shields.io/badge/patreon-donate-orange.svg)](https://www.patreon.com/chezou)
-
 
 Mykytea-python is a python wrapper module for KyTea, a general text analysis toolkit.
 KyTea is developed by KyTea Development Team
