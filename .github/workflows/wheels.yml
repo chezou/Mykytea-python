@@ -106,6 +106,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.3.1
         env:
           CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}
+          CIBW_ARCHS: all
           CIBW_BEFORE_ALL_LINUX: >
             yum install -y wget &&
             wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz &&
