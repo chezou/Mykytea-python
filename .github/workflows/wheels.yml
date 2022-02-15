@@ -103,7 +103,7 @@ jobs:
           cp  kytea\lib\libkytea.lib lib\kytea\
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.2.2
+        uses: pypa/cibuildwheel@v2.3.1
         env:
           CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}
           CIBW_BEFORE_ALL_LINUX: >
