@@ -18,7 +18,7 @@ ext_module = Extension('_Mykytea',
 libdir = 'lib/kytea'
 sys.path.append('./lib/kytea')
 sys.path.append('./lib/test')
-VERSION = "0.1.6"
+VERSION = "0.1.7"
 
 setup(
       name='kytea',
