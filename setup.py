@@ -28,9 +28,17 @@ sys.path.append('./lib/kytea')
 sys.path.append('./lib/test')
 VERSION = "0.1.7"
 
+
+def get_package_version():
+    if 'MYKYTEA_PYTHON_LOCAL_VERSION' in os.environ:
+        return VERSION + "+" + os.environ['MYKYTEA_PYTHON_LOCAL_VERSION']
+    else:
+        return VERSION
+
+
 setup(
       name='kytea',
-      version=VERSION,
+      version=get_package_version(),
       author='Michiaki Ariga',
       author_email='chezou@gmail.com',
       description=('An text analysis toolkit KyTea binding'),
