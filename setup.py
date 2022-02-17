@@ -29,8 +29,7 @@ sys.path.append("./lib/kytea")
 sys.path.append("./lib/test")
 
 setup_args = dict(
-    ext_modules = [ext_module],
-    packages = find_packages(libdir),
+    ext_modules=[ext_module],
     packages=find_packages(libdir),
     package_dir={"": libdir},
     py_modules=["Mykytea"],
