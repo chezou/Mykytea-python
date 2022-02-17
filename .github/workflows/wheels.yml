@@ -128,6 +128,7 @@ jobs:
             popd &&
             rm -r kytea-0.4.7 &&
             swig -Wall -c++ -python -shadow -I/usr/local/include lib/kytea/mykytea.i
+          CIBW_BEFORE_BUILD: python -m pip install -U pip && pip install setuptools_scm
 
       - uses: actions/upload-artifact@v2
         with:
