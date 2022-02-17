@@ -8,11 +8,19 @@ is_windows = os.name == 'nt'
 
 lib = ["libkytea"] if is_windows else ["kytea"]
 
+include_dirs = ['lib/kytea', 'include']
+library_dirs = ["lib/kytea"]
+
+kytea_dir = os.environ.get("KYTEA_DIR")
+if kytea_dir:
+    include_dirs.append(os.path.join(kytea_dir, "include"))
+    library_dirs.append(os.path.join(kytea_dir, "lib"))
+
 ext_module = Extension('_Mykytea',
                        sources=['lib/kytea/mykytea_wrap.cxx', 'lib/kytea/mykytea.cpp'],
-                       library_dirs=["lib/kytea"],
+                       library_dirs=library_dirs,
                        libraries=lib,
-                       include_dirs=['lib/kytea', 'include']
+                       include_dirs=include_dirs
                        )
 
 libdir = 'lib/kytea'

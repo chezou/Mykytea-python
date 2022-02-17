@@ -1,5 +1,11 @@
+ifneq ($(KYTEA_DIR),)
+  include_dir = $(KYTEA_DIR)/include
+else
+  include_dir = /usr/local/include
+endif
+
 all:
-	swig -Wall -c++ -python -shadow -I/usr/local/include lib/kytea/mykytea.i
+	swig -Wall -c++ -python -shadow -I$(include_dir) lib/kytea/mykytea.i
 	python setup.py build_ext --inplace
 
 install:
