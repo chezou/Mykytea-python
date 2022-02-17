@@ -1,0 +1,5 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+# pyproject.toml
+[tool.setuptools_scm]
+write_to = "lib/kytea/_version.py"
