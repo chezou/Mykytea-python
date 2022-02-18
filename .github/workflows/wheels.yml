@@ -72,20 +72,6 @@ jobs:
             python: 310
             platform_id: macosx_x86_64
 
-          # MacOS arm64
-          - os: macos-latest
-            bitness: 64
-            python: 38
-            platform_id: macosx_arm64
-          - os: macos-latest
-            bitness: 64
-            python: 39
-            platform_id: macosx_arm64
-          - os: macos-latest
-            bitness: 64
-            python: 310
-            platform_id: macosx_arm64
-
     steps:
       - uses: actions/checkout@v2
       - name: Get history and tags for SCM versioning to work
