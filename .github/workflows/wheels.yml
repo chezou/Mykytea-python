@@ -123,15 +123,8 @@ jobs:
             rm -r kytea-0.4.7 &&
             swig -Wall -c++ -python -shadow -I/usr/local/include lib/kytea/mykytea.i
           CIBW_BEFORE_ALL_MACOS: >
-            brew install autoconf automake libtool &&
-            wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz &&
-            tar zxf kytea-0.4.7.tar.gz &&
-            pushd kytea-0.4.7 &&
-            autoreconf -i &&
-            ./configure && make && make install &&
-            popd &&
-            rm -r kytea-0.4.7 &&
-            swig -Wall -c++ -python -shadow -I/usr/local/include lib/kytea/mykytea.i
+            brew install kytea &&
+            swig -Wall -c++ -python -shadow -I/$(brew --prefix)/include lib/kytea/mykytea.i
 
       - uses: actions/upload-artifact@v2
         with:
