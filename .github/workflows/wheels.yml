@@ -16,19 +16,19 @@ jobs:
       matrix:
         include:
           # Windows
-          - os: windows-2016
+          - os: windows-2019
             python: 37
             bitness: 64
             platform_id: win_amd64
-          - os: windows-2016
+          - os: windows-2019
             python: 38
             bitness: 64
             platform_id: win_amd64
-          - os: windows-2016
+          - os: windows-2019
             python: 39
             bitness: 64
             platform_id: win_amd64
-          - os: windows-2016
+          - os: windows-2019
             python: 310
             bitness: 64
             platform_id: win_amd64
