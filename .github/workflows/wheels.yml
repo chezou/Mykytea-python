@@ -84,6 +84,9 @@ jobs:
         with:
           python-version: '3.9'
 
+      - name: Install cibuildwheel
+        run: pip install cibuildwheel==2.16.2
+
       - name: Prepare for Windows
         if: runner.os == 'Windows'
         run: |
@@ -93,10 +96,13 @@ jobs:
           cp  kytea\lib\libkytea.lib lib\kytea\
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.3.1
         env:
           CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}
           CIBW_ARCHS: all
+          CIBW_BUILD_VERBOSITY: 3
+          CIBW_REPAIR_WHEEL_COMMAND_MACOS: >
+            delocate-listdeps {wheel} &&
+            delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
           CIBW_BEFORE_ALL_LINUX: >
             yum install -y wget &&
             wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz &&
@@ -109,15 +115,9 @@ jobs:
             rm -r kytea-0.4.7 &&
             swig -Wall -c++ -python -shadow -I/usr/local/include lib/kytea/mykytea.i
           CIBW_BEFORE_ALL_MACOS: >
-            brew install autoconf automake libtool &&
-            wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz &&
-            tar zxf kytea-0.4.7.tar.gz &&
-            pushd kytea-0.4.7 &&
-            autoreconf -i &&
-            ./configure && make && make install &&
-            popd &&
-            rm -r kytea-0.4.7 &&
-            swig -Wall -c++ -python -shadow -I/usr/local/include lib/kytea/mykytea.i
+            brew install kytea &&
+            swig -Wall -c++ -python -shadow -I$(brew --prefix)/include lib/kytea/mykytea.i
+        run: python -m cibuildwheel --output-dir wheelhouse
 
       - uses: actions/upload-artifact@v4
         with:
