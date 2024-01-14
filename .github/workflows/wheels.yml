@@ -2,14 +2,13 @@ name: Build and upload to PyPI
 
 on:
   push:
-  pull_request:
   release:
     types:
       - published
 
 jobs:
   build_wheels:
-    name: Build wheels for cp${{ matrix.python }}-${{ matrix.platform_id }}-${{ matrix.manylinux_image }}
+    name: Build wheels for cp${{ matrix.python }}-${{ matrix.platform_id }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -85,6 +84,24 @@ jobs:
             python: 312
             platform_id: macosx_x86_64
 
+          # macOS arm64
+          - os: macos-latest
+            bitness: 64
+            python: 39
+            platform_id: macosx_arm64
+          - os: macos-latest
+            bitness: 64
+            python: 310
+            platform_id: macosx_arm64
+          - os: macos-latest
+            bitness: 64
+            python: 311
+            platform_id: macosx_arm64
+          - os: macos-latest
+            bitness: 64
+            python: 312
+            platform_id: macosx_arm64
+
     steps:
       - uses: actions/checkout@v4
       - name: Get history and tags for SCM versioning to work
@@ -109,13 +126,11 @@ jobs:
           cp  kytea\lib\libkytea.lib lib\kytea\
 
       - name: Build wheels
+        if: runner.os != 'macOS'
         env:
           CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}
           CIBW_ARCHS: all
           CIBW_BUILD_VERBOSITY: 3
-          CIBW_REPAIR_WHEEL_COMMAND_MACOS: >
-            delocate-listdeps {wheel} &&
-            delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
           CIBW_BEFORE_ALL_LINUX: >
             yum install -y wget &&
             wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz &&
@@ -131,6 +146,16 @@ jobs:
             brew install kytea &&
             swig -Wall -c++ -python -shadow -I$(brew --prefix)/include lib/kytea/mykytea.i
         run: python -m cibuildwheel --output-dir wheelhouse
+      - name: Build wheels if macOS
+        if: runner.os == 'macOS'
+        env:
+          CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}
+          CIBW_REPAIR_WHEEL_COMMAND_MACOS: >
+            delocate-listdeps {wheel} &&
+            delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
+          CIBW_PLATFORM: macos
+          CIBW_BUILD_VERBOSITY: 3
+        run: .github/workflows/macos-build.sh
 
       - uses: actions/upload-artifact@v4
         with:
