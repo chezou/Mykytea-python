@@ -1,55 +1,101 @@
-KyTea wrapper for python
-==========================
+# KyTea wrapper for python
 
 [![Patreon](https://img.shields.io/badge/patreon-donate-orange.svg)](https://www.patreon.com/chezou)
 
 Mykytea-python is a python wrapper module for KyTea, a general text analysis toolkit.
-KyTea is developed by KyTea Development Team
+KyTea is developed by KyTea Development Team.
 
 Detailed information of KyTea can be found at
 http://www.phontron.com/kytea
 
-Install Dependencies
---------------------
+## Install Dependencies
 
 You need to install KyTea before build.
 
-To install Mykytea-python, run
---------------------
+## To install Mykytea-python, run
 
-    % pip install kytea
+```sn
+pip install kytea
+```
 
-To build Mykytea-python, run (if you don't want to use `pip`)
---------------------
+## To build Mykytea-python, run (if you don't want to use `pip`)
 
-    % make
+```sh
+make
+```
 
 If you want to install, run
 
-    % sudo make install
+```sh
+sudo make install
+```
 
 If you fail to make, please try to install SWIG and run
 
-    % swig -c++ -python -I/usr/local/include mykytea.i
+```sh
+swig -c++ -python -I/usr/local/include mykytea.i
+```
 
 Or if you still fail on Max OS X, run with some variables
-    % ARCHFLAGS="-arch x86_64" CC=gcc CXX=g++ make
+
+```sh
+$ ARCHFLAGS="-arch x86_64" CC=gcc CXX=g++ make
+```
 
 If you compiled kytea with clang, you need ARCHFLAGS only.
 
-To create wheel
---------------------
+Or, you can use brew to install kytea.
 
-To create whl archive, the setuptools and wheel are needed.
+```sh
+brew install kytea
+KYTEA_DIR=$(brew --prefix) make all
+```
 
-    % python setup.py bdist_wheel
+## How to use it?
 
-How to use?
---------------------
+Here is the example code to use Mykytea-python.
 
-  See 'lib/test/mykytea_test.py' as a sample program.
+```python
+import Mykytea
 
-License
---------------------
+def showTags(t):
+    for word in t:
+        out = word.surface + "\t"
+        for t1 in word.tag:
+            for t2 in t1:
+                for t3 in t2:
+                    out = out + "/" + str(t3)
+                out += "\t"
+            out += "\t"
+        print(out)
+
+def list_tags(t):
+    def convert(t2):
+        return (t2[0], type(t2[1]))
+    return [(word.surface, [[convert(t2) for t2 in t1] for t1 in word.tag]) for word in t]
+
+# Pass arguments for KyTea as the following:
+opt = "-model /usr/local/share/kytea/model.bin"
+mk = Mykytea.Mykytea(opt)
+
+s = "今日はいい天気です。"
+
+# Fetch segmented words
+for word in mk.getWS(s):
+    print(word)
+
+# Show analysis results
+print(mk.getTagsToString(s))
+
+# Fetch first best tag
+t = mk.getTags(s)
+showTags(t)
+
+# Show all tags
+tt = mk.getAllTags(s)
+showTags(tt)
+```
+
+## License
 
 MIT License
