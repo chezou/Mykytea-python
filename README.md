@@ -1,33 +1,44 @@
-# KyTea wrapper for python
+# KyTea wrapper for Python
 
-[![Patreon](https://img.shields.io/badge/patreon-donate-orange.svg)](https://www.patreon.com/chezou)
+[![PyPI version](https://badge.fury.io/py/kytea.svg)](https://badge.fury.io/py/kytea)
+[![](https://img.shields.io/badge/-Sponsor-fafbfc?logo=GitHub%20Sponsors
+)](https://github.com/sponsors/chezou)
 
-Mykytea-python is a python wrapper module for KyTea, a general text analysis toolkit.
+Mykytea-python is a Python wrapper module for KyTea, a general text analysis toolkit.
 KyTea is developed by KyTea Development Team.
 
-Detailed information of KyTea can be found at
+Detailed information on KyTea can be found at:
 http://www.phontron.com/kytea
 
-## Install Dependencies
+## Installation
 
-You need to install KyTea before build.
+### Install Mykytea-python via pip
 
-## To install Mykytea-python, run
+You can install Mykytea-python via `pip`.
 
 ```sn
 pip install kytea
 ```
 
-## To build Mykytea-python, run (if you don't want to use `pip`)
+You don't have to install KyTea anymore before installing Mykytea-python when you install it by using wheel on PyPI.
+
+You should have any KyTea model on your machine.
+
+### Build Mykytea-python from source
+
+If you want to build from source, you need to install KyTea.
+
+Then, run
+
 
 ```sh
 make
 ```
 
-If you want to install, run
+After make, you can install Mykytea-python by running
 
 ```sh
-sudo make install
+make install
 ```
 
 If you fail to make, please try to install SWIG and run
@@ -44,7 +55,7 @@ $ ARCHFLAGS="-arch x86_64" CC=gcc CXX=g++ make
 
 If you compiled kytea with clang, you need ARCHFLAGS only.
 
-Or, you can use brew to install kytea.
+Or, you use macOS and Homebrew, you can use `KYTEA_DIR` to pass the directory of KyTea.
 
 ```sh
 brew install kytea
