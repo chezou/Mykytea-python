@@ -15,91 +15,96 @@ jobs:
       matrix:
         include:
           # Windows
-          - os: windows-2019
-            python: 38
-            bitness: 64
-            platform_id: win_amd64
-          - os: windows-2019
-            python: 39
-            bitness: 64
-            platform_id: win_amd64
-          - os: windows-2019
+          - os: windows-2022
             python: 310
-            bitness: 64
+
             platform_id: win_amd64
-          - os: windows-2019
+          - os: windows-2022
             python: 311
-            bitness: 64
+
             platform_id: win_amd64
-          - os: windows-2019
+          - os: windows-2022
             python: 312
-            bitness: 64
+
+            platform_id: win_amd64
+          - os: windows-2022
+            python: 313
+
+            platform_id: win_amd64
+          - os: windows-2022
+            python: 314
+
             platform_id: win_amd64
 
           # Linux
           - os: ubuntu-latest
-            python: 38
-            bitness: 64
-            platform_id: manylinux_x86_64
-            manylinux_image: manylinux2014
-          - os: ubuntu-latest
-            python: 39
-            bitness: 64
-            platform_id: manylinux_x86_64
-            manylinux_image: manylinux2014
-          - os: ubuntu-latest
             python: 310
-            bitness: 64
+
             platform_id: manylinux_x86_64
-            manylinux_image: manylinux2014
+            manylinux_image: manylinux_2_28
           - os: ubuntu-latest
             python: 311
-            bitness: 64
+
             platform_id: manylinux_x86_64
-            manylinux_image: manylinux2014
+            manylinux_image: manylinux_2_28
           - os: ubuntu-latest
             python: 312
-            bitness: 64
+
             platform_id: manylinux_x86_64
-            manylinux_image: manylinux2014
+            manylinux_image: manylinux_2_28
+          - os: ubuntu-latest
+            python: 313
+
+            platform_id: manylinux_x86_64
+            manylinux_image: manylinux_2_28
+          - os: ubuntu-latest
+            python: 314
+
+            platform_id: manylinux_x86_64
+            manylinux_image: manylinux_2_28
+
           # MacOS x86_64
           - os: macos-latest
-            bitness: 64
-            python: 38
-            platform_id: macosx_x86_64
-          - os: macos-latest
-            bitness: 64
-            python: 39
-            platform_id: macosx_x86_64
-          - os: macos-latest
-            bitness: 64
+
             python: 310
             platform_id: macosx_x86_64
           - os: macos-latest
-            bitness: 64
+
             python: 311
             platform_id: macosx_x86_64
           - os: macos-latest
-            bitness: 64
+
             python: 312
+            platform_id: macosx_x86_64
+          - os: macos-latest
+
+            python: 313
+            platform_id: macosx_x86_64
+          - os: macos-latest
+
+            python: 314
             platform_id: macosx_x86_64
 
           # macOS arm64
           - os: macos-latest
-            bitness: 64
-            python: 39
-            platform_id: macosx_arm64
-          - os: macos-latest
-            bitness: 64
+
             python: 310
             platform_id: macosx_arm64
           - os: macos-latest
-            bitness: 64
+
             python: 311
             platform_id: macosx_arm64
           - os: macos-latest
-            bitness: 64
+
             python: 312
+            platform_id: macosx_arm64
+          - os: macos-latest
+
+            python: 313
+            platform_id: macosx_arm64
+          - os: macos-latest
+
+            python: 314
             platform_id: macosx_arm64
 
     steps:
@@ -112,10 +117,10 @@ jobs:
       - uses: actions/setup-python@v5
         name: Install Python
         with:
-          python-version: '3.9'
+          python-version: '3.12'
 
       - name: Install cibuildwheel
-        run: pip install cibuildwheel==2.16.2
+        run: pip install cibuildwheel==3.4.0
 
       - name: Prepare for Windows
         if: runner.os == 'Windows'
@@ -130,10 +135,19 @@ jobs:
         env:
           CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}
           CIBW_ARCHS: all
+          CIBW_MANYLINUX_X86_64_IMAGE: ${{ matrix.manylinux_image }}
           CIBW_BUILD_VERBOSITY: 3
           CIBW_BEFORE_ALL_LINUX: >
-            yum install -y wget &&
-            wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz &&
+            yum install -y wget pcre2-devel &&
+            wget https://downloads.sourceforge.net/project/swig/swig/swig-4.4.1/swig-4.4.1.tar.gz &&
+            tar xzf swig-4.4.1.tar.gz &&
+            pushd swig-4.4.1 &&
+            ./configure --prefix=/usr/local &&
+            make -j$(nproc) &&
+            make install &&
+            popd &&
+            rm -rf swig-4.4.1 swig-4.4.1.tar.gz &&
+            wget https://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz &&
             tar zxf kytea-0.4.7.tar.gz &&
             pushd kytea-0.4.7 &&
             autoreconf -i &&
@@ -175,7 +189,7 @@ jobs:
       - uses: actions/setup-python@v5
         name: Install Python
         with:
-          python-version: '3.9'
+          python-version: '3.12'
 
       - name: Build sdist
         run: pip install setuptools_scm && python setup.py sdist
