@@ -147,7 +147,7 @@ jobs:
             make install &&
             popd &&
             rm -rf swig-4.4.1 swig-4.4.1.tar.gz &&
-            wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz &&
+            wget https://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz &&
             tar zxf kytea-0.4.7.tar.gz &&
             pushd kytea-0.4.7 &&
             autoreconf -i &&
