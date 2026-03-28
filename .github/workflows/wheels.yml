@@ -120,7 +120,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install cibuildwheel
-        run: pip install cibuildwheel==2.22.0
+        run: pip install cibuildwheel==3.4.0
 
       - name: Prepare for Windows
         if: runner.os == 'Windows'
@@ -139,14 +139,14 @@ jobs:
           CIBW_BUILD_VERBOSITY: 3
           CIBW_BEFORE_ALL_LINUX: >
             yum install -y wget pcre2-devel &&
-            wget https://github.com/swig/swig/releases/download/v4.2.1/swig-4.2.1.tar.gz &&
-            tar xzf swig-4.2.1.tar.gz &&
-            pushd swig-4.2.1 &&
+            wget https://downloads.sourceforge.net/project/swig/swig/swig-4.4.1/swig-4.4.1.tar.gz &&
+            tar xzf swig-4.4.1.tar.gz &&
+            pushd swig-4.4.1 &&
             ./configure --prefix=/usr/local &&
             make -j$(nproc) &&
             make install &&
             popd &&
-            rm -rf swig-4.2.1 swig-4.2.1.tar.gz &&
+            rm -rf swig-4.4.1 swig-4.4.1.tar.gz &&
             wget http://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz &&
             tar zxf kytea-0.4.7.tar.gz &&
             pushd kytea-0.4.7 &&

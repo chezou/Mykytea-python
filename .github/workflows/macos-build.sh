@@ -34,9 +34,9 @@ lipo -create src/lib/.libs-arm64/libkytea.a src/lib/.libs-x86_64/libkytea.a -out
 
 cp src/lib/.libs-arm64/libkytea.lai src/lib/.libs.combined/libkytea.lai
 
-ls -l src/lib/.libs-arm64/*.o | while read line; do
-    file=$(basename $file)
-    echo $file
+for filepath in src/lib/.libs-arm64/*.o; do
+    file=$(basename "$filepath")
+    echo "$file"
     lipo -create src/lib/.libs-arm64/$file src/lib/.libs-x86_64/$file -output src/lib/.libs.combined/$file
 done
 
