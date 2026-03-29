@@ -3,7 +3,7 @@
 X86_TRIPLET=x86_64-apple-macos10.9
 ARM_TRIPLET=arm64-apple-macos11
 
-brew install automake libtool autoconf
+brew install automake libtool autoconf swig
 
 git clone --depth=1 https://github.com/neubig/kytea.git
 cd kytea

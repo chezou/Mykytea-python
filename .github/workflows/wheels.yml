@@ -15,106 +15,38 @@ jobs:
       matrix:
         include:
           # Windows
-          - os: windows-2022
-            python: 310
-
-            platform_id: win_amd64
-          - os: windows-2022
-            python: 311
-
-            platform_id: win_amd64
-          - os: windows-2022
-            python: 312
-
-            platform_id: win_amd64
-          - os: windows-2022
-            python: 313
-
-            platform_id: win_amd64
-          - os: windows-2022
-            python: 314
-
-            platform_id: win_amd64
-
+          - {os: windows-2022, python: 310, platform_id: win_amd64}
+          - {os: windows-2022, python: 311, platform_id: win_amd64}
+          - {os: windows-2022, python: 312, platform_id: win_amd64}
+          - {os: windows-2022, python: 313, platform_id: win_amd64}
+          - {os: windows-2022, python: 314, platform_id: win_amd64}
           # Linux
-          - os: ubuntu-latest
-            python: 310
-
-            platform_id: manylinux_x86_64
-            manylinux_image: manylinux_2_28
-          - os: ubuntu-latest
-            python: 311
-
-            platform_id: manylinux_x86_64
-            manylinux_image: manylinux_2_28
-          - os: ubuntu-latest
-            python: 312
-
-            platform_id: manylinux_x86_64
-            manylinux_image: manylinux_2_28
-          - os: ubuntu-latest
-            python: 313
-
-            platform_id: manylinux_x86_64
-            manylinux_image: manylinux_2_28
-          - os: ubuntu-latest
-            python: 314
-
-            platform_id: manylinux_x86_64
-            manylinux_image: manylinux_2_28
-
-          # MacOS x86_64
-          - os: macos-latest
-
-            python: 310
-            platform_id: macosx_x86_64
-          - os: macos-latest
-
-            python: 311
-            platform_id: macosx_x86_64
-          - os: macos-latest
-
-            python: 312
-            platform_id: macosx_x86_64
-          - os: macos-latest
-
-            python: 313
-            platform_id: macosx_x86_64
-          - os: macos-latest
-
-            python: 314
-            platform_id: macosx_x86_64
-
+          - {os: ubuntu-latest, python: 310, platform_id: manylinux_x86_64, manylinux_image: manylinux_2_28}
+          - {os: ubuntu-latest, python: 311, platform_id: manylinux_x86_64, manylinux_image: manylinux_2_28}
+          - {os: ubuntu-latest, python: 312, platform_id: manylinux_x86_64, manylinux_image: manylinux_2_28}
+          - {os: ubuntu-latest, python: 313, platform_id: manylinux_x86_64, manylinux_image: manylinux_2_28}
+          - {os: ubuntu-latest, python: 314, platform_id: manylinux_x86_64, manylinux_image: manylinux_2_28}
+          # macOS x86_64
+          - {os: macos-latest, python: 310, platform_id: macosx_x86_64}
+          - {os: macos-latest, python: 311, platform_id: macosx_x86_64}
+          - {os: macos-latest, python: 312, platform_id: macosx_x86_64}
+          - {os: macos-latest, python: 313, platform_id: macosx_x86_64}
+          - {os: macos-latest, python: 314, platform_id: macosx_x86_64}
           # macOS arm64
-          - os: macos-latest
-
-            python: 310
-            platform_id: macosx_arm64
-          - os: macos-latest
-
-            python: 311
-            platform_id: macosx_arm64
-          - os: macos-latest
-
-            python: 312
-            platform_id: macosx_arm64
-          - os: macos-latest
-
-            python: 313
-            platform_id: macosx_arm64
-          - os: macos-latest
-
-            python: 314
-            platform_id: macosx_arm64
+          - {os: macos-latest, python: 310, platform_id: macosx_arm64}
+          - {os: macos-latest, python: 311, platform_id: macosx_arm64}
+          - {os: macos-latest, python: 312, platform_id: macosx_arm64}
+          - {os: macos-latest, python: 313, platform_id: macosx_arm64}
+          - {os: macos-latest, python: 314, platform_id: macosx_arm64}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Get history and tags for SCM versioning to work
         run: |
           git fetch --prune --unshallow
           git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         name: Install Python
         with:
           python-version: '3.12'
@@ -128,7 +60,11 @@ jobs:
           Invoke-WebRequest -OutFile kytea-win-x64.zip https://github.com/chezou/kytea/releases/download/0.4.7-3/kytea-win-x64.zip &&
           7z x kytea-win-x64.zip -okytea &&
           cp -r kytea\include include &&
-          cp  kytea\lib\libkytea.lib lib\kytea\
+          cp  kytea\lib\libkytea.lib lib\kytea\ &&
+          swig -Wall -c++ -python -shadow -Iinclude lib\kytea\mykytea.i &&
+          Invoke-WebRequest -OutFile model.bin.gz https://github.com/neubig/kytea/raw/master/data/model.bin.gz &&
+          7z x model.bin.gz &&
+          ren jp-0.4.7-5.mod model.bin
 
       - name: Build wheels
         if: runner.os != 'macOS'
@@ -137,28 +73,9 @@ jobs:
           CIBW_ARCHS: all
           CIBW_MANYLINUX_X86_64_IMAGE: ${{ matrix.manylinux_image }}
           CIBW_BUILD_VERBOSITY: 3
-          CIBW_BEFORE_ALL_LINUX: >
-            yum install -y wget pcre2-devel &&
-            wget https://downloads.sourceforge.net/project/swig/swig/swig-4.4.1/swig-4.4.1.tar.gz &&
-            tar xzf swig-4.4.1.tar.gz &&
-            pushd swig-4.4.1 &&
-            ./configure --prefix=/usr/local &&
-            make -j$(nproc) &&
-            make install &&
-            popd &&
-            rm -rf swig-4.4.1 swig-4.4.1.tar.gz &&
-            wget https://www.phontron.com/kytea/download/kytea-0.4.7.tar.gz &&
-            tar zxf kytea-0.4.7.tar.gz &&
-            pushd kytea-0.4.7 &&
-            autoreconf -i &&
-            ./configure && make && make install &&
-            ldconfig &&
-            popd &&
-            rm -r kytea-0.4.7 &&
-            swig -Wall -c++ -python -shadow -I/usr/local/include lib/kytea/mykytea.i
-          CIBW_BEFORE_ALL_MACOS: >
-            brew install kytea &&
-            swig -Wall -c++ -python -shadow -I$(brew --prefix)/include lib/kytea/mykytea.i
+          CIBW_BEFORE_ALL_LINUX: bash {project}/.github/workflows/linux-before-all.sh
+          CIBW_TEST_COMMAND: python {project}/.github/workflows/test-wheel.py
+          CIBW_TEST_COMMAND_WINDOWS: python {project}/.github/workflows/test-wheel.py --model {project}/model.bin
         run: python -m cibuildwheel --output-dir wheelhouse
       - name: Build wheels if macOS
         if: runner.os == 'macOS'
@@ -169,9 +86,10 @@ jobs:
             delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
           CIBW_PLATFORM: macos
           CIBW_BUILD_VERBOSITY: 3
+          CIBW_TEST_COMMAND: python {project}/.github/workflows/test-wheel.py
         run: .github/workflows/macos-build.sh
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: artifact-${{ matrix.python }}-${{ matrix.platform_id }}
           path: ./wheelhouse/*.whl
@@ -180,13 +98,13 @@ jobs:
     name: Build source distribution
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Get history and tags for SCM versioning to work
         run: |
           git fetch --prune --unshallow
           git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         name: Install Python
         with:
           python-version: '3.12'
@@ -194,7 +112,7 @@ jobs:
       - name: Build sdist
         run: pip install setuptools_scm && python setup.py sdist
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: artifact-source
           path: dist/*.tar.gz
@@ -207,7 +125,7 @@ jobs:
       id-token: write
     if: github.event_name == 'release' && github.event.action == 'published'
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           pattern: artifact-*
           merge-multiple: true
