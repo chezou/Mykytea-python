@@ -61,7 +61,6 @@ jobs:
           7z x kytea-win-x64.zip -okytea &&
           cp -r kytea\include include &&
           cp  kytea\lib\libkytea.lib lib\kytea\ &&
-          swig -Wall -c++ -python -shadow -Iinclude lib\kytea\mykytea.i &&
           Invoke-WebRequest -OutFile model.bin.gz https://github.com/neubig/kytea/raw/master/data/model.bin.gz &&
           7z x model.bin.gz &&
           ren jp-0.4.7-5.mod model.bin
@@ -74,6 +73,7 @@ jobs:
           CIBW_MANYLINUX_X86_64_IMAGE: ${{ matrix.manylinux_image }}
           CIBW_BUILD_VERBOSITY: 3
           CIBW_BEFORE_ALL_LINUX: bash {project}/.github/workflows/linux-before-all.sh
+          CIBW_BEFORE_BUILD_WINDOWS: swig -Wall -c++ -python -shadow -Iinclude lib\kytea\mykytea.i
           CIBW_TEST_COMMAND: python {project}/.github/workflows/test-wheel.py
           CIBW_TEST_COMMAND_WINDOWS: python {project}/.github/workflows/test-wheel.py --model {project}/model.bin
         run: python -m cibuildwheel --output-dir wheelhouse
@@ -132,3 +132,5 @@ jobs:
           path: dist
 
       - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true
