@@ -54,6 +54,13 @@ jobs:
       - name: Install cibuildwheel
         run: pip install cibuildwheel==3.4.0
 
+      - name: Get SCM version
+        id: scm_version
+        run: |
+          pip install setuptools-scm
+          echo "version=$(python -m setuptools_scm)" >> "$GITHUB_OUTPUT"
+        shell: bash
+
       - name: Prepare for Windows
         if: runner.os == 'Windows'
         run: |
@@ -74,6 +81,7 @@ jobs:
           CIBW_BUILD_VERBOSITY: 3
           CIBW_BEFORE_ALL_LINUX: bash {project}/.github/workflows/linux-before-all.sh
           CIBW_BEFORE_BUILD_WINDOWS: swig -Wall -c++ -python -shadow -Iinclude lib\kytea\mykytea.i
+          CIBW_ENVIRONMENT_WINDOWS: SETUPTOOLS_SCM_PRETEND_VERSION=${{ steps.scm_version.outputs.version }}
           CIBW_TEST_COMMAND: python {project}/.github/workflows/test-wheel.py
           CIBW_TEST_COMMAND_WINDOWS: python {project}/.github/workflows/test-wheel.py --model {project}/model.bin
         run: python -m cibuildwheel --output-dir wheelhouse
