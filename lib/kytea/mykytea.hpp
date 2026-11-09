@@ -49,6 +49,7 @@ public:
 private:
   // Segment and tag str, honoring -notags and -notag.
   KyteaSentence analyze(const string& str);
+  size_t numTagLevels();
 
   Kytea* kytea;
   StringUtil* util;
