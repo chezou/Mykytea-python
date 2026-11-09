@@ -27,11 +27,53 @@ Mykytea::~Mykytea()
   if(kytea != NULL) delete kytea;
 }
 
+// Confidence for word boundaries given in the input, as in KyTea's corpus readers.
+const double PROB_TRUE = 100.0;
+const double PROB_FALSE = -100.0;
+
 KyteaSentence Mykytea::analyze(const string& str)
 {
     KyteaString surface_string = util->mapString(str);
-    KyteaSentence sentence(surface_string, util->normalize(surface_string));
-    kytea->calculateWS(sentence);
+    KyteaSentence sentence;
+
+    if(config->getDoWS()) {
+        sentence = KyteaSentence(surface_string, util->normalize(surface_string));
+        kytea->calculateWS(sentence);
+    } else {
+        // Without word segmentation, the input must already be segmented
+        // with the word boundary (" " by default), as with "kytea -nows -in tok".
+        KyteaChar bound = util->mapString(config->getWordBound())[0];
+        unsigned len = surface_string.length();
+        unsigned start = 0;
+        while(start < len) {
+            unsigned end = start;
+            while(end < len && surface_string[end] != bound)
+                end++;
+            if(end > start) {
+                KyteaString word_str = surface_string.substr(start, end - start);
+                sentence.words.push_back(KyteaWord(word_str, util->normalize(word_str)));
+            }
+            start = end + 1;
+        }
+
+        unsigned char_len = 0;
+        for(size_t i = 0; i < sentence.words.size(); i++)
+            char_len += sentence.words[i].surface.length();
+        sentence.surface = KyteaString(char_len);
+        sentence.norm = KyteaString(char_len);
+        unsigned pos = 0;
+        for(size_t i = 0; i < sentence.words.size(); i++) {
+            const KyteaWord & word = sentence.words[i];
+            sentence.surface.splice(word.surface, pos);
+            sentence.norm.splice(word.norm, pos);
+            pos += word.surface.length();
+            for(unsigned j = 1; j < word.surface.length(); j++)
+                sentence.wsConfs.push_back(PROB_FALSE);
+            sentence.wsConfs.push_back(PROB_TRUE);
+        }
+        if(sentence.wsConfs.size() > 0)
+            sentence.wsConfs.pop_back();
+    }
 
     // Same conditions as Kytea::analyze()
     if(config->getDoTags())

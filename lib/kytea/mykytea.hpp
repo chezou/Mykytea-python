@@ -47,7 +47,7 @@ public:
   string getTagsToString(string str);
 
 private:
-  // Segment and tag str, honoring -notags and -notag.
+  // Segment and tag str, honoring -nows, -notags and -notag.
   KyteaSentence analyze(const string& str);
   size_t numTagLevels();
 
