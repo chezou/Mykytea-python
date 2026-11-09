@@ -26,41 +26,26 @@ You should have any KyTea model on your machine.
 
 ### Build Mykytea-python from source
 
-If you want to build from source, you need to install KyTea.
+Mykytea-python supports Python 3.11 or later.
 
-Then, run
-
-
-```sh
-make
-```
-
-After make, you can install Mykytea-python by running
+To build from source, install KyTea first, then run
 
 ```sh
-make install
+pip install .
 ```
 
-If you fail to make, please try to install SWIG and run
+SWIG is installed automatically as a build dependency from PyPI, and the
+wrapper is generated during the build. You don't need to run `swig` yourself.
 
-```sh
-swig -c++ -python -I/usr/local/include mykytea.i
-```
-
-Or if you still fail on Max OS X, run with some variables
-
-```sh
-$ ARCHFLAGS="-arch x86_64" CC=gcc CXX=g++ make
-```
-
-If you compiled kytea with clang, you need ARCHFLAGS only.
-
-Or, you use macOS and Homebrew, you can use `KYTEA_DIR` to pass the directory of KyTea.
+If KyTea is installed outside `/usr/local`, pass its prefix with `KYTEA_DIR`.
+For example, with Homebrew on macOS:
 
 ```sh
 brew install kytea
-KYTEA_DIR=$(brew --prefix) make all
+KYTEA_DIR=$(brew --prefix) pip install .
 ```
+
+For development, `make` installs the package in editable mode and `make test` runs the tests.
 
 ## How to use it?
 

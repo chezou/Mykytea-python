@@ -1,23 +1,22 @@
-ifneq ($(KYTEA_DIR),)
-  include_dir = $(KYTEA_DIR)/include
-else
-  include_dir = /usr/local/include
-endif
+# Set KYTEA_DIR if KyTea is installed outside /usr/local, e.g.
+#   KYTEA_DIR=$(brew --prefix) make
+PYTHON ?= python
 
 all:
-	swig -Wall -c++ -python -shadow -I$(include_dir) lib/kytea/mykytea.i
-	python setup.py build_ext --inplace
+	$(PYTHON) -m pip install -e .
 
 install:
-	python setup.py install
+	$(PYTHON) -m pip install .
+
+build:
+	$(PYTHON) -m build
 
 test:
-	python ./lib/test/mykytea_test.py
+	$(PYTHON) ./lib/test/mykytea_test.py
 
-.PHONY: clean
+.PHONY: all install build test clean
 clean:
 	find . -name "*.pyc" -delete
 	find . -name "*.so" -delete
-	rm -f lib/kytea/Mykytea.py
-	rm -rf build
-	rm -rf dist
+	rm -f lib/kytea/Mykytea.py lib/kytea/mykytea_wrap.cpp lib/kytea/_version.py
+	rm -rf build dist wheelhouse *.egg-info lib/kytea/*.egg-info

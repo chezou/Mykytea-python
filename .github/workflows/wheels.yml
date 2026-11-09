@@ -8,57 +8,30 @@ on:
 
 jobs:
   build_wheels:
-    name: Build wheels for cp${{ matrix.python }}-${{ matrix.platform_id }}
+    name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        include:
-          # Windows
-          - {os: windows-2022, python: 310, platform_id: win_amd64}
-          - {os: windows-2022, python: 311, platform_id: win_amd64}
-          - {os: windows-2022, python: 312, platform_id: win_amd64}
-          - {os: windows-2022, python: 313, platform_id: win_amd64}
-          - {os: windows-2022, python: 314, platform_id: win_amd64}
-          # Linux
-          - {os: ubuntu-latest, python: 310, platform_id: manylinux_x86_64, manylinux_image: manylinux_2_28}
-          - {os: ubuntu-latest, python: 311, platform_id: manylinux_x86_64, manylinux_image: manylinux_2_28}
-          - {os: ubuntu-latest, python: 312, platform_id: manylinux_x86_64, manylinux_image: manylinux_2_28}
-          - {os: ubuntu-latest, python: 313, platform_id: manylinux_x86_64, manylinux_image: manylinux_2_28}
-          - {os: ubuntu-latest, python: 314, platform_id: manylinux_x86_64, manylinux_image: manylinux_2_28}
-          # macOS x86_64
-          - {os: macos-latest, python: 310, platform_id: macosx_x86_64}
-          - {os: macos-latest, python: 311, platform_id: macosx_x86_64}
-          - {os: macos-latest, python: 312, platform_id: macosx_x86_64}
-          - {os: macos-latest, python: 313, platform_id: macosx_x86_64}
-          - {os: macos-latest, python: 314, platform_id: macosx_x86_64}
-          # macOS arm64
-          - {os: macos-latest, python: 310, platform_id: macosx_arm64}
-          - {os: macos-latest, python: 311, platform_id: macosx_arm64}
-          - {os: macos-latest, python: 312, platform_id: macosx_arm64}
-          - {os: macos-latest, python: 313, platform_id: macosx_arm64}
-          - {os: macos-latest, python: 314, platform_id: macosx_arm64}
+        # Python versions and per-platform settings live in [tool.cibuildwheel]
+        # in pyproject.toml.
+        os: [windows-2022, ubuntu-latest, macos-latest]
 
     steps:
       - uses: actions/checkout@v6
-      - name: Get history and tags for SCM versioning to work
-        run: |
-          git fetch --prune --unshallow
-          git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+        with:
+          fetch-depth: 0  # setuptools-scm needs the history and tags
 
       - uses: actions/setup-python@v6
-        name: Install Python
         with:
-          python-version: '3.12'
+          python-version: '3.13'
 
-      - name: Install cibuildwheel
-        run: pip install cibuildwheel==3.4.0
+      - name: Install build tools
+        run: python -m pip install cibuildwheel==4.3.5 setuptools-scm
 
       - name: Get SCM version
         id: scm_version
-        run: |
-          pip install setuptools-scm
-          echo "version=$(python -m setuptools_scm)" >> "$GITHUB_OUTPUT"
+        run: echo "version=$(python -m setuptools_scm)" >> "$GITHUB_OUTPUT"
         shell: bash
 
       - name: Prepare for Windows
@@ -73,33 +46,14 @@ jobs:
           ren jp-0.4.7-5.mod model.bin
 
       - name: Build wheels
-        if: runner.os != 'macOS'
         env:
-          CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}
-          CIBW_ARCHS: all
-          CIBW_MANYLINUX_X86_64_IMAGE: ${{ matrix.manylinux_image }}
-          CIBW_BUILD_VERBOSITY: 3
-          CIBW_BEFORE_ALL_LINUX: bash {project}/.github/workflows/linux-before-all.sh
-          CIBW_BEFORE_BUILD_WINDOWS: swig -Wall -c++ -python -shadow -Iinclude lib\kytea\mykytea.i
+          # Files downloaded into the checkout must not change the version.
           CIBW_ENVIRONMENT_WINDOWS: SETUPTOOLS_SCM_PRETEND_VERSION=${{ steps.scm_version.outputs.version }}
-          CIBW_TEST_COMMAND: python {project}/.github/workflows/test-wheel.py
-          CIBW_TEST_COMMAND_WINDOWS: python {project}/.github/workflows/test-wheel.py --model {project}/model.bin
         run: python -m cibuildwheel --output-dir wheelhouse
-      - name: Build wheels if macOS
-        if: runner.os == 'macOS'
-        env:
-          CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}
-          CIBW_REPAIR_WHEEL_COMMAND_MACOS: >
-            delocate-listdeps {wheel} &&
-            delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
-          CIBW_PLATFORM: macos
-          CIBW_BUILD_VERBOSITY: 3
-          CIBW_TEST_COMMAND: python {project}/.github/workflows/test-wheel.py
-        run: .github/workflows/macos-build.sh
 
       - uses: actions/upload-artifact@v7
         with:
-          name: artifact-${{ matrix.python }}-${{ matrix.platform_id }}
+          name: artifact-${{ matrix.os }}
           path: ./wheelhouse/*.whl
 
   build_sdist:
@@ -107,18 +61,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Get history and tags for SCM versioning to work
-        run: |
-          git fetch --prune --unshallow
-          git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+        with:
+          fetch-depth: 0  # setuptools-scm needs the history and tags
 
       - uses: actions/setup-python@v6
-        name: Install Python
         with:
-          python-version: '3.12'
+          python-version: '3.13'
 
       - name: Build sdist
-        run: pip install setuptools_scm && python setup.py sdist
+        run: |
+          python -m pip install build
+          python -m build --sdist
 
       - uses: actions/upload-artifact@v7
         with:

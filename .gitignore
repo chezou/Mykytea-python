@@ -18,6 +18,9 @@ eggs/
 .eggs/
 #lib/
 lib/kytea/Mykytea.py
+lib/kytea/mykytea_wrap.cpp
+lib/kytea/_version.py
+wheelhouse/
 lib64/
 parts/
 sdist/
