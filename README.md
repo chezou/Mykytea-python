@@ -103,7 +103,7 @@ Keyword arguments are applied after the option string, if both are given.
 | `model` | `-model` | Path to the model file |
 | `nows` | `-nows` | Don't do word segmentation (`True`/`False`) |
 | `notags` | `-notags` | Do only word segmentation, no tagging (`True`/`False`) |
-| `notag` | `-notag` | Skip the n-th tag, starting at 1 (an int or a list of ints). A skipped tag is an empty list in `getTags()` and omitted in `getTagsToString()` |
+| `notag` | `-notag` | Skip the n-th tag, starting at 1 (an int or a list of ints). What each tag is depends on the model; in the Japanese model, 1 is the part of speech and 2 is the pronunciation. A skipped tag is an empty list in `getTags()` and omitted in `getTagsToString()` |
 | `nounk` | `-nounk` | Don't estimate the pronunciation of unknown words (`True`/`False`) |
 | `wsconst` | `-wsconst` | Character types not to be segmented (e.g. `"D"` for digits) |
 | `numtags` | `-numtags` | The number of tags to estimate |
