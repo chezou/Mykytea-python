@@ -27,93 +27,86 @@ Mykytea::~Mykytea()
   if(kytea != NULL) delete kytea;
 }
 
-vector<string>* Mykytea::getWS(string str){
-    vector<string>* vec = new vector<string>;
+KyteaSentence Mykytea::analyze(const string& str)
+{
     KyteaString surface_string = util->mapString(str);
     KyteaSentence sentence(surface_string, util->normalize(surface_string));
     kytea->calculateWS(sentence);
 
-    const KyteaSentence::Words & words =  sentence.words;
+    // Same conditions as Kytea::analyze()
+    if(config->getDoTags())
+        for(int i = 0; i < config->getNumTags(); i++)
+            if(config->getDoTag(i))
+                kytea->calculateTags(sentence, i);
 
-    for(int i = 0; i < (int)words.size(); i++) {
-         (*vec).push_back(util->showString(words[i].surface));
+    return sentence;
+}
+
+// Convert the tags of a word; max_cands limits the candidates per tag level
+// (0 for all). A skipped tag level (-notag) has no candidates.
+static tags convertTags(StringUtil* util, const KyteaWord& word, size_t max_cands)
+{
+    tags vec_tag;
+    for(size_t j = 0; j < word.tags.size(); j++) {
+        vector< pair<string, double> > vec_tmp;
+        size_t n = word.tags[j].size();
+        if(max_cands > 0 && n > max_cands)
+            n = max_cands;
+        for(size_t k = 0; k < n; k++)
+            vec_tmp.push_back( make_pair(util->showString(word.tags[j][k].first), word.tags[j][k].second) );
+        vec_tag.push_back( vec_tmp );
     }
+    return vec_tag;
+}
+
+vector<string>* Mykytea::getWS(string str){
+    vector<string>* vec = new vector<string>;
+    KyteaSentence sentence = analyze(str);
+    const KyteaSentence::Words & words = sentence.words;
+
+    for(size_t i = 0; i < words.size(); i++)
+        vec->push_back(util->showString(words[i].surface));
     return vec;
 }
 
 vector<Tags>* Mykytea::getTags(string str){
     vector<Tags>* ret_words = new vector<Tags>;
+    KyteaSentence sentence = analyze(str);
+    const KyteaSentence::Words & words = sentence.words;
 
-    KyteaString surface_string = util->mapString(str);
-    KyteaSentence sentence(surface_string, util->normalize(surface_string));
-    kytea->calculateWS(sentence);
-
-    for(int i = 0; i < config->getNumTags(); i++)
-        kytea->calculateTags(sentence,i);
-
-    const KyteaSentence::Words & words =  sentence.words;
-
-    for(int i = 0; i < (int)words.size(); i++) {
-        tags vec_tag;
-        for(int j = 0; j < (int)words[i].tags.size(); j++) {
-            vector< pair<string, double> > vec_tmp;
-            for(int k = 0; k < 1; k++) {
-                vec_tmp.push_back( make_pair(util->showString(words[i].tags[j][k].first), words[i].tags[j][k].second) );
-            }
-            vec_tag.push_back( vec_tmp );
-        }
-        struct Tags t = { util->showString(words[i].surface), vec_tag };
-        (*ret_words).push_back( t );
+    for(size_t i = 0; i < words.size(); i++) {
+        struct Tags t = { util->showString(words[i].surface), convertTags(util, words[i], 1) };
+        ret_words->push_back( t );
     }
     return ret_words;
 }
 
 vector<Tags>* Mykytea::getAllTags(string str){
     vector<Tags>* ret_words = new vector<Tags>;
+    KyteaSentence sentence = analyze(str);
+    const KyteaSentence::Words & words = sentence.words;
 
-    KyteaString surface_string = util->mapString(str);
-    KyteaSentence sentence(surface_string, util->normalize(surface_string));
-    kytea->calculateWS(sentence);
-
-    for(int i = 0; i < config->getNumTags(); i++)
-        kytea->calculateTags(sentence,i);
-
-    const KyteaSentence::Words & words =  sentence.words;
-
-    for(int i = 0; i < (int)words.size(); i++) {
-        tags vec_tag;
-        for(int j = 0; j < (int)words[i].tags.size(); j++) {
-            vector< pair<string, double> > vec_tmp;
-            for(int k = 0; k < (int)words[i].tags[j].size(); k++) {
-                vec_tmp.push_back( make_pair(util->showString(words[i].tags[j][k].first), words[i].tags[j][k].second) );
-            }
-            vec_tag.push_back( vec_tmp );
-        }
-        struct Tags t = { util->showString(words[i].surface), vec_tag };
-        (*ret_words).push_back( t );
+    for(size_t i = 0; i < words.size(); i++) {
+        struct Tags t = { util->showString(words[i].surface), convertTags(util, words[i], 0) };
+        ret_words->push_back( t );
     }
     return ret_words;
 }
 
 string Mykytea::getTagsToString(string str)
 {
-    KyteaString surface_string = util->mapString(str);
-    KyteaSentence sentence(surface_string, util->normalize(surface_string));
-    kytea->calculateWS(sentence);
-
-    for(int i = 0; i < config->getNumTags(); i++)
-        kytea->calculateTags(sentence,i);
-
-    const KyteaSentence::Words & words =  sentence.words;
+    KyteaSentence sentence = analyze(str);
+    const KyteaSentence::Words & words = sentence.words;
 
     string ret_str;
-    for(int i = 0; i < (int)words.size(); i++) {
+    for(size_t i = 0; i < words.size(); i++) {
         ret_str += util->showString(words[i].surface);
-        for(int j = 0; j < (int)words[i].tags.size(); j++) {
-            for(int k = 0; k < 1; k++) {
-                ret_str += "/";
-                ret_str += util->showString(words[i].tags[j][k].first);
-            }
+        // Skipped tag levels are omitted, as in the kytea command output.
+        for(size_t j = 0; j < words[i].tags.size(); j++) {
+            if(words[i].tags[j].size() == 0)
+                continue;
+            ret_str += "/";
+            ret_str += util->showString(words[i].tags[j][0].first);
         }
         ret_str += " ";
     }

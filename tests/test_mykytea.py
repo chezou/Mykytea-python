@@ -85,6 +85,36 @@ class TestOptions:
             Mykytea.Mykytea(model=tmp_path / "no such model.bin")
 
 
+class TestTagOptions:
+    """-notags and -notag are honored, as by the kytea command."""
+
+    def test_notags(self, new, mk):
+        mk_ws = new(notags=True)
+        assert list(mk_ws.getWS(S)) == list(mk.getWS(S))
+        assert [list(w.tag) for w in mk_ws.getTags(S)] == [[] for _ in mk.getWS(S)]
+        assert [list(w.tag) for w in mk_ws.getAllTags(S)] == [[] for _ in mk.getWS(S)]
+        assert mk_ws.getTagsToString(S) == " ".join(mk.getWS(S)) + " "
+
+    def test_notag_first(self, new):
+        mk_pron = new(notag=1)
+        assert mk_pron.getTagsToString("今日は") == "今日/きょう は/は "
+        for word in mk_pron.getAllTags("今日は"):
+            assert len(word.tag[0]) == 0
+            assert len(word.tag[1]) > 0
+
+    def test_notag_second(self, new):
+        mk_pos = new(notag=2)
+        assert mk_pos.getTagsToString("今日は") == "今日/名詞 は/助詞 "
+        assert list_tags(mk_pos.getTags("今日は")) == [
+            ("今日", [[("名詞", float)], []]),
+            ("は", [[("助詞", float)], []]),
+        ]
+
+    def test_notag_all(self, new, mk):
+        mk_none = new(notag=[1, 2])
+        assert mk_none.getTagsToString(S) == " ".join(mk.getWS(S)) + " "
+
+
 class TestBuildArgs:
     """Conversion of Mykytea() arguments to a KyTea argv."""
 
