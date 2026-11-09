@@ -41,12 +41,16 @@ py-modules = ["Mykytea"]
 [tool.setuptools_scm]
 version_file = "lib/kytea/_version.py"
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
 [tool.cibuildwheel]
 build = "cp311-* cp312-* cp313-* cp314-* cp315-*"
 # linux-before-all.sh uses yum, so only manylinux images are supported.
 skip = "*-musllinux_*"
 build-verbosity = 1
-test-command = "python {project}/.github/workflows/test-wheel.py"
+test-requires = ["pytest"]
+test-command = "pytest {project}/tests -v"
 
 [tool.cibuildwheel.linux]
 archs = ["x86_64"]
@@ -64,4 +68,3 @@ repair-wheel-command = [
 archs = ["AMD64"]
 # Keep the previous behaviour: wheels are not repaired with delvewheel.
 repair-wheel-command = ""
-test-command = "python {project}/.github/workflows/test-wheel.py --model {project}/model.bin"
