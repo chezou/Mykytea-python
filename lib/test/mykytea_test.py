@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 import unittest
 
@@ -115,9 +114,7 @@ class SimpleTest(unittest.TestCase):
                                     [('１９９９', float)]])])
 
 def suite():
-  suite = unittest.TestSuite()
-  suite.addTests(unittest.makeSuite(SimpleTest))
-  return suite
+    return unittest.defaultTestLoader.loadTestsFromTestCase(SimpleTest)
 
 if __name__ == '__main__':
     unittest.main()

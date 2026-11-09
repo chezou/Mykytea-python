@@ -1,5 +1,67 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
-# pyproject.toml
+requires = [
+    "setuptools>=77",
+    "setuptools-scm>=8",
+    "swig>=4.4.1",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kytea"
+description = "A text analysis toolkit KyTea binding"
+readme = "README.md"
+authors = [{ name = "Aki Ariga", email = "chezou@gmail.com" }]
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+keywords = ["KyTea", "NLP", "Japanese morphological analyzer"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
+    "Programming Language :: C++",
+    "Topic :: Text Processing :: Linguistic",
+]
+dynamic = ["version"]
+
+[project.urls]
+Source = "https://github.com/chezou/Mykytea-python"
+Tracker = "https://github.com/chezou/Mykytea-python/issues"
+
+[tool.setuptools]
+package-dir = { "" = "lib/kytea" }
+py-modules = ["Mykytea"]
+# The extension module is declared in setup.py because its library name and
+# include paths depend on the platform and the KYTEA_DIR environment variable.
+
 [tool.setuptools_scm]
-write_to = "lib/kytea/_version.py"
+version_file = "lib/kytea/_version.py"
+
+[tool.cibuildwheel]
+build = "cp311-* cp312-* cp313-* cp314-* cp315-*"
+# linux-before-all.sh uses yum, so only manylinux images are supported.
+skip = "*-musllinux_*"
+build-verbosity = 1
+test-command = "python {project}/.github/workflows/test-wheel.py"
+
+[tool.cibuildwheel.linux]
+archs = ["x86_64"]
+before-all = "bash {project}/.github/workflows/linux-before-all.sh"
+
+[tool.cibuildwheel.macos]
+archs = ["x86_64", "arm64"]
+before-all = "bash {project}/.github/workflows/macos-before-all.sh"
+repair-wheel-command = [
+    "delocate-listdeps {wheel}",
+    "delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}",
+]
+
+[tool.cibuildwheel.windows]
+archs = ["AMD64"]
+# Keep the previous behaviour: wheels are not repaired with delvewheel.
+repair-wheel-command = ""
+test-command = "python {project}/.github/workflows/test-wheel.py --model {project}/model.bin"

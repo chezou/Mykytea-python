@@ -1,9 +1,12 @@
 #!/bin/bash
 
+# Builds a universal2 libkytea so that both x86_64 and arm64 wheels can link it.
+# SWIG comes from PyPI as a build dependency (see pyproject.toml).
+
 X86_TRIPLET=x86_64-apple-macos10.9
 ARM_TRIPLET=arm64-apple-macos11
 
-brew install automake libtool autoconf swig
+brew install automake libtool autoconf
 
 git clone --depth=1 https://github.com/neubig/kytea.git
 cd kytea
@@ -48,6 +51,3 @@ mv src/lib/.libs.combined src/lib/.libs
 
 sudo make install
 cd ..
-
-swig -Wall -c++ -python -shadow -I./kytea/src/include lib/kytea/mykytea.i
-python -m cibuildwheel --archs x86_64,arm64,universal2 --output-dir wheelhouse
