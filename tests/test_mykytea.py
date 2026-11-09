@@ -135,6 +135,14 @@ class TestNoWordSegmentation:
         assert mk_tok.getTagsToString(segmented) == mk.getTagsToString(S)
         assert [w.surface for w in mk_tok.getTags(segmented)] == list(mk.getWS(S))
 
+    def test_issue_14(self, new):
+        # https://github.com/chezou/Mykytea-python/issues/14
+        # Same as: echo '私 は 猫 で す' | kytea -nows
+        mk_tok = new("-nows")
+        assert mk_tok.getTagsToString("私 は 猫 で す") == (
+            "私/代名詞/わたくし は/助詞/は 猫/名詞/ねこ で/助動詞/で す/語尾/す "
+        )
+
     def test_custom_word_boundary(self, new):
         mk_tok = new("-nows -wordbound |")
         assert list(mk_tok.getWS("今日|は|天気")) == ["今日", "は", "天気"]
