@@ -4,32 +4,18 @@
 #include <cstdlib>
 #include "mykytea.hpp"
 
-const int MAX_LEN = 256;
-
-int split_argv(char* input, const char* configs[]){
-  int len;
-  const char *delim = " ";
-
-  char *cp = (char *)malloc(strlen(input) + 1);
-  strcpy(cp, input);
-  configs[0] = "";
-  for(len = 0; len < MAX_LEN; len++){
-    if((configs[len + 1] = std::strtok(cp, delim)) == NULL )
-      break;
-    cp = NULL;
-  }
-  return len + 1;
-}
-
-Mykytea::Mykytea(char* str)
+Mykytea::Mykytea(const vector<string>& args)
 {
-  const char* configs[MAX_LEN + 1];
-  int len = split_argv(str, configs);
+  // Build an argv; argv[0] is the program name and is ignored by KyTea.
+  vector<const char*> argv;
+  argv.push_back("");
+  for(size_t i = 0; i < args.size(); i++)
+    argv.push_back(args[i].c_str());
 
   config = new KyteaConfig;
   config->setDebug(0);
   config->setOnTraining(false);
-  config->parseRunCommandLine(len, configs);
+  config->parseRunCommandLine((int)argv.size(), argv.data());
 
   kytea = new Kytea(config);
   kytea->readModel(config->getModelFile().c_str());

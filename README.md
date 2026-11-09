@@ -70,9 +70,10 @@ def list_tags(t):
         return (t2[0], type(t2[1]))
     return [(word.surface, [[convert(t2) for t2 in t1] for t1 in word.tag]) for word in t]
 
-# Pass arguments for KyTea as the following:
-opt = "-model /usr/local/share/kytea/model.bin"
-mk = Mykytea.Mykytea(opt)
+# Pass options for KyTea as keyword arguments:
+mk = Mykytea.Mykytea(model="/usr/local/share/kytea/model.bin")
+# or as a KyTea command line string:
+# mk = Mykytea.Mykytea("-model /usr/local/share/kytea/model.bin")
 
 s = "今日はいい天気です。"
 
@@ -91,6 +92,28 @@ showTags(t)
 tt = mk.getAllTags(s)
 showTags(tt)
 ```
+
+### Options
+
+`Mykytea.Mykytea()` accepts these KyTea analysis options as keyword arguments.
+Keyword arguments are applied after the option string, if both are given.
+
+| Keyword | KyTea option | Description |
+| --- | --- | --- |
+| `model` | `-model` | Path to the model file |
+| `nows` | `-nows` | Don't do word segmentation (`True`/`False`) |
+| `notags` | `-notags` | Do only word segmentation, no tagging (`True`/`False`) |
+| `notag` | `-notag` | Skip the n-th tag, starting at 1 (an int or a list of ints) |
+| `nounk` | `-nounk` | Don't estimate the pronunciation of unknown words (`True`/`False`) |
+| `wsconst` | `-wsconst` | Character types not to be segmented (e.g. `"D"` for digits) |
+| `numtags` | `-numtags` | The number of tags to estimate |
+| `tagmax` | `-tagmax` | The maximum number of tag candidates |
+| `unktag` | `-unktag` | A tag appended to unknown words |
+| `deftag` | `-deftag` | A tag for words that cannot be given any tag |
+| `unkbeam` | `-unkbeam` | Beam width for unknown word search (0 for full search) |
+| `debug` | `-debug` | Debugging level (0=silent, 1=simple, 2=detailed) |
+
+An unknown keyword argument raises `TypeError`.
 
 ## License
 

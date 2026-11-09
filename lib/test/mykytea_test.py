@@ -113,8 +113,25 @@ class SimpleTest(unittest.TestCase):
                                      ('URL', float)],
                                     [('１９９９', float)]])])
 
+class KeywordArgumentTest(unittest.TestCase):
+    """Options passed as keyword arguments"""
+
+    def test_same_as_string_option(self):
+        mk_kwargs = Mykytea.Mykytea(deftag="UNKNOWN!!")
+        self.assertEqual(list(mk_kwargs.getWS(s)), list(mk.getWS(s)))
+        self.assertEqual(mk_kwargs.getTagsToString(s), mk.getTagsToString(s))
+
+    def test_unknown_keyword(self):
+        with self.assertRaises(TypeError):
+            Mykytea.Mykytea(no_such_option=True)
+
+
 def suite():
-    return unittest.defaultTestLoader.loadTestsFromTestCase(SimpleTest)
+    loader = unittest.defaultTestLoader
+    return unittest.TestSuite([
+        loader.loadTestsFromTestCase(SimpleTest),
+        loader.loadTestsFromTestCase(KeywordArgumentTest),
+    ])
 
 if __name__ == '__main__':
     unittest.main()
