@@ -46,11 +46,14 @@ testpaths = ["tests"]
 
 [tool.cibuildwheel]
 build = "cp311-* cp312-* cp313-* cp314-* cp315-*"
-# linux-before-all.sh uses yum, so only manylinux images are supported.
+# Only manylinux wheels are built (linux-before-all.sh is not tested on musllinux).
 skip = "*-musllinux_*"
 build-verbosity = 1
 test-requires = ["pytest"]
 test-command = "pytest {project}/tests -v"
+# x86_64 wheels are tested under Rosetta on Apple silicon runners, which is
+# slow; test only the latest Python there. arm64 wheels test every version.
+test-skip = "cp311-macosx_x86_64 cp312-macosx_x86_64 cp313-macosx_x86_64 cp314-macosx_x86_64"
 
 [tool.cibuildwheel.linux]
 archs = ["x86_64"]

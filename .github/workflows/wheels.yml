@@ -8,14 +8,20 @@ on:
 
 jobs:
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
+    name: Build wheels on ${{ matrix.os }}${{ matrix.archs && format(' ({0})', matrix.archs) || '' }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         # Python versions and per-platform settings live in [tool.cibuildwheel]
-        # in pyproject.toml.
-        os: [windows-2022, ubuntu-latest, macos-latest]
+        # in pyproject.toml. macOS is split by architecture to run in parallel.
+        include:
+          - os: windows-2022
+          - os: ubuntu-latest
+          - os: macos-latest
+            archs: x86_64
+          - os: macos-latest
+            archs: arm64
 
     steps:
       - uses: actions/checkout@v6
@@ -37,23 +43,34 @@ jobs:
       - name: Prepare for Windows
         if: runner.os == 'Windows'
         run: |
-          Invoke-WebRequest -OutFile kytea-win-x64.zip https://github.com/chezou/kytea/releases/download/0.4.7-3/kytea-win-x64.zip &&
-          7z x kytea-win-x64.zip -okytea &&
-          cp -r kytea\include include &&
-          cp  kytea\lib\libkytea.lib lib\kytea\ &&
-          Invoke-WebRequest -OutFile model.bin.gz https://github.com/neubig/kytea/raw/master/data/model.bin.gz &&
-          7z x model.bin.gz &&
+          $ErrorActionPreference = 'Stop'
+          # Download a file and check that it is the one we have always used.
+          function Get-Verified($Url, $OutFile, $Sha256) {
+            Invoke-WebRequest -OutFile $OutFile $Url
+            $actual = (Get-FileHash $OutFile -Algorithm SHA256).Hash
+            if ($actual -ne $Sha256) { throw "SHA-256 mismatch for ${OutFile}: $actual" }
+          }
+          Get-Verified https://github.com/chezou/kytea/releases/download/0.4.7-3/kytea-win-x64.zip `
+            kytea-win-x64.zip B766632D396DF62E47B2B219B4670E9C6DA2489A8282AE85BFB656A811791B32
+          7z x kytea-win-x64.zip -okytea
+          cp -r kytea\include include
+          cp kytea\lib\libkytea.lib lib\kytea\
+          # Test model, from the same KyTea commit as macos-before-all.sh
+          Get-Verified https://raw.githubusercontent.com/neubig/kytea/73a94c4a3045087a7e90f27700f3b870a72625e7/data/model.bin.gz `
+            model.bin.gz 963A311BB75E1685A585A2364172C9C6705A894C31F65C4C4D4D227254FB1FD4
+          7z x model.bin.gz
           ren jp-0.4.7-5.mod model.bin
 
       - name: Build wheels
         env:
           # Files downloaded into the checkout must not change the version.
           CIBW_ENVIRONMENT_WINDOWS: SETUPTOOLS_SCM_PRETEND_VERSION=${{ steps.scm_version.outputs.version }}
+          CIBW_ARCHS_MACOS: ${{ matrix.archs }}
         run: python -m cibuildwheel --output-dir wheelhouse
 
       - uses: actions/upload-artifact@v7
         with:
-          name: artifact-${{ matrix.os }}
+          name: artifact-${{ matrix.os }}${{ matrix.archs && format('-{0}', matrix.archs) || '' }}
           path: ./wheelhouse/*.whl
 
   build_sdist:

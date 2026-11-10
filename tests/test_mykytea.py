@@ -85,6 +85,69 @@ class TestOptions:
             Mykytea.Mykytea(model=tmp_path / "no such model.bin")
 
 
+class TestTagOptions:
+    """-notags and -notag are honored, as by the kytea command."""
+
+    def test_notags(self, new, mk):
+        mk_ws = new(notags=True)
+        assert list(mk_ws.getWS(S)) == list(mk.getWS(S))
+        assert [list(w.tag) for w in mk_ws.getTags(S)] == [[] for _ in mk.getWS(S)]
+        assert [list(w.tag) for w in mk_ws.getAllTags(S)] == [[] for _ in mk.getWS(S)]
+        assert mk_ws.getTagsToString(S) == " ".join(mk.getWS(S)) + " "
+
+    def test_notag_first(self, new):
+        mk_pron = new(notag=1)
+        assert mk_pron.getTagsToString("今日は") == "今日/きょう は/は "
+        for word in mk_pron.getAllTags("今日は"):
+            assert len(word.tag[0]) == 0
+            assert len(word.tag[1]) > 0
+
+    def test_notag_second(self, new):
+        mk_pos = new(notag=2)
+        assert mk_pos.getTagsToString("今日は") == "今日/名詞 は/助詞 "
+        assert list_tags(mk_pos.getTags("今日は")) == [
+            ("今日", [[("名詞", float)], []]),
+            ("は", [[("助詞", float)], []]),
+        ]
+
+    def test_notag_all(self, new, mk):
+        mk_none = new(notag=[1, 2])
+        assert mk_none.getTagsToString(S) == " ".join(mk.getWS(S)) + " "
+
+
+class TestNoWordSegmentation:
+    """With -nows the input is already segmented, as with kytea -nows -in tok."""
+
+    def test_getWS_splits_on_spaces(self, new):
+        mk_tok = new(nows=True)
+        assert list(mk_tok.getWS("今日 は  天気")) == ["今日", "は", "天気"]
+        assert list(mk_tok.getWS(" 今日 ")) == ["今日"]
+        assert list(mk_tok.getWS("")) == []
+
+    def test_keeps_given_words(self, new):
+        # Without -nows KyTea would segment いい into い/い (see TestAnalysis).
+        mk_tok = new(nows=True)
+        assert list(mk_tok.getWS("今日 は いい 天気")) == ["今日", "は", "いい", "天気"]
+
+    def test_tags_given_words(self, new, mk):
+        mk_tok = new(nows=True)
+        segmented = " ".join(mk.getWS(S))
+        assert mk_tok.getTagsToString(segmented) == mk.getTagsToString(S)
+        assert [w.surface for w in mk_tok.getTags(segmented)] == list(mk.getWS(S))
+
+    def test_issue_14(self, new):
+        # https://github.com/chezou/Mykytea-python/issues/14
+        # Same as: echo '私 は 猫 で す' | kytea -nows
+        mk_tok = new("-nows")
+        assert mk_tok.getTagsToString("私 は 猫 で す") == (
+            "私/代名詞/わたくし は/助詞/は 猫/名詞/ねこ で/助動詞/で す/語尾/す "
+        )
+
+    def test_custom_word_boundary(self, new):
+        mk_tok = new("-nows -wordbound |")
+        assert list(mk_tok.getWS("今日|は|天気")) == ["今日", "は", "天気"]
+
+
 class TestBuildArgs:
     """Conversion of Mykytea() arguments to a KyTea argv."""
 

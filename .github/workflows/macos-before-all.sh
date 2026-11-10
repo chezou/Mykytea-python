@@ -8,8 +8,12 @@ ARM_TRIPLET=arm64-apple-macos11
 
 brew install automake libtool autoconf
 
-git clone --depth=1 https://github.com/neubig/kytea.git
+# Pin KyTea to a known commit instead of building whatever master is.
+KYTEA_COMMIT=73a94c4a3045087a7e90f27700f3b870a72625e7
+git init -q kytea
 cd kytea
+git fetch -q --depth=1 https://github.com/neubig/kytea.git "$KYTEA_COMMIT"
+git checkout -q FETCH_HEAD
 
 rm -rf src/lib/.libs-arm64 src/lib/.libs-x86_64 src/lib/.libs.combined
 
