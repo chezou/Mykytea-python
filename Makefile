@@ -12,7 +12,7 @@ build:
 	$(PYTHON) -m build
 
 test:
-	$(PYTHON) ./lib/test/mykytea_test.py
+	$(PYTHON) -m pytest
 
 .PHONY: all install build test clean
 clean:

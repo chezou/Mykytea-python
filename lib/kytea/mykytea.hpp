@@ -26,7 +26,8 @@ class Mykytea
 {
 public:
 
-  Mykytea(char* str);
+  // args are KyTea command line options, e.g. {"-model", "model.bin"}.
+  Mykytea(const vector<string>& args);
   ~Mykytea();
 
   //単語境界を取得する
