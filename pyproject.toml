@@ -46,7 +46,7 @@ testpaths = ["tests"]
 
 [tool.cibuildwheel]
 build = "cp311-* cp312-* cp313-* cp314-* cp315-*"
-# linux-before-all.sh uses yum, so only manylinux images are supported.
+# Only manylinux wheels are built (linux-before-all.sh is not tested on musllinux).
 skip = "*-musllinux_*"
 build-verbosity = 1
 test-requires = ["pytest"]
