@@ -10,6 +10,8 @@ KYTEA_VERSION=0.4.7
 # Build and install kytea
 curl -fsSL --retry 3 -o kytea-${KYTEA_VERSION}.tar.gz \
     https://www.phontron.com/kytea/download/kytea-${KYTEA_VERSION}.tar.gz
+# TODO: pin this hash once it has been read from a CI run.
+sha256sum kytea-${KYTEA_VERSION}.tar.gz
 tar zxf kytea-${KYTEA_VERSION}.tar.gz
 pushd kytea-${KYTEA_VERSION}
 autoreconf -i
