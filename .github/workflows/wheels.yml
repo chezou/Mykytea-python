@@ -8,14 +8,20 @@ on:
 
 jobs:
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
+    name: Build wheels on ${{ matrix.os }}${{ matrix.archs && format(' ({0})', matrix.archs) || '' }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         # Python versions and per-platform settings live in [tool.cibuildwheel]
-        # in pyproject.toml.
-        os: [windows-2022, ubuntu-latest, macos-latest]
+        # in pyproject.toml. macOS is split by architecture to run in parallel.
+        include:
+          - os: windows-2022
+          - os: ubuntu-latest
+          - os: macos-latest
+            archs: x86_64
+          - os: macos-latest
+            archs: arm64
 
     steps:
       - uses: actions/checkout@v6
@@ -49,11 +55,12 @@ jobs:
         env:
           # Files downloaded into the checkout must not change the version.
           CIBW_ENVIRONMENT_WINDOWS: SETUPTOOLS_SCM_PRETEND_VERSION=${{ steps.scm_version.outputs.version }}
+          CIBW_ARCHS_MACOS: ${{ matrix.archs }}
         run: python -m cibuildwheel --output-dir wheelhouse
 
       - uses: actions/upload-artifact@v7
         with:
-          name: artifact-${{ matrix.os }}
+          name: artifact-${{ matrix.os }}${{ matrix.archs && format('-{0}', matrix.archs) || '' }}
           path: ./wheelhouse/*.whl
 
   build_sdist:
